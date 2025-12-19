@@ -11,6 +11,7 @@ Thumbs.db
 Frontend/.next/
 Frontend/out/
 Frontend/build/
+**/.next/
 
 # --- Backend Build/Logs ---
 Backend/dist/
