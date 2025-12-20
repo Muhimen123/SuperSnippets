@@ -5,7 +5,7 @@ export default function TileBackground({children}) {
         className="
             absolute -inset-[20%] 
             bg-repeat
-            bg-[length:1920px_200px]
+            bg-size-[1920px_200px]
             opacity-10
             z-0
             rotate-12
@@ -16,7 +16,7 @@ export default function TileBackground({children}) {
         className="
             absolute -inset-[20%] 
             bg-repeat
-            bg-[length:1920px_200px]
+            bg-size-[1920px_200px]
             translate-y-15   /*  Shifts it down to show the overlap */
             -translate-x-3
             opacity-15       /* Different opacity helps visibility */

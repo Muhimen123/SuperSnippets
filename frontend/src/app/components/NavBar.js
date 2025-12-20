@@ -1,3 +1,6 @@
+import Link from "next/link";
+import Logo from "./Logo";
+
 export default function Navbar() {
   return (
     <nav
@@ -16,7 +19,11 @@ export default function Navbar() {
 }
 
 function LogoSection() {
-  return <div>LOGO HERE</div>;
+  return (
+		<Link href={"/"}>
+			<Logo />
+		</Link>
+	);
 }
 
 function PageNavigation() {
