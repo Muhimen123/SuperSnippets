@@ -4,7 +4,7 @@ export default function NavButton({ children, href = "/" }) {
   return (
     <Link href={href}>
       <button
-        className="text-xs
+        className="text-xs hover:cursor-pointer
       bg-white hover:bg-black 
       text-black hover:text-white font-bold 
         border border-black

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "./Logo";
 import NavButton from "./NavButton";
+import IconButton from "./IconButton";
 
 export default function Navbar() {
   return (
@@ -43,5 +44,14 @@ function PageNavigation() {
 }
 
 function GithubLink() {
-  return <div>Github Section</div>;
+	return (
+		<div className="
+      flex
+      justify-center items-center
+      gap-2
+    ">
+			<NavButton href="/login">Log in</NavButton>
+			<IconButton>Star on Github</IconButton>
+		</div>
+	);
 }
