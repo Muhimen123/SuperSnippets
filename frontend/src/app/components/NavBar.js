@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "./Logo";
+import NavButton from "./NavButton";
 
 export default function Navbar() {
   return (
@@ -20,14 +21,25 @@ export default function Navbar() {
 
 function LogoSection() {
   return (
-		<Link href={"/"}>
-			<Logo />
-		</Link>
-	);
+    <Link href={"/"}>
+      <Logo />
+    </Link>
+  );
 }
 
 function PageNavigation() {
-  return <div>Navigation Buttons</div>;
+  return (
+    <div className="
+			flex
+			justify-center
+			gap-2
+		">
+			<NavButton href="/">Home</NavButton>
+			<NavButton href="/">Features</NavButton>
+			<NavButton href="/">About Us</NavButton>
+			<NavButton href="/">Contribute</NavButton>
+    </div>
+  );
 }
 
 function GithubLink() {
