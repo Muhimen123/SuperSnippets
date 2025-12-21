@@ -9,9 +9,9 @@ export default function SignUp() {
     <TileBackground>
       <div className="min-h-screen flex">
         {/* Left side - Form */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center px-8">
-          <div className="w-full max-w-md">
-            <div className="mb-8 ml-36">
+        <div className="w-full lg:w-1/2 flex items-center justify-end px-8 pr-24">
+          <div className="w-full max-w-xs">
+            <div className="mb-8 ml-18">
               <Logo />
             </div>
 
@@ -68,8 +68,8 @@ export default function SignUp() {
         </div>
 
         {/* Right side - Abstract Pattern */}
-        <div className="hidden lg:flex lg:w-1/2 items-center justify-center">
-          <DesignSVG className="w-96 h-[500px]" />
+        <div className="hidden lg:flex lg:w-1/2 items-center justify-left">
+          <DesignSVG className="w-[500px] h-[600px]" />
         </div>
       </div>
     </TileBackground>
