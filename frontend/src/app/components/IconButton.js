@@ -9,13 +9,12 @@ export default function IconButton({ children }) {
   return (
     <a
       onClick={handleClick}
-      className="
-        flex items-center gap-2
-        bg-black
-        text-white text-sm
-        py-2 px-4 rounded-lg
-        hover:cursor-pointer
-      ">
+      className={`
+        flex items-center gap-2 
+      bg-black text-white text-sm 
+        py-2 px-4 
+        rounded-lg hover:cursor-pointer
+      `}>
       <img src="/github-mark-white.svg" height={30} width={30}></img>
       {children}
     </a>
