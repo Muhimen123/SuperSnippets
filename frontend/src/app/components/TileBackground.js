@@ -2,18 +2,18 @@ export default function TileBackground({children}) {
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div
-        className="
+        className={`
             absolute -inset-[20%] 
             bg-repeat
             bg-size-[1920px_200px]
             opacity-10
             z-0
             rotate-12
-        "
+        `}
         style={{ backgroundImage: "url('/bg_wave.svg')" }}
       />
       <div
-        className="
+        className={`
             absolute -inset-[20%] 
             bg-repeat
             bg-size-[1920px_200px]
@@ -22,7 +22,7 @@ export default function TileBackground({children}) {
             opacity-15       /* Different opacity helps visibility */
             z-10             /* Places this on top of the first div */
             rotate-12
-        "
+        `}
         style={{ backgroundImage: "url('/bg_wave.svg')" }}
       />
       <div className="relative z-20">
