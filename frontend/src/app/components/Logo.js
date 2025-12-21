@@ -2,11 +2,7 @@ import Image from "next/image";
 
 export default function Logo() {
   return (
-    <div
-      className="
-        flex items-center gap-2
-      "
-    >
+    <div className="flex items-center gap-2">
       <Image
         src="/logo_clipboard.svg"
         width={25}
@@ -14,11 +10,7 @@ export default function Logo() {
         alt="Clipboard Logo"
       />
 
-      <h1
-        className="
-          font-bold
-        "
-      >
+      <h1 className="font-bold">
         SuperSnippets
       </h1>
     </div>
