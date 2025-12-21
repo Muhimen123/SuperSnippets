@@ -19,7 +19,7 @@ function TitleSection() {
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="text-5xl font-bold lg:text-9xl flex flex-col items-center justify-center">
         <h1>The Perfect</h1>
-        <h1>CodeBook</h1>
+        <h1>CodeBook</h1> {/* TODO: Add hover effect, change it to C0deB00k and create an underline */}
         <h1>Made Simple</h1>
       </div>
       <p className="mt-6 lg:text-xl max-w-4xl text-center">
