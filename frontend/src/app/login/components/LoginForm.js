@@ -57,7 +57,7 @@ export default function LoginForm() {
         </p>
         <p className="text-center text-sm text-gray-600 mt-2">
           Forgot your password?{" "}
-          <a href="#" className="underline font-medium">
+          <a href="/forgot_password" className="underline font-medium">
             Here to Help!
           </a>
         </p>
