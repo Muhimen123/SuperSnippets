@@ -10,7 +10,7 @@ export default function TextField({
   return (
     <div className={`relative ${className}`}>
       <div className="bg-white border border-black rounded-lg px-3 py-2 h-16">
-        <label className="block text-xs font-medium text-black mb-1">
+        <label className="block text-xs font-light text-gray-400 mb-1">
           {label}
         </label>
         <input

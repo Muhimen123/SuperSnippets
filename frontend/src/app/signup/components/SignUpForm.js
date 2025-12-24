@@ -13,8 +13,7 @@ export default function SignUpForm() {
         <div className="mb-8">
           <h2 className="text-2xl font-bold mb-2">Create an Account</h2>
           <p className="text-gray-600 text-sm">
-            Your Codebook days start with you. Whether you are a Earth or a
-            Mars.
+            Your Codebook stays with you. Whether you are in Earth or in Mars!
           </p>
         </div>
 
