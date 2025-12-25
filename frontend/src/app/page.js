@@ -82,22 +82,22 @@ function FeatureSection() {
         <FeatureCard
           title={`Code Fetching`}
           subtitle={`Easily fetch codes from Github Repositories`}
-          icon_src={`icons\\git-fetch.svg`}
+          icon_src={`icons/git-fetch.svg`}
         />
         <FeatureCard
           title={`Syntax Highlighting`}
           subtitle={`Increase code comprehension with beautiful colors in the PDF`}
-          icon_src={`icons\\eye-dropper.svg`}
+          icon_src={`icons/eye-dropper.svg`}
         />
         <FeatureCard
           title={`Easy Collaboration`}
           subtitle={`Collaborate with your teammates and keep track of modifications. No more guess works.`}
-          icon_src={`icons\\team-plus.svg`}
+          icon_src={`icons/team-plus.svg`}
         />
         <FeatureCard
           title={`Import & Export`}
           subtitle={`Easily fetch codes from Github RepositoriesYour work stays with you. Online or offline. You are in control of your data.`}
-          icon_src={`icons\\file-upload.svg`}
+          icon_src={`icons/file-upload.svg`}
         />
       </div>
     </div>
