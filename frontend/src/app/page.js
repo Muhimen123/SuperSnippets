@@ -96,7 +96,7 @@ function FeatureSection() {
         />
         <FeatureCard
           title={`Import & Export`}
-          subtitle={`Easily fetch codes from Github RepositoriesYour work stays with you. Online or offline. You are in control of your data.`}
+          subtitle={`Your work stays with you. Online or offline. You are in control of your data.`}
           icon_src={`icons\\file-upload.svg`}
         />
       </div>
