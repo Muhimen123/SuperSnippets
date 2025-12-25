@@ -40,7 +40,6 @@ function DesktopNavbar() {
 }
 
 function MobileNavbar() {
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <nav
       className={`
@@ -57,9 +56,19 @@ function MobileNavbar() {
 }
 
 function HamBurgerMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const hamBurgerLine = `h-1 w-6 my-1 rounded-full bg-black transition ease transform duration-300`;
+  const closedProperties = ``; 
+  const crossBarOne = `rotate-45 translate-y-2`;
+  const crossBarHidden = `opacity-0`;
+  const crossBarTwo = `-rotate-45 -translate-y-2`;
+
   return (
-    <button>
-      <img height={24} width={24} src="icons/hamburger-menu.svg" />
+    <button onClick={() => setIsOpen(!isOpen)} className={`group`}>
+      <div className={`${hamBurgerLine} ${isOpen ? crossBarOne : closedProperties}`}></div>
+      <div className={`${hamBurgerLine} ${isOpen ? crossBarHidden : closedProperties}`}></div>
+      <div className={`${hamBurgerLine} ${isOpen ? crossBarTwo : closedProperties}`}></div>
     </button>
   );
 }
