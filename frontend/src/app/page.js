@@ -17,13 +17,16 @@ export default function Home() {
 function TitleSection() {
   return (
     <div className={`flex flex-col items-center justify-center min-h-screen`}>
-      <div className={`font-bold text-5xl md:text-7xl lg:text-9xl flex flex-col items-center justify-center`}>
+      <div
+        className={`
+          font-bold text-5xl md:text-7xl lg:text-9xl 
+          flex flex-col items-center justify-center`}
+      >
         <h1>The Perfect</h1>
         {/* TODO: Add hover effect, change it to C0deB00k and create an underline */}
-        <h1>CodeBook</h1>{" "}
-        <h1>Made Simple</h1>
+        <h1>CodeBook</h1> <h1>Made Simple</h1>
       </div>
-      <p className="mt-6 text-md md:text-lg lg:text-xl max-w-4xl text-center">
+      <p className="mt-6 text-md md:text-lg lg:text-xl max-w-4xl text-center text-gray-600">
         Easily generate codebooks from Github repositories or bring your own
         code. Spend more time using the codebook than creating it!
       </p>
