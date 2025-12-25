@@ -9,7 +9,7 @@ export default function FeatureCard({ title, subtitle, icon_src }) {
 			`}
     >
       <div className={`self-end`}>
-        <img src={icon_src} height={70} width={70}></img>
+        <img src={icon_src} height={70} width={70}/>
       </div>
       <div>
         <h3 className={`text-2xl font-bold`}>{title}</h3>

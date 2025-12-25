@@ -97,7 +97,11 @@ function HamBurgerMenu() {
       >
         <div className="flex flex-col p-10 pt-20 space-y-4">
           {navLink.map((nav) => (
-            <Link key={nav.name} href={nav.href}>
+            <Link
+              onClick={() => setIsOpen(false)}
+              key={nav.name}
+              href={nav.href}
+            >
               {nav.name}
             </Link>
           ))}

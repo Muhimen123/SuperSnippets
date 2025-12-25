@@ -28,7 +28,8 @@ function TitleSection() {
       >
         <h1>The Perfect</h1>
         {/* TODO: Add hover effect, change it to C0deB00k and create an underline */}
-        <h1>CodeBook</h1> <h1>Made Simple</h1>
+        <h1>CodeBook</h1>
+        <h1>Made Simple</h1>
       </div>
       <p className="mt-10 mb-10 text-md md:text-lg lg:text-xl max-w-4xl text-center text-gray-600">
         Easily generate codebooks from Github repositories or bring your own
@@ -82,22 +83,22 @@ function FeatureSection() {
         <FeatureCard
           title={`Code Fetching`}
           subtitle={`Easily fetch codes from Github Repositories`}
-          icon_src={`icons\\git-fetch.svg`}
+          icon_src={`icons/git-fetch.svg`}
         />
         <FeatureCard
           title={`Syntax Highlighting`}
           subtitle={`Increase code comprehension with beautiful colors in the PDF`}
-          icon_src={`icons\\eye-dropper.svg`}
+          icon_src={`icons/eye-dropper.svg`}
         />
         <FeatureCard
           title={`Easy Collaboration`}
           subtitle={`Collaborate with your teammates and keep track of modifications. No more guess works.`}
-          icon_src={`icons\\team-plus.svg`}
+          icon_src={`icons/team-plus.svg`}
         />
         <FeatureCard
           title={`Import & Export`}
           subtitle={`Your work stays with you. Online or offline. You are in control of your data.`}
-          icon_src={`icons\\file-upload.svg`}
+          icon_src={`icons/file-upload.svg`}
         />
       </div>
     </div>
