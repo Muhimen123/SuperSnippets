@@ -4,10 +4,16 @@ export default function Content() {
         { id: "02", name: "MIST Team 06", date: "A minute ago", variant: "light" },
         { id: "03", name: "Ultimate Codebook", date: "1 hour ago", variant: "dark" },
         { id: "04", name: "Codebook Draft", date: "Yesterday", variant: "light" },
+        { id: "05", name: "Algorithms Snippets", date: "2 days ago", variant: "dark" },
+        { id: "06", name: "Data Structures", date: "Last week", variant: "light" },
+        { id: "07", name: "Graph Theory", date: "2 weeks ago", variant: "dark" },
+        { id: "08", name: "Dynamic Programming", date: "A month ago", variant: "light" },
+        { id: "09", name: "Math Snippets", date: "2 months ago", variant: "dark" },
+        { id: "10", name: "Geometry Codebook", date: "3 months ago", variant: "light" },
     ];
 
     return (
-        <div className="mt-48 w-full max-w-6xl px-6 mb-20 mx-auto">
+        <div className="mt-48 w-full max-w-7xl px-6 mb-20 mx-auto">
             <div className="flex justify-between items-end mb-6">
                 <h1 className="text-3xl font-mono font-bold tracking-tight">Codebooks</h1>
                 <button className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-lg font-mono text-sm hover:bg-gray-800 transition-colors shadow-lg">
@@ -24,7 +30,7 @@ export default function Content() {
                 </div>
 
                 {/* List */}
-                <div className="space-y-3">
+                <div className="space-y-3 overflow-y-auto max-h-[60vh] p-2 custom-scrollbar">
                     {codebooks.map((book) => (
                         <div
                             key={book.id}

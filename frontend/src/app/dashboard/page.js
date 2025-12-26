@@ -44,7 +44,9 @@ function MobileNavbar() {
                     `}
         >
             <LogoSection />
-            <Searchbar />
+            <div className="flex-1 px-4">
+                <Searchbar />
+            </div>
             <AccountIcon />
         </nav>
     );
