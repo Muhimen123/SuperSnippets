@@ -1,19 +1,24 @@
+import GithubRepo from "./GithubRepo";
+import CodeImport from "./CodeImport";
+import Constraints from "./Constraints";
+import FinalCheck from "./FinalCheck";
+
 export default function ContentSection({ activeStep }) {
   const renderContent = () => {
     switch (activeStep) {
       case 1:
-        return <h1 className="text-3xl font-bold">Github Repo</h1>;
+        return <GithubRepo />;
       case 2:
-        return <h1 className="text-3xl font-bold">Code Import</h1>;
+        return <CodeImport />;
       case 3:
-        return <h1 className="text-3xl font-bold">Constraints</h1>;
+        return <Constraints />;
       default:
-        return <h1 className="text-3xl font-bold">Final Check</h1>;
+        return <FinalCheck />;
     }
   };
 
   return (
-    <div className="min-h-[200px] flex items-center justify-center">
+    <div className="min-h-[200px] flex items-center justify-center w-full">
       {renderContent()}
     </div>
   );
