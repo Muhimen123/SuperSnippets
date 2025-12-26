@@ -33,7 +33,7 @@ export default function Initialize() {
           <div
             className={`
               w-[300px] md:w-[500px] lg:w-[700px] 
-              flex flex-col items-center justify-center gap-15
+              flex flex-col items-center justify-center gap-16
             `}
           >
             <StepperProgressBar />
