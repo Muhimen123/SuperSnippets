@@ -3,6 +3,8 @@ import { useState } from "react";
 
 export default function AccountIcon() {
     const [isOpen, setIsOpen] = useState(false);
+    const [name, setName] = useState("John Doe");
+    const [isEditingName, setIsEditingName] = useState(false);
 
     return (
         <>
@@ -43,8 +45,38 @@ export default function AccountIcon() {
                         </button>
                     </div>
 
-                    <div className="space-y-2 flex-1">
-                       
+                    <div className="space-y-2 flex-1 flex flex-col items-center pt-8">
+                        <div className="w-24 h-24 bg-black rounded-full flex items-center justify-center overflow-hidden mb-4">
+                            <img 
+                                src="/github-mark-white.svg" 
+                                alt="Account" 
+                                className="w-14 h-14"
+                            />
+                        </div>
+                        
+                        {isEditingName ? (
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                onBlur={() => setIsEditingName(false)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') setIsEditingName(false);
+                                }}
+                                autoFocus
+                                className="text-xl font-semibold text-center border-b-2 border-black outline-none pb-1 w-full max-w-[200px]"
+                            />
+                        ) : (
+                            <h3 
+                                onClick={() => setIsEditingName(true)}
+                                className="text-xl font-semibold text-gray-800 cursor-pointer hover:text-gray-600 flex items-center gap-2"
+                            >
+                                {name}
+                                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </h3>
+                        )}
                     </div>
 
                     <div className="pt-4 border-t border-gray-100">
