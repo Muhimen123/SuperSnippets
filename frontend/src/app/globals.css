@@ -7,7 +7,8 @@
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-foreground: var(--foregroundh);
+  --color-black: var(--foreground);
   --font-mono: var(--font-jetbrains-mono);
 
   @keyframes arrow-ping {

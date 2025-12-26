@@ -1,10 +1,3 @@
 export default function StepperProgressBar() {
-  return (
-    <div
-      className={`
-		`}
-    >
-      Place for the stepper progressbar
-    </div>
-  );
+  return <div>Place for the stepper progressbar</div>;
 }
