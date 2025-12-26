@@ -1,3 +1,5 @@
 export default function StepperProgressBar() {
-  return <div>Place for the stepper progressbar</div>;
+  return (
+		<div>Ei jinis jaan niye jabee</div>
+	);
 }
