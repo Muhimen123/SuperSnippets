@@ -1,7 +1,16 @@
+import TileBackground from "../components/TileBackground";
+import InitNavbar from "./components/InitNavbar";
+
 export default function SignUp() {
-    return (
-        <div className="flex items-center justify-center text-center flex-col h-screen">
-            <h1>This will be the Initialization Page</h1>
+  return (
+    <div>
+      <TileBackground>
+        <InitNavbar />
+        <div
+          className={`flex min-h-screen flex-col items-center justify-center`}
+        >
         </div>
-    );
+      </TileBackground>
+    </div>
+  );
 }
