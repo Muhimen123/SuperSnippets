@@ -7,7 +7,7 @@
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foregroundh);
+  --color-foreground: var(--foreground);
   --color-black: var(--foreground);
   --font-mono: var(--font-jetbrains-mono);
 
