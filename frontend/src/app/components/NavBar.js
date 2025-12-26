@@ -111,7 +111,7 @@ function HamBurgerMenu() {
   );
 }
 
-function LogoSection() {
+export function LogoSection() {
   return (
     <Link href={"/"}>
       <Logo />
