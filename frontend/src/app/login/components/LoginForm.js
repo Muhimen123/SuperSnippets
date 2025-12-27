@@ -35,7 +35,13 @@ export default function LoginForm() {
           Or use Email
         </div>
 
-        <form className="space-y-4">
+        <form 
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            router.push("/dashboard");
+          }}
+        >
           <div>
             <TextField
               label="EMAIL"
@@ -51,7 +57,6 @@ export default function LoginForm() {
           <button
             type="submit"
             className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors"
-            onClick={() => { router.push("/dashboard"); }}
           >
             Log In →
           </button>
