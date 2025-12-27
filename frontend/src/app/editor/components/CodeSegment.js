@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import AddCodeSegmentModal from "./AddCodeSegmentModal";
 
 export default function CodeSegment() {
   const [segments, setSegments] = useState([
@@ -8,6 +9,7 @@ export default function CodeSegment() {
     { id: 3, name: "Topological Sort", active: true },
     { id: 4, name: "Kadane's Algorithm", active: false },
   ]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleSegment = (id) => {
     setSegments((prev) =>
@@ -43,11 +45,16 @@ export default function CodeSegment() {
       </div>
 
       <div className="p-4">
-        <button className="w-full bg-black text-white py-2 rounded-md flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors font-medium">
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="w-full bg-black text-white py-2 rounded-md flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors font-medium"
+        >
           <span className="text-sm">Add New</span>
           <span className="text-lg font-light">+</span>
         </button>
       </div>
+
+      <AddCodeSegmentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }

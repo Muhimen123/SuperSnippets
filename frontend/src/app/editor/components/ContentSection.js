@@ -1,5 +1,6 @@
 import GithubRepos from './githubrepos';
-import CodeSegment from "./CodeSegment"
+import CodeSegment from "./CodeSegment";
+import Categories from './Categories';
 import ConfigBar from './configbar';
 
 export default function ContentSection({ activeTool }) {
@@ -8,7 +9,7 @@ export default function ContentSection({ activeTool }) {
       case 1:
         return <CodeSegment />;
       case 2:
-        return <h1 className="text-3xl font-bold">Categories</h1>;
+        return <Categories />;
       case 3:
         return <GithubRepos />;
       case 4:
