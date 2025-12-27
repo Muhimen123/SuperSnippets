@@ -1,8 +1,8 @@
-import TileBackground from "../components/TileBackground";
-import DesignSVG from "../components/DesignSVG";
-import LoginForm from "./components/LoginForm";
+import TileBackground from "../../components/TileBackground";
+import DesignSVG from "../../components/DesignSVG";
+import VerificationForm from "../components/VerificationForm";
 
-export default function LogIn() {
+export default function VerificationCode() {
   return (
     <TileBackground>
       <div className="min-h-screen flex">
@@ -11,8 +11,8 @@ export default function LogIn() {
           <DesignSVG className="w-[500px] h-[600px]" />
         </div>
 
-        {/* Right side - Login Form */}
-        <LoginForm />
+        {/* Right side - Verification Code Form */}
+        <VerificationForm />
       </div>
     </TileBackground>
   );

@@ -1,13 +1,13 @@
 import TileBackground from "../components/TileBackground";
 import DesignSVG from "../components/DesignSVG";
-import SignUpForm from "./components/SignUpForm";
+import ResetPasswordForm from "./components/ResetPasswordForm";
 
-export default function SignUp() {
+export default function ResetPassword() {
   return (
     <TileBackground>
       <div className="min-h-screen flex ml-20">
-        {/* Left side - Form */}
-        <SignUpForm />
+        {/* Left side - Reset Password Form */}
+        <ResetPasswordForm />
 
         {/* Right side - Abstract Pattern */}
         <div className="hidden lg:flex lg:w-1/2 items-center justify-left">
