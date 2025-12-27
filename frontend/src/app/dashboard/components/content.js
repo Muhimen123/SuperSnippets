@@ -1,4 +1,10 @@
+"use client";
+import { useState } from "react";
+import CreateCodebookModal from "./createCodebookModal";
+
 export default function Content() {
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
     const codebooks = [
         { id: "01", name: "Codebook 01", owner: "Alice Johnson", date: "Just now", variant: "dark" },
         { id: "02", name: "MIST Team 06", owner: "Bob Smith", date: "A minute ago", variant: "light" },
@@ -16,7 +22,10 @@ export default function Content() {
         <div className="mt-48 w-full max-w-7xl px-6 mb-20 mx-auto">
             <div className="flex justify-between items-end mb-6">
                 <h1 className="text-3xl font-mono font-bold tracking-tight">Codebooks</h1>
-                <button className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-lg font-mono text-sm hover:bg-gray-800 transition-colors shadow-lg">
+                <button 
+                    onClick={() => setIsCreateModalOpen(true)}
+                    className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-lg font-mono text-sm hover:bg-gray-800 transition-colors shadow-lg"
+                >
                     <span className="text-lg leading-none">+</span> Create New
                 </button>
             </div>
@@ -37,7 +46,7 @@ export default function Content() {
                             key={book.id}
                             className={`grid grid-cols-12 gap-4 px-6 py-5 rounded-xl items-center shadow-sm transition-all hover:scale-[1.01] cursor-pointer ${book.variant === "dark"
                                     ? "bg-[#3C3C3C] text-white shadow-md"
-                                    : "bg-white/50 text-gray-800 hover:bg-white"
+                                    : "bg-white text-gray-800 hover:bg-white"
                                 }`}
                         >
                             <div className="col-span-2 opacity-80">{book.id}</div>
@@ -63,6 +72,11 @@ export default function Content() {
                     ))}
                 </div>
             </div>
+
+            <CreateCodebookModal 
+                isOpen={isCreateModalOpen} 
+                onClose={() => setIsCreateModalOpen(false)} 
+            />
         </div>
     );
 }
