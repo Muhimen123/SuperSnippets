@@ -18,14 +18,14 @@ export default function CodeSegment() {
   };
 
   return (
-    <div className="w-64 bg-white border-r border-gray-300 flex flex-col justify-between h-screen shadow-sm">
-      <div className="flex flex-col">
+    <div className="flex flex-col h-full w-64 border-r-2 border-black bg-white text-black font-mono">
+      <div className="flex-1 overflow-y-auto">
         {segments.map((segment) => (
           <div
             key={segment.id}
-            className="flex items-center justify-between p-4 border-b border-gray-200"
+            className="flex items-center justify-between p-4 border-b-2 border-black hover:bg-gray-100"
           >
-            <span className="text-sm font-medium">{segment.name}</span>
+            <span className="text-sm font-bold truncate">{segment.name}</span>
             <button
               onClick={() => toggleSegment(segment.id)}
               className={`w-10 h-5 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 ${
@@ -43,8 +43,8 @@ export default function CodeSegment() {
       </div>
 
       <div className="p-4">
-        <button className="w-full bg-black text-white py-2 rounded-md flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors">
-          <span className="text-sm font-medium">Add New</span>
+        <button className="w-full bg-black text-white py-2 rounded-md flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors font-medium">
+          <span className="text-sm">Add New</span>
           <span className="text-lg font-light">+</span>
         </button>
       </div>
