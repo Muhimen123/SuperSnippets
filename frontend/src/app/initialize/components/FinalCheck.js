@@ -10,25 +10,25 @@ export default function FinalCheck() {
 
   return (
     <div className="w-full" style={{ width: '1008px' }}>
-      <div className="rounded-xl p-8 min-h-[300px] border-2 border-blue-400" style={{ backgroundColor: '#d9d9d9' }}>
-        <div className="space-y-4 text-base">
+      <div className="rounded-3xl px-16 py-12 min-h-[300px]" style={{ backgroundColor: '#d9d9d9' }}>
+        <div className="space-y-6 text-sm font-mono">
           <div>
-            <span className="font-medium">Github Repos selected:</span> {summaryData.githubRepos}
+            Github Repos selected: {summaryData.githubRepos}
           </div>
           <div>
-            <span className="font-medium">Margin:</span> {summaryData.margin}
+            Margin: {summaryData.margin}
           </div>
           <div>
-            <span className="font-medium">Font:</span> {summaryData.font}
+            Font: {summaryData.font}
           </div>
           <div>
-            <span className="font-medium">Font Size:</span> {summaryData.fontSize}
+            Font Size: {summaryData.fontSize}
           </div>
           <div>
-            <span className="font-medium">Page Limit:</span> {summaryData.pageLimit}
+            Page Limit: {summaryData.pageLimit}
           </div>
           <div>
-            <span className="font-medium">Columns:</span> {summaryData.columns}
+            Columns: {summaryData.columns}
           </div>
         </div>
       </div>

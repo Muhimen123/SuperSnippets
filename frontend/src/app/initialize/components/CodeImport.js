@@ -29,7 +29,7 @@ export default function CodeImport() {
     <div className="w-full" style={{ width: '950px' }}>
       <div
         className={`
-          border-2 border-dashed border-gray-400 rounded-xl p-10 text-center min-h-[300px]
+          border-2 border-dashed border-gray-400 rounded-3xl p-10 text-center min-h-[300px]
           flex flex-col items-center justify-center
           ${isDragOver ? 'border-blue-500 bg-blue-50' : ''}
         `}
@@ -38,11 +38,11 @@ export default function CodeImport() {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        <p className="text-gray-600 mb-6 text-lg">Drop files here to upload.</p>
+        <p className="text-gray-600 mb-6 text-sm">Drop files here to upload.</p>
         
         <button
           onClick={handleFileSelect}
-          className="bg-black text-white px-8 py-3 rounded-lg text-sm hover:bg-gray-800 transition-colors"
+          className="bg-black text-white px-4 py-1 rounded-4xl text-xs hover:bg-black transition-all duration-300 ease-in-out hover:font-bold hover:scale-105 active:scale-95"
         >
           Upload files
         </button>
