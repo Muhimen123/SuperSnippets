@@ -1,13 +1,16 @@
 import Logo from "../../components/Logo";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
+import Link from "next/link";
 
 export default function LoginForm() {
   return (
     <div className="w-full lg:w-1/2 flex items-center justify-left px-8 pl-24">
       <div className="w-full max-w-xs">
         <div className="mb-8 ml-18">
-          <Logo />
+          <Link href={"/"}>
+            <Logo />
+          </Link>
         </div>
 
         <div className="mb-8">

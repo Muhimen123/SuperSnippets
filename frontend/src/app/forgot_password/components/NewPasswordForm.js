@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Logo from "../../components/Logo";
 import PasswordField from "../../components/PasswordField";
 
@@ -6,7 +7,9 @@ export default function NewPasswordForm() {
     <div className="w-full lg:w-1/2 flex items-center justify-end px-8 pr-24">
       <div className="w-full max-w-xs">
         <div className="mb-8">
-          <Logo />
+          <Link href={"/"}>
+            <Logo />
+          </Link>
         </div>
 
         <div className="mb-8">
@@ -18,10 +21,7 @@ export default function NewPasswordForm() {
 
         <form className="space-y-6">
           <div>
-            <PasswordField
-              label="PASSWORD"
-              showToggle={false}
-            />
+            <PasswordField label="PASSWORD" showToggle={false} />
           </div>
 
           <button
