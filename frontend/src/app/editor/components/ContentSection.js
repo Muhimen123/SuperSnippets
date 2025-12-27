@@ -1,5 +1,6 @@
 import GithubRepos from './githubrepos';
 import CodeSegment from "./CodeSegment"
+import ConfigBar from './configbar';
 
 export default function ContentSection({ activeTool }) {
   const renderContent = () => {
@@ -11,7 +12,7 @@ export default function ContentSection({ activeTool }) {
       case 3:
         return <GithubRepos />;
       case 4:
-        return <h1 className="text-3xl font-bold">Configuration</h1>;
+        return <ConfigBar />;
       case 5:
         return <h1 className="text-3xl font-bold">Download</h1>;
       case 6:
