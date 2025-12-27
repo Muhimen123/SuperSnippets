@@ -21,7 +21,7 @@ export default function ContentSection({ activeTool }) {
   };
 
   return (
-    <div className="min-h-[200px] flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
       {renderContent()}
     </div>
   );
