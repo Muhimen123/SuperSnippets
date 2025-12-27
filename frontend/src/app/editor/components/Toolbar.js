@@ -62,8 +62,8 @@ function ToolbarElement({
 				p-3 gap-2 group cursor-pointer
 			`}
       onClick={() => {
-        if (selected) toolKey = 0;
-        handleToolSelection(toolKey);
+        const targetToolKey = (selected) ? 0 : toolKey;
+        handleToolSelection(targetToolKey);
       }}
     >
       <div

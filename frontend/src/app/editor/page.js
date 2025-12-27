@@ -4,7 +4,7 @@ import { useState } from "react";
 import Toolbar from "./components/Toolbar";
 import ContentSection from "../editor/components/ContentSection";
 
-export default function PDFEditor() {
+export default function Editor() {
   const [currentTool, setCurrentTool] = useState(1);
 
   const handleToolSelection = (toolKey) => {
@@ -18,7 +18,7 @@ export default function PDFEditor() {
         handleToolSelection={handleToolSelection}
       />
       <div className="flex flex-row items-center justify-center">
-				<ContentSection activeTool={currentTool}/>
+        <ContentSection activeTool={currentTool} />
       </div>
     </div>
   );
