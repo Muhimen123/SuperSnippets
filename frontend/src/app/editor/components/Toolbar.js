@@ -1,5 +1,5 @@
 export default function Toolbar() {
-  const tools = [
+  const primaryTools = [
     { title: "Code Segments", icon: "icons/code-segment.svg" },
     { title: "Category", icon: "icons/categories.svg" },
     { title: "Github Repos", icon: "icons/github-repos.svg" },
@@ -7,23 +7,24 @@ export default function Toolbar() {
     { title: "Download", icon: "icons/download.svg" },
   ];
 
+	const secondaryTools = [
+    { title: "Home", icon: "icons/home.svg" },
+    { title: "Settings", icon: "icons/settings.svg" },
+	];
+
   return (
     <div
       className={`flex flex-col items-center w-[100px] p-5 bg-black min-h-screen`}
     >
-      {tools.map((tool) => (
+      {primaryTools.map((tool) => (
         <ToolbarElement key={tool.title} icon={tool.icon} title={tool.title} />
       ))}
 
 			<div className={`flex-1`}></div>
-      <ToolbarElement 
-				title={`Home`} 
-				icon={`icons/home.svg`}
-			></ToolbarElement>
-      <ToolbarElement
-        title={`Settings`}
-        icon={`icons/settings.svg`}
-      ></ToolbarElement>
+
+      {secondaryTools.map((tool) => (
+        <ToolbarElement key={tool.title} icon={tool.icon} title={tool.title} />
+      ))}
     </div>
   );
 }
