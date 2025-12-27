@@ -1,7 +1,6 @@
-import TileBackground from "../components/TileBackground";
 import Toolbar from "./components/Toolbar";
 
-export default function SignUp() {
+export default function PDFEditor() {
   return (
 		<div>
 			<Toolbar/>
