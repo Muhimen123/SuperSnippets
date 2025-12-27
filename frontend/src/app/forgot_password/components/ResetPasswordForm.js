@@ -7,13 +7,16 @@ export default function ResetPasswordForm() {
     <div className="w-full lg:w-1/2 flex items-center justify-end px-8 pr-24">
       <div className="w-full max-w-xs">
         <div className="mb-8 ml-18">
-          <Logo />
+          <Link href={"/"}>
+            <Logo />
+          </Link>
         </div>
 
         <div className="mb-8">
           <h2 className="text-2xl font-bold mb-2">Reset Password</h2>
           <p className="text-gray-600 text-sm">
-            Enter your email address below and we will send you verification code
+            Enter your email address below and we will send you verification
+            code
           </p>
         </div>
 
