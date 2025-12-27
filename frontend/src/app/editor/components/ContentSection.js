@@ -1,3 +1,4 @@
+import GithubRepos from './githubrepos';
 export default function ContentSection({ activeTool }) {
   const renderContent = () => {
     switch (activeTool) {
@@ -6,7 +7,7 @@ export default function ContentSection({ activeTool }) {
       case 2:
         return <h1 className="text-3xl font-bold">Categories</h1>;
       case 3:
-        return <h1 className="text-3xl font-bold">Github Repos</h1>;
+        return <GithubRepos />;
       case 4:
         return <h1 className="text-3xl font-bold">Configuration</h1>;
       case 5:
@@ -21,7 +22,7 @@ export default function ContentSection({ activeTool }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="h-full w-full">
       {renderContent()}
     </div>
   );

@@ -12,12 +12,12 @@ export default function Editor() {
   };
 
   return (
-    <div className="flex">
+    <div className="flex h-screen overflow-hidden">
       <Toolbar
         currentTool={currentTool}
         handleToolSelection={handleToolSelection}
       />
-      <div className="flex flex-row items-center justify-center">
+      <div className="flex-1 flex flex-col">
         <ContentSection activeTool={currentTool} />
       </div>
     </div>
