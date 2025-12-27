@@ -1,6 +1,6 @@
 export default function Searchbar() {
     return (
-        <div className="w-full lg:w-[40vw] max-w-2xl mx-auto relative">
+        <div className="w-full lg:w-[40vw] max-w-2xl mx-auto relative lg:-translate-x-15">
             <input
                 type="text"
                 placeholder="Search CodeBooks..."
