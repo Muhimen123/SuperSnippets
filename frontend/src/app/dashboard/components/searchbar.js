@@ -4,7 +4,7 @@ export default function Searchbar() {
             <input
                 type="text"
                 placeholder="Search CodeBooks..."
-                className="p-3 pr-10 border border-black-300 rounded-lg w-full shadow-sm bg-white"
+                className="p-3 pr-10 border border-gray-300 rounded-lg w-full shadow-sm bg-white focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors"
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                 <svg
