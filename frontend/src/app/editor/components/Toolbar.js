@@ -1,16 +1,29 @@
 export default function Toolbar() {
   const tools = [
     { title: "Code Segments", icon: "icons/code-segment.svg" },
-    { title: "Categories", icon: "icons/categories.svg" },
+    { title: "Category", icon: "icons/categories.svg" },
     { title: "Github Repos", icon: "icons/github-repos.svg" },
     { title: "Configure", icon: "icons/configure.svg" },
     { title: "Download", icon: "icons/download.svg" },
   ];
+
   return (
-    <div className={`w-[100px] bg-black min-h-screen`}>
+    <div
+      className={`flex flex-col items-center w-[100px] p-5 bg-black min-h-screen`}
+    >
       {tools.map((tool) => (
         <ToolbarElement key={tool.title} icon={tool.icon} title={tool.title} />
       ))}
+
+			<div className={`flex-1`}></div>
+      <ToolbarElement 
+				title={`Home`} 
+				icon={`icons/home.svg`}
+			></ToolbarElement>
+      <ToolbarElement
+        title={`Settings`}
+        icon={`icons/settings.svg`}
+      ></ToolbarElement>
     </div>
   );
 }
