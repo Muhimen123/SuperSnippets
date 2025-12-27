@@ -27,7 +27,10 @@ export default function Toolbar({ currentTool, handleToolSelection }) {
         />
       ))}
 
-      <div className={`flex-1`}></div>
+      <div
+        className={`flex-1 w-full`}
+        onClick={() => handleToolSelection(0)}
+      ></div>
 
       {secondaryTools.map((tool) => (
         <ToolbarElement
@@ -59,7 +62,7 @@ function ToolbarElement({
 				p-3 gap-2 group cursor-pointer
 			`}
       onClick={() => {
-        console.log(`Called from handle ${toolKey}`);
+        if (selected) toolKey = 0;
         handleToolSelection(toolKey);
       }}
     >

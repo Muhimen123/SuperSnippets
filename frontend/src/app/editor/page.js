@@ -7,7 +7,6 @@ export default function PDFEditor() {
   const [currentTool, setCurrentTool] = useState(1);
 
   const handleToolSelection = (toolKey) => {
-    console.log(`from actual ${toolKey}`);
     setCurrentTool(toolKey);
   };
 
