@@ -1,9 +1,11 @@
 import GithubRepos from './githubrepos';
+import CodeSegment from "./CodeSegment"
+
 export default function ContentSection({ activeTool }) {
   const renderContent = () => {
     switch (activeTool) {
       case 1:
-        return <h1 className="text-3xl font-bold">Code Segment</h1>;
+        return <CodeSegment />;
       case 2:
         return <h1 className="text-3xl font-bold">Categories</h1>;
       case 3:
