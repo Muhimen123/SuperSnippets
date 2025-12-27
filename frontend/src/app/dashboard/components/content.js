@@ -1,15 +1,15 @@
 export default function Content() {
     const codebooks = [
-        { id: "01", name: "Codebook 01", date: "Just now", variant: "dark" },
-        { id: "02", name: "MIST Team 06", date: "A minute ago", variant: "light" },
-        { id: "03", name: "Ultimate Codebook", date: "1 hour ago", variant: "dark" },
-        { id: "04", name: "Codebook Draft", date: "Yesterday", variant: "light" },
-        { id: "05", name: "Algorithms Snippets", date: "2 days ago", variant: "dark" },
-        { id: "06", name: "Data Structures", date: "Last week", variant: "light" },
-        { id: "07", name: "Graph Theory", date: "2 weeks ago", variant: "dark" },
-        { id: "08", name: "Dynamic Programming", date: "A month ago", variant: "light" },
-        { id: "09", name: "Math Snippets", date: "2 months ago", variant: "dark" },
-        { id: "10", name: "Geometry Codebook", date: "3 months ago", variant: "light" },
+        { id: "01", name: "Codebook 01", owner: "Alice Johnson", date: "Just now", variant: "dark" },
+        { id: "02", name: "MIST Team 06", owner: "Bob Smith", date: "A minute ago", variant: "light" },
+        { id: "03", name: "Ultimate Codebook", owner: "Charlie Brown", date: "1 hour ago", variant: "dark" },
+        { id: "04", name: "Codebook Draft", owner: "David Wilson", date: "Yesterday", variant: "light" },
+        { id: "05", name: "Algorithms Snippets", owner: "Eve Davis", date: "2 days ago", variant: "dark" },
+        { id: "06", name: "Data Structures", owner: "Frank Miller", date: "Last week", variant: "light" },
+        { id: "07", name: "Graph Theory", owner: "Grace Lee", date: "2 weeks ago", variant: "dark" },
+        { id: "08", name: "Dynamic Programming", owner: "Hank Green", date: "A month ago", variant: "light" },
+        { id: "09", name: "Math Snippets", owner: "Ivy White", date: "2 months ago", variant: "dark" },
+        { id: "10", name: "Geometry Codebook", owner: "Jack Black", date: "3 months ago", variant: "light" },
     ];
 
     return (
@@ -25,8 +25,9 @@ export default function Content() {
                 {/* Headers */}
                 <div className="grid grid-cols-12 gap-4 px-6 py-3 text-xs text-gray-500 uppercase tracking-wider font-semibold">
                     <div className="col-span-2">Serial No.</div>
-                    <div className="col-span-7">Codebook Name</div>
-                    <div className="col-span-3">Date</div>
+                    <div className="col-span-4">Codebook Name</div>
+                    <div className="col-span-3">Owner</div>
+                    <div className="col-span-3">Last Modified</div>
                 </div>
 
                 {/* List */}
@@ -40,7 +41,8 @@ export default function Content() {
                                 }`}
                         >
                             <div className="col-span-2 opacity-80">{book.id}</div>
-                            <div className="col-span-7 font-medium text-lg">{book.name}</div>
+                            <div className="col-span-4 font-medium text-lg">{book.name}</div>
+                            <div className="col-span-3 opacity-80 text-sm">{book.owner}</div>
                             <div className="col-span-3 flex items-center gap-2 opacity-80 text-sm">
                                 <svg
                                     className="w-4 h-4"
