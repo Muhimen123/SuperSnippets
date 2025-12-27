@@ -1,9 +1,13 @@
+"use client";
+
 import Logo from "../../components/Logo";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   return (
     <div className="w-full lg:w-1/2 flex items-center justify-left px-8 pl-24">
       <div className="w-full max-w-xs">
@@ -47,6 +51,7 @@ export default function LoginForm() {
           <button
             type="submit"
             className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors"
+            onClick={() => { router.push("/dashboard"); }}
           >
             Log In →
           </button>
