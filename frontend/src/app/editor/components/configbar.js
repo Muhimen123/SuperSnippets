@@ -1,0 +1,85 @@
+import React from 'react';
+
+const Input = (props) => (
+  <input 
+    {...props}
+    className="w-full bg-[#A3A3A3] text-black p-3 rounded-lg outline-none focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#999999] font-mono"
+  />
+);
+
+const Select = ({ children, ...props }) => (
+  <div className="relative">
+    <select 
+      {...props}
+      className="w-full bg-[#A3A3A3] text-black p-3 rounded-lg appearance-none outline-none focus:ring-2 focus:ring-black/20 transition-all cursor-pointer hover:bg-[#999999] font-mono"
+    >
+      {children}
+    </select>
+    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L5 5L9 1" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </div>
+  </div>
+);
+
+export default function ConfigBar() {
+  return (
+    <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono p-6 overflow-y-auto gap-6">
+      
+      {/* Font */}
+      <div className="flex flex-col gap-2">
+        <label className="font-bold text-sm">Font</label>
+        <Select>
+          <option>Placeholder</option>
+        </Select>
+      </div>
+
+      {/* Font Size */}
+      <div className="flex flex-col gap-2">
+        <label className="font-bold text-sm">Font Size</label>
+        <Input type="number" placeholder="Placeholder" />
+      </div>
+
+      {/* Header Text */}
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between items-center">
+          <label className="font-bold text-sm">Header Text</label>
+          <span className="text-xs opacity-60">0/100</span>
+        </div>
+        <textarea 
+          className="w-full bg-[#A3A3A3] text-black p-3 rounded-lg outline-none resize-none h-24 focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#999999] font-mono"
+          placeholder="Placeholder"
+          maxLength={100}
+        />
+      </div>
+
+      {/* Margin Size */}
+      <div className="flex flex-col gap-2">
+        <label className="font-bold text-sm">Margin Size</label>
+        <Input type="number" placeholder="Placeholder" />
+      </div>
+
+      {/* Columns */}
+      <div className="flex flex-col gap-2">
+        <label className="font-bold text-sm">Columns</label>
+        <Input type="number" placeholder="Placeholder" />
+      </div>
+
+      {/* Page Limit */}
+      <div className="flex flex-col gap-2">
+        <label className="font-bold text-sm">Page Limit</label>
+        <Input type="number" placeholder="Placeholder" />
+      </div>
+
+      {/* Page Orientation */}
+      <div className="flex flex-col gap-2">
+        <label className="font-bold text-sm">Page Orientation</label>
+        <Select>
+          <option>Placeholder</option>
+        </Select>
+      </div>
+
+    </div>
+  );
+}
