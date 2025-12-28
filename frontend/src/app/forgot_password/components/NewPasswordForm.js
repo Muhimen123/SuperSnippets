@@ -24,12 +24,12 @@ export default function NewPasswordForm() {
             <PasswordField label="PASSWORD" showToggle={false} />
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors"
+          <Link
+            href="/login"
+            className="block w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors text-center"
           >
             Confirm →
-          </button>
+          </Link>
         </form>
       </div>
     </div>
