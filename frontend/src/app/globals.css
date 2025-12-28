@@ -30,3 +30,31 @@ body {
   color: var(--foreground);
   font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
 }
+
+/* Custom Scrollbar - Auto hide */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s;
+}
+
+.custom-scrollbar:hover {
+  scrollbar-color: #A1A1AA transparent; /* zinc-400 */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 20px;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #A1A1AA; /* zinc-400 */
+}

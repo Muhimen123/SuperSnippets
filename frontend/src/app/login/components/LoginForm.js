@@ -1,9 +1,13 @@
+"use client";
+
 import Logo from "../../components/Logo";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   return (
     <div className="w-full lg:w-1/2 flex items-center justify-left px-8 pl-24">
       <div className="w-full max-w-xs">
@@ -31,7 +35,13 @@ export default function LoginForm() {
           Or use Email
         </div>
 
-        <form className="space-y-4">
+        <form 
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            router.push("/dashboard");
+          }}
+        >
           <div>
             <TextField
               label="EMAIL"
