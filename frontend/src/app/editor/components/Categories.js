@@ -56,7 +56,7 @@ export default function Categories() {
             </button>
 
             {category.isOpen && (
-              <div className="w-[85%] border-x-2 border-b-2 border-black bg-white">
+              <div className=" border-x-2 border-b-2 border-black bg-white">
                 {category.items.map((item, index) => (
                   <div
                     key={index}

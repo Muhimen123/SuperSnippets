@@ -3,7 +3,7 @@ import CodeSegment from "./CodeSegment";
 import Categories from './Categories';
 import ConfigBar from './configbar';
 
-export default function ContentSection({ activeTool }) {
+export default function ContentSection({ activeTool, className }) {
   const renderContent = () => {
     switch (activeTool) {
       case 1:
@@ -21,12 +21,12 @@ export default function ContentSection({ activeTool }) {
       case 7:
         return <h1 className="text-3xl font-bold">Settings</h1>;
       default:
-        return <h1 className="text-3xl font-bold">Default - None</h1>;
+        return <div className={`w-0`}></div>;
     }
   };
 
   return (
-    <div className="h-full w-full">
+    <div className={`h-full w-full ${className}`}>
       {renderContent()}
     </div>
   );

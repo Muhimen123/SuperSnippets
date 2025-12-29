@@ -25,7 +25,7 @@ const Select = ({ children, ...props }) => (
 
 export default function ConfigBar() {
   return (
-    <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono p-6 overflow-y-auto gap-6">
+    <div className="flex flex-col h-full border-r-2 border-black bg-white text-black font-mono p-6 overflow-y-auto gap-6">
       
       {/* Font */}
       <div className="flex flex-col gap-2">
