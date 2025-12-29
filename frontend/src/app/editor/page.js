@@ -19,7 +19,6 @@ export default function Editor() {
         handleToolSelection={handleToolSelection}
       />
       <div className="flex flex-1 overflow-hidden">
-        {/* <ContentSection className={` w-64`} activeTool={currentTool} /> */}
         <div>
           <ContentSection activeTool={currentTool} />
         </div>
