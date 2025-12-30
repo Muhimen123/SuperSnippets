@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import TileBackground from "../components/TileBackground";
 import DesignSVG from "../components/DesignSVG";
 import SignUpForm from "./components/SignUpForm";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { SlideIn } from "../components/Animations";
 
 export default function SignUp() {
@@ -18,6 +18,7 @@ export default function SignUp() {
       router.push("/login"); // Navigate after animation completes (0.25s)
     }, 250);
   };
+
 
   return (
     <TileBackground>

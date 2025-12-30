@@ -2,9 +2,9 @@ import Logo from "../../components/Logo";
 import TextField from "../../components/TextField";
 import Link from "next/link";
 
-export default function VerificationForm() {
+export default function VerificationForm({ onContinueClick }) {
   return (
-    <div className="w-full lg:w-1/2 flex items-center justify-left px-8 pl-24">
+    <div className="">
       <div className="w-full max-w-xs">
         <div className="mb-8">
           <Link href={"/"}>
@@ -22,12 +22,15 @@ export default function VerificationForm() {
             <TextField label="CODE" type="text" placeholder="K2FTW" />
           </div>
 
-          <Link
-            href="/forgot_password/new-password"
-            className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center"
+          <button
+            className="cursor-pointer w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center"
+            onClick={(event) => {
+              event.preventDefault();
+              onContinueClick();
+            }}
           >
             Continue →
-          </Link>
+          </button>
         </form>
       </div>
     </div>
