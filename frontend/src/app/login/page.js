@@ -16,7 +16,7 @@ export default function LogIn() {
     setIsVisible(false); // Trigger the exit animation
     setTimeout(() => {
       router.push("/signup"); // Navigate after animation completes (0.5s)
-    }, 750);
+    }, 250);
   };
 
   return (
@@ -26,9 +26,14 @@ export default function LogIn() {
         <div className="hidden lg:flex lg:w-1/2 items-center justify-end">
           <AnimatePresence>
             {isVisible && (
-              <SlideIn direction={"left"} duration={0.75}>
+              <motion.div 
+                initial={{ opacity: 0, x: 0, scale: 0.9 }} 
+                exit={{ opacity: 0, x: "120%", scale: 0.9 }} 
+                animate={{ opacity: 1, x: 0, scale: 1}}
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+              >
                 <DesignSVG className="w-[500px] h-[600px]" />
-              </SlideIn>
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
@@ -38,9 +43,14 @@ export default function LogIn() {
         >
           <AnimatePresence>
             {isVisible && (
-              <SlideIn direction={"right"} duration={0.75}>
+              <motion.div
+                initial={{ opacity: 0, x: 0, scale: 0.9 }}
+                exit={{ opacity: 0, x: "-120%", scale: 0.9 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+              >
                 <LoginForm onSignUpClick={handleNavigate} />
-              </SlideIn>
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
