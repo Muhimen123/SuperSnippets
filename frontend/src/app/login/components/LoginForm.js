@@ -6,10 +6,10 @@ import PasswordField from "../../components/PasswordField";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function LoginForm() {
+export default function LoginForm({ onSignUpClick, onHelpClick }) {
   const router = useRouter();
   return (
-    <div className="w-full lg:w-1/2 flex items-center justify-left px-8 pl-24">
+    <div>
       <div className="w-full max-w-xs">
         <div className="mb-8 ml-18">
           <Link href={"/"}>
@@ -35,7 +35,7 @@ export default function LoginForm() {
           Or use Email
         </div>
 
-        <form 
+        <form
           className="space-y-4"
           onSubmit={(e) => {
             e.preventDefault();
@@ -64,15 +64,27 @@ export default function LoginForm() {
 
         <p className="text-center text-sm text-gray-600 mt-6">
           New Here?{" "}
-          <a href="/signup" className="underline font-medium">
+          <button
+            className={`underline font-medium cursor-pointer`}
+            onClick={(event) => {
+              event.preventDefault();
+              onSignUpClick();
+            }}
+          >
             Sign Up
-          </a>
+          </button>
         </p>
         <p className="text-center text-sm text-gray-600 mt-2">
           Forgot your password?{" "}
-          <a href="/forgot_password" className="underline font-medium">
+          <button
+            className={`underline font-medium cursor-pointer`}
+            onClick={(event) => {
+              event.preventDefault();
+              onHelpClick();
+            }}
+          >
             Here to Help!
-          </a>
+          </button>
         </p>
       </div>
     </div>
