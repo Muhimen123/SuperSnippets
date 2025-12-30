@@ -6,7 +6,7 @@ import PasswordField from "../../components/PasswordField";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function LoginForm({ onSignUpClick }) {
+export default function LoginForm({ onSignUpClick, onHelpClick }) {
   const router = useRouter();
   return (
     <div>
@@ -76,9 +76,15 @@ export default function LoginForm({ onSignUpClick }) {
         </p>
         <p className="text-center text-sm text-gray-600 mt-2">
           Forgot your password?{" "}
-          <a href="/forgot_password" className="underline font-medium">
+          <button
+            className={`underline font-medium cursor-pointer`}
+            onClick={(event) => {
+              event.preventDefault();
+              onHelpClick();
+            }}
+          >
             Here to Help!
-          </a>
+          </button>
         </p>
       </div>
     </div>

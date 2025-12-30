@@ -19,6 +19,13 @@ export default function LogIn() {
     }, 250);
   };
 
+  const handleNavigateForgotPassword = () => {
+    setIsVisible(false); // Trigger the exit animation
+    setTimeout(() => {
+      router.push("/forgot_password"); // Navigate after animation completes (0.25s)
+    }, 250);
+  };
+
   return (
     <TileBackground>
       <div className="min-h-screen flex">
@@ -39,7 +46,10 @@ export default function LogIn() {
           <AnimatePresence>
             {isVisible && (
               <SlideIn direction={"left"}>
-                <LoginForm onSignUpClick={handleNavigate} />
+                <LoginForm
+                  onSignUpClick={handleNavigate}
+                  onHelpClick={handleNavigateForgotPassword}
+                />
               </SlideIn>
             )}
           </AnimatePresence>
