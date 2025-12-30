@@ -26,14 +26,9 @@ export default function LogIn() {
         <div className="hidden lg:flex lg:w-1/2 items-center justify-end">
           <AnimatePresence>
             {isVisible && (
-              <motion.div 
-                initial={{ opacity: 0, x: 0, scale: 0.9 }} 
-                exit={{ opacity: 0, x: "120%", scale: 0.9 }} 
-                animate={{ opacity: 1, x: 0, scale: 1}}
-                transition={{ duration: 0.25, ease: "easeInOut" }}
-              >
+              <SlideIn direction={"right"}>
                 <DesignSVG className="w-[500px] h-[600px]" />
-              </motion.div>
+              </SlideIn>
             )}
           </AnimatePresence>
         </div>
@@ -43,14 +38,9 @@ export default function LogIn() {
         >
           <AnimatePresence>
             {isVisible && (
-              <motion.div
-                initial={{ opacity: 0, x: 0, scale: 0.9 }}
-                exit={{ opacity: 0, x: "-120%", scale: 0.9 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ duration: 0.25, ease: "easeInOut" }}
-              >
+              <SlideIn direction={"left"}>
                 <LoginForm onSignUpClick={handleNavigate} />
-              </motion.div>
+              </SlideIn>
             )}
           </AnimatePresence>
         </div>
