@@ -3,7 +3,7 @@
 import TileBackground from "../components/TileBackground";
 import DesignSVG from "../components/DesignSVG";
 import LoginForm from "./components/LoginForm";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SlideIn } from "../components/Animations";

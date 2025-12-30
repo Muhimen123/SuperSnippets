@@ -30,7 +30,6 @@ export default function ResetPasswordForm({ onSendCodeClick }) {
           </div>
 
           <button
-            href="/forgot_password/verification"
             className={`cursor-pointer w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center`}
             onClick={(event) => {
               event.preventDefault();
