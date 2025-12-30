@@ -3,9 +3,9 @@ import Logo from "../../components/Logo";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
 
-export default function SignUpForm() {
+export default function SignUpForm( {onLoginClick} ) {
   return (
-    <div className="w-full lg:w-1/2 flex items-center justify-end px-8 pr-24">
+    <div>
       <div className="w-full max-w-xs">
         <div className="mb-8 ml-18">
           <Link href="/">
@@ -54,9 +54,15 @@ export default function SignUpForm() {
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Already a Member?{" "}
-          <a href="/login" className="underline font-medium">
+          <button
+            className={`underline font-medium cursor-pointer`}
+            onClick={(event) => {
+              event.preventDefault();
+              onLoginClick();
+            }}
+          >
             LOG IN
-          </a>
+          </button>
         </p>
       </div>
     </div>
