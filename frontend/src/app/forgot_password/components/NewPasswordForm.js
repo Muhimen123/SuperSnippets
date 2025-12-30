@@ -2,9 +2,9 @@ import Link from "next/link";
 import Logo from "../../components/Logo";
 import PasswordField from "../../components/PasswordField";
 
-export default function NewPasswordForm() {
+export default function NewPasswordForm({ onConfirmClick }) {
   return (
-    <div className="w-full lg:w-1/2 flex items-center justify-end px-8 pr-24">
+    <div className="">
       <div className="w-full max-w-xs">
         <div className="mb-8">
           <Link href={"/"}>
@@ -24,12 +24,15 @@ export default function NewPasswordForm() {
             <PasswordField label="PASSWORD" showToggle={false} />
           </div>
 
-          <Link
-            href="/login"
-            className="block w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors text-center"
+          <button
+            className="cursor-pointer block w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors text-center"
+            onClick={(event) => {
+              event.preventDefault();
+              onConfirmClick();
+            }}
           >
             Confirm →
-          </Link>
+          </button>
         </form>
       </div>
     </div>
