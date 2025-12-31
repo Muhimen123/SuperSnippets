@@ -4,7 +4,7 @@ import Categories from './Categories';
 import ConfigBar from './configbar';
 import Settings from './settings';
 
-export default function ContentSection({ activeTool }) {
+export default function ContentSection({ activeTool, handleToolSelection }) {
   const renderContent = () => {
     switch (activeTool) {
       case 1:
@@ -20,7 +20,8 @@ export default function ContentSection({ activeTool }) {
       case 6:
         return <h1 className="text-3xl font-bold">Home</h1>;
       case 7:
-        return <Settings />;
+        // Pass onClose to switch back to the default tool (e.g., 1)
+        return <Settings onClose={() => handleToolSelection(1)} />;
       default:
         return <h1 className="text-3xl font-bold">Default - None</h1>;
     }
