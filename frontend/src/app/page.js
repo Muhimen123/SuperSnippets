@@ -82,7 +82,7 @@ function FeatureSection() {
   return (
     <div
       id="feature"
-      className={`flex flex-col items-center justify-center mb-5`}
+      className={`flex flex-col items-center justify-center mb-5 scroll-mt-32`}
     >
       <h3 className={`text-3xl font-bold mb-5`}>Our Features</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
@@ -115,7 +115,7 @@ function AboutSection() {
   return (
     <div
       id="about"
-      className={`flex flex-col gap-5 items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
+      className={`scroll-mt-32 flex flex-col gap-5 items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
     >
       <h3 className={`text-2xl font-bold mb-4`}>About Us</h3>
       <p className={`max-w-3xl text-center  px-4`}>
@@ -163,7 +163,7 @@ function ContributeSection() {
   return (
     <div
       id="contribute"
-      className={`flex flex-col items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
+      className={`scroll-mt-100 flex flex-col items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
     >
       <h3 className={`text-2xl font-bold mb-4`}>Contribute</h3>
       <p className={`max-w-3xl text-center text-gray-700 px-4`}>
