@@ -1,6 +1,7 @@
 "use client";
 
 import FeatureCard from "./components/FeatureCard";
+import MemberCard from "./components/MemberCard";
 import Navbar from "./components/NavBar";
 import TileBackground from "./components/TileBackground";
 
@@ -54,7 +55,7 @@ function GetStartedButton() {
         className={`
         group
         flex items-center gap-2 
-      bg-black text-white text-sm 
+        bg-black text-white text-sm 
         py-2 px-4 m-5
         rounded-lg hover:cursor-pointer
         ring-4 ring-gray-400
@@ -110,7 +111,7 @@ function FeatureSection() {
 function AboutSection() {
   return (
     <div
-      className={`flex flex-col items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
+      className={`flex flex-col gap-5 items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
     >
       <h3 className={`text-2xl font-bold mb-4`}>About Us</h3>
       <p className={`max-w-3xl text-center  px-4`}>
@@ -118,6 +119,17 @@ function AboutSection() {
         caffeinated individuals with a goal to making competitive programming
         easier and more accessible to a wider group of people.
       </p>
+      <div className={`grid grid-cols-1 m-2 lg:grid-cols-2 gap-2`}>
+        <MemberCard
+          image={"members/muhimen.png"}
+          name={"Al Muhimen"}
+          position={"Team Lead"}
+          quote={`Duniya tai ekta binary search`}
+        />
+        <MemberCard />
+        <MemberCard />
+        <MemberCard />
+      </div>
     </div>
   );
 }
