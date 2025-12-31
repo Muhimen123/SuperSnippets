@@ -119,16 +119,34 @@ function AboutSection() {
         caffeinated individuals with a goal to making competitive programming
         easier and more accessible to a wider group of people.
       </p>
-      <div className={`grid grid-cols-1 m-2 lg:grid-cols-2 gap-2`}>
+      <div className={`grid grid-cols-1 m-2 lg:grid-cols-2 gap-5`}>
         <MemberCard
           image={"members/muhimen.png"}
           name={"Al Muhimen"}
           position={"Team Lead"}
-          quote={`Duniya tai ekta binary search`}
+          quote={`"Duniya tai ekta binary search"`}
         />
-        <MemberCard />
-        <MemberCard />
-        <MemberCard />
+
+        <MemberCard
+          image={"members/asif.png"}
+          name={"Asif Rahman"}
+          position={"Member"}
+          quote={`No motivation but still works hard`}
+        />
+
+        <MemberCard
+          image={"members/sameen.png"}
+          name={"Sameen Abrar"}
+          position={"Member"}
+          quote={`Loves games and foods`}
+        />
+
+        <MemberCard
+          image={"members/rashed.png"}
+          name={"Rashedul Islam"}
+          position={"Member"}
+          quote={`Dengue patient`}
+        />
       </div>
     </div>
   );

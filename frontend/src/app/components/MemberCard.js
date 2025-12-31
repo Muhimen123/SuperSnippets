@@ -61,7 +61,9 @@ export default function MemberCard({
   linkedin,
 }) {
   return (
-    <div className={`bg-white border rounded-lg p-2 w-100`}>
+    <div
+      className={`bg-white hover:shadow-2xl hover:scale-105 border rounded-lg p-2 w-100`}
+    >
       <div className={`flex flex-row justify-start items-center gap-2`}>
         <div className={`basis-1/2`}>
           <MemberImage image={image} />
@@ -85,7 +87,7 @@ function InformationSection({ name, position, quote, fb, github, linkedin }) {
   return (
     <div className={`flex flex-col gap-3`}>
       <h1 className={`text-xl font-bold`}>{name}</h1>
-      <h2 className={`text-purple-500`}>{position}</h2>
+      <h2 className={`text-[#6236F5] text-sm`}>{position}</h2>
       <h3 className={`text-gray-600 italic`}>{quote}</h3>
       <div className={`flex gap-3`}>
         <LinkedInIcon className={`w-6 h-6 text-black`} />
