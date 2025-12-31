@@ -2,6 +2,7 @@ import GithubRepos from './githubrepos';
 import CodeSegment from "./CodeSegment";
 import Categories from './Categories';
 import ConfigBar from './configbar';
+import Settings from './settings';
 
 export default function ContentSection({ activeTool }) {
   const renderContent = () => {
@@ -19,7 +20,7 @@ export default function ContentSection({ activeTool }) {
       case 6:
         return <h1 className="text-3xl font-bold">Home</h1>;
       case 7:
-        return <h1 className="text-3xl font-bold">Settings</h1>;
+        return <Settings />;
       default:
         return <h1 className="text-3xl font-bold">Default - None</h1>;
     }
