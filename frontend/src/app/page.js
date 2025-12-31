@@ -125,6 +125,9 @@ function AboutSection() {
           name={"Al Muhimen"}
           position={"Team Lead"}
           quote={`"Duniya tai ekta binary search"`}
+          linkedin={`https://www.linkedin.com/in/al-muhimen-118588356/`}
+          github={`https://github.com/Muhimen123`}
+          fb={`https://www.facebook.com/al.muhimen/`}
         />
 
         <MemberCard

@@ -1,16 +1,4 @@
-// const FacebookIcon = ({ className }) => {
-//   <svg
-//     xmlns="http://www.w3.org/2000/svg"
-//     x="0px"
-//     y="0px"
-//     width="100"
-//     height="100"
-//     viewBox="0 0 50 50"
-//     className={className}
-//   >
-//     <path d="M25,3C12.85,3,3,12.85,3,25c0,11.03,8.125,20.137,18.712,21.728V30.831h-5.443v-5.783h5.443v-3.848 c0-6.371,3.104-9.168,8.399-9.168c2.536,0,3.877,0.188,4.512,0.274v5.048h-3.612c-2.248,0-3.033,2.131-3.033,4.533v3.161h6.588 l-0.894,5.783h-5.694v15.944C38.716,45.318,47,36.137,47,25C47,12.85,37.15,3,25,3z"></path>
-//   </svg>;
-// };
+import Link from "next/link";
 
 const FacebookIcon = ({ className }) => (
   <svg
@@ -28,8 +16,7 @@ const GithubIcon = ({ className }) => (
     xmlns="http://www.w3.org/2000/svg"
     x="0px"
     y="0px"
-    width="100"
-    height="100"
+    fill="currentColor"
     viewBox="0 0 30 30"
     className={className}
   >
@@ -42,8 +29,7 @@ const LinkedInIcon = ({ className }) => (
     xmlns="http://www.w3.org/2000/svg"
     x="0px"
     y="0px"
-    width="100"
-    height="100"
+    fill="currentColor"
     viewBox="0 0 50 50"
     className={className}
   >
@@ -89,10 +75,17 @@ function InformationSection({ name, position, quote, fb, github, linkedin }) {
       <h1 className={`text-xl font-bold`}>{name}</h1>
       <h2 className={`text-[#6236F5] text-sm`}>{position}</h2>
       <h3 className={`text-gray-600 italic`}>{quote}</h3>
+
       <div className={`flex gap-3`}>
-        <LinkedInIcon className={`w-6 h-6 text-black`} />
-        <GithubIcon className={`w-6 h-6 text-black`} />
-        <FacebookIcon className={`w-6 h-6 text-black`} />
+        <ProfileLink href={linkedin}>
+          <LinkedInIcon className={`w-6 h-6 text-gray-600 hover:text-black`} />
+        </ProfileLink>
+        <ProfileLink href={github}>
+          <GithubIcon className={`w-6 h-6 text-gray-600 hover:text-black`} />
+        </ProfileLink>
+        <ProfileLink href={fb}>
+          <FacebookIcon className={`w-6 h-6 text-gray-600 hover:text-black`} />
+        </ProfileLink>
       </div>
     </div>
   );
@@ -100,4 +93,17 @@ function InformationSection({ name, position, quote, fb, github, linkedin }) {
 
 function MemberImage({ image }) {
   return <img src={image} height={180} width={180}></img>;
+}
+
+function ProfileLink({ children, href }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`cursor-pointer hover:scale-105`}
+    >
+      {children}
+    </a>
+  );
 }
