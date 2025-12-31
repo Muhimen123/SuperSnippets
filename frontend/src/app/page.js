@@ -80,7 +80,10 @@ function GetStartedButton() {
 
 function FeatureSection() {
   return (
-    <div className={`flex flex-col items-center justify-center mb-5`}>
+    <div
+      id="feature"
+      className={`flex flex-col items-center justify-center mb-5`}
+    >
       <h3 className={`text-3xl font-bold mb-5`}>Our Features</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
         <FeatureCard
@@ -111,6 +114,7 @@ function FeatureSection() {
 function AboutSection() {
   return (
     <div
+      id="about"
       className={`flex flex-col gap-5 items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
     >
       <h3 className={`text-2xl font-bold mb-4`}>About Us</h3>
@@ -158,6 +162,7 @@ function AboutSection() {
 function ContributeSection() {
   return (
     <div
+      id="contribute"
       className={`flex flex-col items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
     >
       <h3 className={`text-2xl font-bold mb-4`}>Contribute</h3>
