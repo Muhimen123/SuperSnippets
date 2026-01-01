@@ -46,13 +46,16 @@ function TitleSection() {
 
       <motion.div
         animate={{ x: [0, 5, 0] }}
-        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
         className={`absolute bottom-[25%] right-[5%] w-30 h-30`}
       >
         <DottedGrid />
       </motion.div>
 
-      <motion.div className={`absolute bottom-[25%] left-[10%] w-20 h-20`}>
+      <motion.div 
+      animate={{ y: [0, 20, 0]}}
+      transition={{repeat: Infinity, duration: 2, ease: "easeInOut"}}
+      className={`absolute bottom-[25%] left-[10%] w-20 h-20`}>
         <UpwardArrow />
       </motion.div>
 
