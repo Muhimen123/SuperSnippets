@@ -1,7 +1,8 @@
 import GithubRepos from './githubrepos';
 import CodeSegment from "./CodeSegment";
 import Categories from './Categories';
-import ConfigBar from './configbar';
+import ConfigBar from './ConfigBar';
+
 import Settings from './Settings';
 
 export default function ContentSection({ activeTool, handleToolSelection }) {
