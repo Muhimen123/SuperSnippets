@@ -52,10 +52,11 @@ function TitleSection() {
         <DottedGrid />
       </motion.div>
 
-      <motion.div 
-      animate={{ y: [0, 20, 0]}}
-      transition={{repeat: Infinity, duration: 2, ease: "easeInOut"}}
-      className={`absolute bottom-[25%] left-[10%] w-20 h-20`}>
+      <motion.div
+        animate={{ y: [0, 20, 0] }}
+        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        className={`absolute bottom-[25%] left-[10%] w-20 h-20`}
+      >
         <UpwardArrow />
       </motion.div>
 
@@ -116,7 +117,21 @@ function TitleSection() {
       >
         <h1>The Perfect</h1>
         {/* TODO: Add hover effect, change it to C0deB00k and create an underline */}
-        <h1>CodeBook</h1>
+        <h1
+          className={`
+          inline-block
+          cursor-pointer
+          bg-[linear-gradient(currentColor,currentColor)]
+          bg-[length:0%_5px]
+          bg-left-bottom
+          bg-no-repeat
+          transition-[background-size]
+          duration-300
+          hover:bg-[length:100%_5px]
+        `}
+        >
+          CodeBook
+        </h1>
         <h1>Made Simple</h1>
       </div>
       <p className="mt-10 mb-10 text-md md:text-lg lg:text-xl max-w-4xl text-center text-gray-600">
