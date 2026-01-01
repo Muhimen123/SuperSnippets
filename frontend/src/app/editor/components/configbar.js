@@ -3,7 +3,7 @@ import React from 'react';
 const Input = (props) => (
   <input 
     {...props}
-    className="w-full bg-[#A3A3A3] text-black p-3 rounded-lg outline-none focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#999999] font-mono"
+    className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg outline-none focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#E5E5E5] font-mono"
   />
 );
 
@@ -11,7 +11,7 @@ const Select = ({ children, ...props }) => (
   <div className="relative">
     <select 
       {...props}
-      className="w-full bg-[#A3A3A3] text-black p-3 rounded-lg appearance-none outline-none focus:ring-2 focus:ring-black/20 transition-all cursor-pointer hover:bg-[#999999] font-mono"
+      className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg appearance-none outline-none focus:ring-2 focus:ring-black/20 transition-all cursor-pointer hover:bg-[#E5E5E5] font-mono"
     >
       {children}
     </select>
@@ -48,7 +48,7 @@ export default function ConfigBar() {
           <span className="text-xs opacity-60">0/100</span>
         </div>
         <textarea 
-          className="w-full bg-[#A3A3A3] text-black p-3 rounded-lg outline-none resize-none h-24 focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#999999] font-mono"
+          className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg outline-none resize-none h-24 focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#E5E5E5] font-mono"
           placeholder="Placeholder"
           maxLength={100}
         />

@@ -58,12 +58,12 @@ export default function ImportExport() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full gap-10 p-12">
+    <div className="flex flex-col items-center justify-center h-full w-full gap-10 p-10">
       <div
         className={`
-          w-full max-w-4xl h-80
+          w-full max-w-3xl h-64
           border-2 border-dashed border-gray-500 rounded-3xl
-          flex flex-col items-center justify-center gap-6
+          flex flex-col items-center justify-center gap-4
           transition-colors duration-200
           ${isDragOver ? "bg-gray-200" : "bg-transparent"}
         `}
@@ -71,7 +71,7 @@ export default function ImportExport() {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        <p className="font-mono text-base text-gray-600">
+        <p className="font-mono text-sm text-gray-600">
           Drop files here to import...
         </p>
         <input
@@ -83,7 +83,7 @@ export default function ImportExport() {
         />
         <button
           onClick={handleImportClick}
-          className="bg-black text-white px-8 py-3 rounded-full font-mono text-sm hover:scale-105 transition-transform shadow-lg"
+          className="bg-black text-white px-6 py-2 rounded-full font-mono text-xs hover:scale-105 transition-transform shadow-lg"
         >
           Import configuration file
         </button>
@@ -91,7 +91,7 @@ export default function ImportExport() {
 
       <button
         onClick={handleExportClick}
-        className="bg-black text-white px-8 py-3 rounded-full font-mono text-sm hover:scale-105 transition-transform shadow-lg"
+        className="bg-black text-white px-6 py-2 rounded-full font-mono text-xs hover:scale-105 transition-transform shadow-lg"
       >
         Export Configuration file
       </button>
