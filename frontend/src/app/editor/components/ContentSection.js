@@ -1,4 +1,5 @@
-import GithubRepos from './githubrepos';
+import React from "react";
+import GithubRepos from "./GithubRepos";
 import CodeSegment from "./CodeSegment";
 import Categories from './Categories';
 import ConfigBar from './Configbar';
