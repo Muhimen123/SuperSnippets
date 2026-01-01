@@ -75,55 +75,6 @@ function TitleSection() {
   );
 }
 
-function TitleSectionBoom() {
-  return (
-    <div className="relative w-full flex flex-col items-center justify-center min-h-screen overflow-hidden">
-      
-      {/* --- Artifacts Start --- */}
-      {/* Large Blurred Circle */}
-      <div className="absolute top-1/4 -left-20 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl animate-float" />
-      
-      {/* Floating Code Bracket Icon */}
-      <div className="absolute top-0 right-0 opacity-20 animate-float [animation-delay:1s]">
-         <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1">
-            <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
-         </svg>
-      </div>
-
-      {/* Floating Floating Square */}
-      
-      <div className="absolute bottom-1/4 left-[15%] w-12 h-12 border-2 border-gray-300 rotate-12 opacity-30 animate-float [animation-delay:2s]" />
-      {/* Floating Dots Pattern */}
-      <div className="absolute bottom-20 right-[20%] opacity-20 animate-float [animation-delay:0.5s]">
-        <div className="grid grid-cols-3 gap-2">
-          {[...Array(9)].map((_, i) => (
-            <div key={i} className="w-2 h-2 bg-black rounded-full" />
-          ))}
-        </div>
-      </div>
-      {/* --- Artifacts End --- */}
-
-      <div className="relative z-10 font-bold text-5xl md:text-7xl lg:text-9xl flex flex-col items-center justify-center">
-        <h1>The Perfect</h1>
-        <h1 className="relative">
-          CodeBook
-          <div className="absolute -bottom-2 left-0 w-full h-2 bg-black/10 -rotate-1" />
-        </h1>
-        <h1>Made Simple</h1>
-      </div>
-      
-      <p className="relative z-10 mt-10 mb-10 text-md md:text-lg lg:text-xl max-w-4xl text-center text-gray-600">
-        Easily generate codebooks from Github repositories or bring your own
-        code. Spend more time using the codebook than creating it!
-      </p>
-      
-      <div className="relative z-10">
-        <GetStartedButton />
-      </div>
-    </div>
-  );
-}
-
 function GetStartedButton() {
   const handleClick = () => {
     console.log("Button Beep boop");
