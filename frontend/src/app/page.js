@@ -36,77 +36,79 @@ function TitleSection() {
       className={`relative w-full flex flex-col items-center justify-center min-h-screen`}
     >
       {/* ARTIFACTS */}
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-        className={`absolute bottom-[5%] left-[25%] w-30 h-30`}
-      >
-        <DottedGrid />
-      </motion.div>
+      <div className={`hidden md:block`}>
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+          className={`absolute bottom-[5%] left-[25%] w-30 h-30`}
+        >
+          <DottedGrid />
+        </motion.div>
 
-      <motion.div
-        animate={{ x: [0, 5, 0] }}
-        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        className={`absolute bottom-[25%] right-[5%] w-30 h-30`}
-      >
-        <DottedGrid />
-      </motion.div>
+        <motion.div
+          animate={{ x: [0, 5, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          className={`absolute bottom-[25%] right-[5%] w-30 h-30`}
+        >
+          <DottedGrid />
+        </motion.div>
 
-      <motion.div
-        animate={{ y: [0, 20, 0] }}
-        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        className={`absolute bottom-[25%] left-[10%] w-20 h-20`}
-      >
-        <UpwardArrow />
-      </motion.div>
+        <motion.div
+          animate={{ y: [0, 20, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          className={`absolute bottom-[25%] left-[10%] w-20 h-20`}
+        >
+          <UpwardArrow />
+        </motion.div>
 
-      <div className={`absolute top-[15%] left-[5%] w-35 h-35`}>
-        <ZebraLines />
+        <div className={`absolute top-[15%] left-[5%] w-35 h-35`}>
+          <ZebraLines />
+        </div>
+
+        <motion.div
+          animate={{ rotate: 120 }}
+          transition={{
+            repeat: Infinity,
+            duration: 4,
+            ease: "linear",
+            repeatDelay: 8,
+          }}
+          style={{ transformOrigin: "center center" }}
+          className={`absolute top-[15%] right-[10%] w-20 h-20 flex items-center justify-center`}
+        >
+          <Cog01 />
+        </motion.div>
+
+        <motion.div
+          animate={{ rotate: 120 }}
+          transition={{
+            repeat: Infinity,
+            duration: 4,
+            delay: 8,
+            repeatDelay: 8,
+            ease: "linear",
+          }}
+          style={{ transformOrigin: "center center" }}
+          className={`absolute top-[25%] right-[8%] w-15 h-15 flex items-center justify-center`}
+        >
+          <Cog02 />
+        </motion.div>
+
+        <motion.div
+          animate={{ rotate: -120 }}
+          transition={{
+            repeat: Infinity,
+            delay: 4,
+            repeatDelay: 8,
+            duration: 4,
+            ease: "linear",
+          }}
+          style={{ transformOrigin: "center center" }}
+          className={`absolute top-[20%] right-[5%] w-10 h-10 flex items-center justify-center`}
+        >
+          <Cog03 />
+        </motion.div>
       </div>
-
-      <motion.div
-        animate={{ rotate: 120 }}
-        transition={{
-          repeat: Infinity,
-          duration: 4,
-          ease: "linear",
-          repeatDelay: 8,
-        }}
-        style={{ transformOrigin: "center center" }}
-        className={`absolute top-[15%] right-[10%] w-20 h-20 flex items-center justify-center`}
-      >
-        <Cog01 />
-      </motion.div>
-
-      <motion.div
-        animate={{ rotate: 120 }}
-        transition={{
-          repeat: Infinity,
-          duration: 4,
-          delay: 8,
-          repeatDelay: 8,
-          ease: "linear",
-        }}
-        style={{ transformOrigin: "center center" }}
-        className={`absolute top-[25%] right-[8%] w-15 h-15 flex items-center justify-center`}
-      >
-        <Cog02 />
-      </motion.div>
-
-      <motion.div
-        animate={{ rotate: -120 }}
-        transition={{
-          repeat: Infinity,
-          delay: 4,
-          repeatDelay: 8,
-          duration: 4,
-          ease: "linear",
-        }}
-        style={{ transformOrigin: "center center" }}
-        className={`absolute top-[20%] right-[5%] w-10 h-10 flex items-center justify-center`}
-      >
-        <Cog03 />
-      </motion.div>
 
       {/* ARTIFACTS */}
       <div
