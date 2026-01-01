@@ -4,7 +4,7 @@ import FeatureCard from "./components/FeatureCard";
 import MemberCard from "./components/MemberCard";
 import Navbar from "./components/NavBar";
 import TileBackground from "./components/TileBackground";
-import {DottedGrid} from "./components/Artifacts"
+import {DottedGrid, UpwardArrow, ZebraLines, Cog01, Cog02, Cog03} from "./components/Artifacts"
 
 export default function Home() {
   return (
@@ -12,7 +12,7 @@ export default function Home() {
       <TileBackground>
         <Navbar />
         <div className={`flex flex-col items-center justify-center`}>
-          <TitleSectionBoom />
+          <TitleSection />
           <FeatureSection />
           <AboutSection />
           <ContributeSection />
@@ -24,8 +24,36 @@ export default function Home() {
 
 function TitleSection() {
   return (
-    <div className={`relative flex flex-col items-center justify-center min-h-screen`}>
+    <div className={`relative w-full flex flex-col items-center justify-center min-h-screen`}>
       {/* ARTIFACTS */}
+      <div className={`absolute bottom-[5%] left-[25%] w-30 h-30`}>
+        <DottedGrid />
+      </div>
+
+      <div className={`absolute bottom-[25%] right-[5%] w-30 h-30`}>
+        <DottedGrid />
+      </div>
+
+      <div className={`absolute bottom-[25%] left-[10%] w-20 h-20`}>
+        <UpwardArrow />
+      </div>
+
+      <div className={`absolute top-[15%] left-[5%] w-35 h-35`}>
+        <ZebraLines />
+      </div>
+
+      <div className={`absolute top-[15%] right-[10%] w-20 h-20`}>
+        <Cog01 />
+      </div>
+
+      <div className={`absolute top-[25%] right-[8%] w-15 h-15`}>
+        <Cog02 />
+      </div>
+
+      <div className={`absolute top-[20%] right-[5%] w-10 h-10`}>
+        <Cog03 />
+      </div>
+
       {/* ARTIFACTS */}
       <div
         className={`
@@ -49,14 +77,14 @@ function TitleSection() {
 
 function TitleSectionBoom() {
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
+    <div className="relative w-full flex flex-col items-center justify-center min-h-screen overflow-hidden">
       
       {/* --- Artifacts Start --- */}
       {/* Large Blurred Circle */}
       <div className="absolute top-1/4 -left-20 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl animate-float" />
       
       {/* Floating Code Bracket Icon */}
-      <div className="absolute top-20 right-0 opacity-20 animate-float [animation-delay:1s]">
+      <div className="absolute top-0 right-0 opacity-20 animate-float [animation-delay:1s]">
          <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1">
             <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
          </svg>
@@ -66,7 +94,7 @@ function TitleSectionBoom() {
       
       <div className="absolute bottom-1/4 left-[15%] w-12 h-12 border-2 border-gray-300 rotate-12 opacity-30 animate-float [animation-delay:2s]" />
       {/* Floating Dots Pattern */}
-      <div className="absolute bottom-20 right-20 opacity-20 animate-float [animation-delay:0.5s]">
+      <div className="absolute bottom-20 right-[20%] opacity-20 animate-float [animation-delay:0.5s]">
         <div className="grid grid-cols-3 gap-2">
           {[...Array(9)].map((_, i) => (
             <div key={i} className="w-2 h-2 bg-black rounded-full" />
