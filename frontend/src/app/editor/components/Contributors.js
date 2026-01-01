@@ -8,21 +8,21 @@ export default function Contributors() {
     { name: "Karim Mia", id: 3 },
   ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newGithubLink, setNewGithubLink] = useState("");
+  const [newEmail, setNewEmail] = useState("");
 
   const handleRemove = (id) => {
     setContributors((prev) => prev.filter((c) => c.id !== id));
   };
 
   const handleAdd = () => {
-    if (newGithubLink.trim()) {
-      // Extract name from link or use a placeholder for now
-      const name = newGithubLink.split("/").pop() || "New Contributor";
+    if (newEmail.trim()) {
+      // Extract name from email
+      const name = newEmail.split("@")[0] || "New Contributor";
       setContributors((prev) => [
         ...prev,
         { name: name, id: Date.now() },
       ]);
-      setNewGithubLink("");
+      setNewEmail("");
       setIsModalOpen(false);
     }
   };
@@ -73,10 +73,10 @@ export default function Contributors() {
           <div className="bg-white p-8 rounded-2xl shadow-xl w-96 font-mono">
             <h3 className="text-lg font-bold mb-4">Add Contributor</h3>
             <input
-              type="text"
-              placeholder="GitHub Account Link"
-              value={newGithubLink}
-              onChange={(e) => setNewGithubLink(e.target.value)}
+              type="email"
+              placeholder="Email Address"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
               className="w-full bg-gray-100 p-3 rounded-lg mb-6 outline-none focus:ring-2 focus:ring-black/20"
               autoFocus
             />
