@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RepoModal from './repoModal';
+import RepoModal from './RepoModal';
 
 export const repos = [
 	"ShahjalalShohag/code-library",
