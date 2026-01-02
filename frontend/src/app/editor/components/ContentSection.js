@@ -17,7 +17,7 @@ export default function ContentSection({ activeTool, handleToolSelection }) {
       case 4:
         return <ConfigBar />;
       case 5:
-        return <h1 className="text-3xl font-bold">Download</h1>;
+        return <div className="w-0"></div>;
       case 6:
         return <h1 className="text-3xl font-bold">Home</h1>;
       case 7:
