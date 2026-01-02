@@ -13,17 +13,17 @@ export default function ActivityLog() {
   ];
 
   return (
-    <div className="p-5 w-full h-full overflow-y-auto">
+    <div className="px-5 py-5 w-full h-full overflow-y-auto custom-scrollbar">
       <div className="space-y-2">
         {logs.map((log, index) => (
           <div key={index} className="bg-white p-3 rounded-lg flex justify-between items-center shadow-sm">
             <div>
-              <div className="font-mono font-bold text-xs">{log.name}</div>
-              <div className="font-mono text-[10px] text-gray-500">{log.handle}</div>
+              <div className="font-mono font-bold text-sm">{log.name}</div>
+              <div className="font-mono text-xs text-gray-500">{log.handle}</div>
             </div>
             <div className="text-right">
-              <div className="font-mono font-bold text-xs">{log.action}</div>
-              <div className="font-mono text-[10px] text-gray-500">{log.date}</div>
+              <div className="font-mono font-bold text-sm">{log.action}</div>
+              <div className="font-mono text-xs text-gray-500">{log.date}</div>
             </div>
           </div>
         ))}

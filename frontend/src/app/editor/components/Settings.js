@@ -15,11 +15,11 @@ export default function Settings({ onClose }) {
       onClick={onClose}
     >
       <div 
-        className="bg-[#E5E5E5] w-[85%] max-w-5xl h-[80%] rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+        className="bg-[#E5E5E5] w-[60%] max-w-[60%] h-[70%] max-h-[540px] rounded-3xl shadow-2xl flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header / Tabs */}
-        <div className="px-24 pt-18 pb-0 border-b border-gray-400">
+        <div className="px-8 pt-8 pb-0 border-b border-gray-400">
           <div className="flex gap-8">
             {tabs.map((tab) => (
               <button
@@ -40,8 +40,8 @@ export default function Settings({ onClose }) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 bg-[#E5E5E5] mx-24 mt-5 mb-18 overflow-hidden border-1 border-black relative shadow-inner">
-          {activeTab === "Import/Export" && <ImportExport />}
+        <div className="flex-1 bg-[#E5E5E5] mx-8 mt-5 mb-8 overflow-hidden border-1 border-black rounded-2xl relative shadow-inner">
+          {activeTab === "Import/Export" && <ImportExport onClose={onClose} />}
           {activeTab === "Contributors" && <Contributors />}
           {activeTab === "Activity Log" && <ActivityLog />}
         </div>

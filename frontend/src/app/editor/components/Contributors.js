@@ -10,22 +10,34 @@ export default function Contributors() {
   ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newEmail, setNewEmail] = useState("");
+  const [error, setError] = useState("");
 
   const handleRemove = (id) => {
     setContributors((prev) => prev.filter((c) => c.id !== id));
   };
 
   const handleAdd = () => {
-    if (newEmail.trim()) {
-      // Extract name from email
-      const name = newEmail.split("@")[0] || "New Contributor";
-      setContributors((prev) => [
-        ...prev,
-        { name: name, id: Date.now() },
-      ]);
-      setNewEmail("");
-      setIsModalOpen(false);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!newEmail.trim()) {
+      setError("Email is required");
+      return;
     }
+
+    if (!emailRegex.test(newEmail)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    // Extract name from email
+    const name = newEmail.split("@")[0] || "New Contributor";
+    setContributors((prev) => [
+      ...prev,
+      { name: name, id: Date.now() },
+    ]);
+    setNewEmail("");
+    setError("");
+    setIsModalOpen(false);
   };
 
   return (
@@ -56,7 +68,11 @@ export default function Contributors() {
         ))}
 
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setIsModalOpen(true);
+            setNewEmail("");
+            setError("");
+          }}
           className="bg-[#F5F5F5] rounded-2xl p-4 flex items-center gap-3 hover:bg-gray-200 transition-colors text-left shadow-sm h-[72px]"
         >
           <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
@@ -77,10 +93,14 @@ export default function Contributors() {
               type="email"
               placeholder="Email Address"
               value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              className="w-full bg-gray-100 p-2 text-sm rounded-lg mb-6 outline-none focus:ring-2 focus:ring-black/20"
+              onChange={(e) => {
+                setNewEmail(e.target.value);
+                setError("");
+              }}
+              className={`w-full bg-gray-100 p-2 text-sm rounded-lg outline-none focus:ring-2 focus:ring-black/20 ${error ? 'border border-red-500 mb-2' : 'mb-6'}`}
               autoFocus
             />
+            {error && <p className="text-red-500 text-xs mb-4">{error}</p>}
             <div className="flex gap-3 text-sm">
               <button 
                 onClick={() => setIsModalOpen(false)}
