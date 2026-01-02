@@ -24,6 +24,7 @@ export default function Home() {
           <FeatureSection />
           <AboutSection />
           <ContributeSection />
+          <Footer />
         </div>
       </TileBackground>
     </div>
@@ -274,5 +275,29 @@ function ContributeSection() {
         repository to learn how you can contribute to the project.
       </p>
     </div>
+  );
+}
+
+function Footer() {
+  const handleClick = () => {
+    window.open("https://github.com/Muhimen123/SuperSnippets", "_blank");
+  };
+  return (
+    <footer className="w-full bg-black text-white mt-8">
+      <div className="max-w-6xl mx-auto px-6 py-10">
+        <div className="flex flex-col items-center gap-6">
+          <nav className="flex flex-wrap items-center justify-center gap-6 text-sm">
+            <a href="#about" className="text-white/80 hover:text-white">About</a>
+            <a href="#feature" className="text-white/80 hover:text-white">Features</a>
+            <a href="#about" className="text-white/80 hover:text-white">Team</a>
+            <a onClick={handleClick} className="cursor-pointer ml-2 inline-block bg-white text-black px-4 py-1 rounded-full">Contact Us</a>
+          </nav>
+
+          <div className="w-full border-t border-white/10 mt-4 pt-4 text-center text-xs text-white/60">
+            © {new Date().getFullYear()} Team MARS. All Rights Reserved.
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }
