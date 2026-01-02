@@ -18,7 +18,10 @@ export default function Editor() {
         handleToolSelection={handleToolSelection}
       />
       <div className="flex-1 flex flex-col">
-        <ContentSection activeTool={currentTool} />
+        <ContentSection
+          activeTool={currentTool}
+          handleToolSelection={handleToolSelection}
+        />
       </div>
     </div>
   );
