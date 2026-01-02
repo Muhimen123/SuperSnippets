@@ -24,7 +24,7 @@ export default function ContentSection({ activeTool, handleToolSelection }) {
         // Pass onClose to switch back to the default tool (e.g., 1)
         return <Settings onClose={() => handleToolSelection(1)} />;
       default:
-        return <h1 className="text-3xl font-bold">Default - None</h1>;
+        return <div className="w-0"></div>;
     }
   };
 

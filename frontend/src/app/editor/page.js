@@ -20,7 +20,7 @@ export default function Editor() {
       />
       <div className={`flex flex-1 overflow-hidden`}>
         <div>
-          <ContentSection activeTool={currentTool} />
+          <ContentSection activeTool={currentTool} handleToolSelection={handleToolSelection} />
         </div>
         <div className={`flex-1 relative w-full h-full`}>
           <PDFSection />
