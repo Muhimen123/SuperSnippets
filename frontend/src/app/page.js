@@ -33,7 +33,7 @@ export default function Home() {
 function TitleSection() {
   return (
     <div
-      className={`relative w-full flex flex-col items-center justify-center min-h-screen`}
+      className={`scroll-mt-[-16] relative w-full flex flex-col items-center justify-center min-h-screen`}
     >
       {/* ARTIFACTS */}
       <div className={`hidden md:block`}>
@@ -124,12 +124,12 @@ function TitleSection() {
           inline-block
           cursor-pointer
           bg-[linear-gradient(currentColor,currentColor)]
-          bg-[length:0%_5px]
-          bg-left-bottom
+          bg-size-[0%_5px]
+          bg-bottom-left
           bg-no-repeat
           transition-[background-size]
           duration-300
-          hover:bg-[length:100%_5px]
+          hover:bg-size-[100%_5px]
         `}
         >
           CodeBook

@@ -7,7 +7,7 @@ import IconButton from "./IconButton";
 import { useState } from "react";
 
 const navLink = [
-  { name: "Home", href: "#home", id: "home" },
+  { name: "Home", href: "/", id: "home" },
   { name: "Features", href: "#feature", id: "feature" },
   { name: "About Us", href: "#about", id: "about" },
   { name: "Contribute", href: "#contribute", id: "contribute" },
