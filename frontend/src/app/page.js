@@ -4,6 +4,15 @@ import FeatureCard from "./components/FeatureCard";
 import MemberCard from "./components/MemberCard";
 import Navbar from "./components/NavBar";
 import TileBackground from "./components/TileBackground";
+import {
+  DottedGrid,
+  UpwardArrow,
+  ZebraLines,
+  Cog01,
+  Cog02,
+  Cog03,
+} from "./components/Artifacts";
+import { motion } from "framer-motion";
 
 export default function Home() {
   return (
@@ -23,15 +32,108 @@ export default function Home() {
 
 function TitleSection() {
   return (
-    <div className={`flex flex-col items-center justify-center min-h-screen`}>
+    <div
+      className={`scroll-mt-[-16] relative w-full flex flex-col items-center justify-center min-h-screen`}
+    >
+      {/* ARTIFACTS */}
+      <div className={`hidden md:block`}>
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+          className={`absolute bottom-[5%] left-[25%] w-30 h-30`}
+        >
+          <DottedGrid />
+        </motion.div>
+
+        <motion.div
+          animate={{ x: [0, 5, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          className={`absolute bottom-[25%] right-[5%] w-30 h-30`}
+        >
+          <DottedGrid />
+        </motion.div>
+
+        <motion.div
+          animate={{ y: [0, 20, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          className={`absolute bottom-[25%] left-[10%] w-20 h-20`}
+        >
+          <UpwardArrow />
+        </motion.div>
+
+        <div className={`absolute top-[15%] left-[5%] w-35 h-35`}>
+          <ZebraLines />
+        </div>
+
+        <motion.div
+          animate={{ rotate: 120 }}
+          transition={{
+            repeat: Infinity,
+            duration: 4,
+            ease: "linear",
+            repeatDelay: 8,
+          }}
+          style={{ transformOrigin: "center center" }}
+          className={`absolute top-[15%] right-[10%] w-20 h-20 flex items-center justify-center`}
+        >
+          <Cog01 />
+        </motion.div>
+
+        <motion.div
+          animate={{ rotate: 120 }}
+          transition={{
+            repeat: Infinity,
+            duration: 4,
+            delay: 8,
+            repeatDelay: 8,
+            ease: "linear",
+          }}
+          style={{ transformOrigin: "center center" }}
+          className={`absolute top-[25%] right-[8%] w-15 h-15 flex items-center justify-center`}
+        >
+          <Cog02 />
+        </motion.div>
+
+        <motion.div
+          animate={{ rotate: -120 }}
+          transition={{
+            repeat: Infinity,
+            delay: 4,
+            repeatDelay: 8,
+            duration: 4,
+            ease: "linear",
+          }}
+          style={{ transformOrigin: "center center" }}
+          className={`absolute top-[20%] right-[5%] w-10 h-10 flex items-center justify-center`}
+        >
+          <Cog03 />
+        </motion.div>
+      </div>
+
+      {/* ARTIFACTS */}
       <div
         className={`
+          relative
           font-bold text-5xl md:text-7xl lg:text-9xl 
           flex flex-col items-center justify-center`}
       >
         <h1>The Perfect</h1>
         {/* TODO: Add hover effect, change it to C0deB00k and create an underline */}
-        <h1>CodeBook</h1>
+        <h1
+          className={`
+          inline-block
+          cursor-pointer
+          bg-[linear-gradient(currentColor,currentColor)]
+          bg-size-[0%_5px]
+          bg-bottom-left
+          bg-no-repeat
+          transition-[background-size]
+          duration-300
+          hover:bg-size-[100%_5px]
+        `}
+        >
+          CodeBook
+        </h1>
         <h1>Made Simple</h1>
       </div>
       <p className="mt-10 mb-10 text-md md:text-lg lg:text-xl max-w-4xl text-center text-gray-600">
@@ -80,7 +182,10 @@ function GetStartedButton() {
 
 function FeatureSection() {
   return (
-    <div className={`flex flex-col items-center justify-center mb-5`}>
+    <div
+      id="feature"
+      className={`flex flex-col items-center justify-center mb-5 scroll-mt-32`}
+    >
       <h3 className={`text-3xl font-bold mb-5`}>Our Features</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
         <FeatureCard
@@ -111,7 +216,8 @@ function FeatureSection() {
 function AboutSection() {
   return (
     <div
-      className={`flex flex-col gap-5 items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
+      id="about"
+      className={`scroll-mt-32 flex flex-col gap-5 items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
     >
       <h3 className={`text-2xl font-bold mb-4`}>About Us</h3>
       <p className={`max-w-3xl text-center  px-4`}>
@@ -158,7 +264,8 @@ function AboutSection() {
 function ContributeSection() {
   return (
     <div
-      className={`flex flex-col items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
+      id="contribute"
+      className={`scroll-mt-100 flex flex-col items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
     >
       <h3 className={`text-2xl font-bold mb-4`}>Contribute</h3>
       <p className={`max-w-3xl text-center text-gray-700 px-4`}>

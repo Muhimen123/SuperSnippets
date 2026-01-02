@@ -70,7 +70,7 @@ function ToolbarElement({
         className={`
           absolute left-0 w-1 bg-white transition-all duration-300 rounded-r
           ${selected ? "h-10 opacity-100" : "h-0 opacity-0"}
-					group-hover:h-10 group-hover:${selected ? "opacity-100" : "opacity-50"}
+					group-hover:h-10 ${selected ? "group-hover:opacity-100" : "group-hover:opacity-50"}
         `}
       ></div>
 
