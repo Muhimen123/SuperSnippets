@@ -55,7 +55,7 @@ function TitleSection() {
 
         <motion.div
           animate={{ y: [0, 20, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
           className={`absolute bottom-[25%] left-[10%] w-20 h-20`}
         >
           <UpwardArrow />
@@ -69,9 +69,9 @@ function TitleSection() {
           animate={{ rotate: 120 }}
           transition={{
             repeat: Infinity,
-            duration: 4,
+            duration: 6,
             ease: "linear",
-            repeatDelay: 8,
+            // repeatDelay: 8,
           }}
           style={{ transformOrigin: "center center" }}
           className={`absolute top-[15%] right-[10%] w-20 h-20 flex items-center justify-center`}
@@ -83,9 +83,9 @@ function TitleSection() {
           animate={{ rotate: 120 }}
           transition={{
             repeat: Infinity,
-            duration: 4,
-            delay: 8,
-            repeatDelay: 8,
+            duration: 10,
+            /*delay: 8,
+            repeatDelay: 8,*/
             ease: "linear",
           }}
           style={{ transformOrigin: "center center" }}
@@ -98,9 +98,9 @@ function TitleSection() {
           animate={{ rotate: -120 }}
           transition={{
             repeat: Infinity,
-            delay: 4,
-            repeatDelay: 8,
-            duration: 4,
+            // delay: 4,
+            // repeatDelay: 8,
+            duration: 8,
             ease: "linear",
           }}
           style={{ transformOrigin: "center center" }}
@@ -122,7 +122,6 @@ function TitleSection() {
         <h1
           className={`
           inline-block
-          cursor-pointer
           bg-[linear-gradient(currentColor,currentColor)]
           bg-size-[0%_5px]
           bg-bottom-left
