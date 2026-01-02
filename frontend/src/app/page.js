@@ -2,7 +2,6 @@
 
 import FeatureCard from "./components/FeatureCard";
 import MemberCard from "./components/MemberCard";
-import { TwitterIcon, FacebookIcon, GithubIcon } from "./components/FooterIcons";
 import Navbar from "./components/NavBar";
 import TileBackground from "./components/TileBackground";
 import {
