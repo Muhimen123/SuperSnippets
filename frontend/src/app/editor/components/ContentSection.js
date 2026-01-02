@@ -1,4 +1,4 @@
-import GithubRepos from './githubrepos';
+import GithubRepos from './GithubRepos';
 import CodeSegment from "./CodeSegment";
 import Categories from './Categories';
 import ConfigBar from './ConfigBar';
