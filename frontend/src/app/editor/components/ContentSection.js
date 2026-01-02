@@ -2,7 +2,7 @@ import React from "react";
 import GithubRepos from "./GithubRepos";
 import CodeSegment from "./CodeSegment";
 import Categories from './Categories';
-import ConfigBar from './Configbar';
+import ConfigBar from './ConfigBar';
 import Settings from './Settings';
 
 export default function ContentSection({ activeTool, handleToolSelection }) {
