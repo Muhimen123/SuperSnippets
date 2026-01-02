@@ -20,6 +20,7 @@ export default function PDFSection({ codeData }) {
       config={{
         src: instance.url,
         theme: { preference: "light" },
+        disabledCategories: ['annotation', 'document-print', 'export', 'redaction'],
       }}
       style={{ width: "100%", height: "100%" }}
     />

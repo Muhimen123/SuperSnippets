@@ -19,12 +19,6 @@ const CodeBookDocument = ({ title, snippets, columnCount = 2 }) => (
           </View>
         ))}
       </View>
-
-      <Text
-        style={styles.pageNumber}
-        render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
-        fixed
-      />
     </Page>
   </Document>
 );
