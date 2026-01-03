@@ -2,8 +2,16 @@ import Link from "next/link";
 import Logo from "../../components/Logo";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm( {onLoginClick} ) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push('/login');
+    // TODO: For any kind of logiv validation, consider working here
+  }
+
   return (
     <div>
       <div className="w-full max-w-xs">
@@ -47,6 +55,7 @@ export default function SignUpForm( {onLoginClick} ) {
           <button
             type="submit"
             className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors"
+            onClick={handleClick}
           >
             Sign Up &rarr;
           </button>

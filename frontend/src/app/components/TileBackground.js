@@ -3,7 +3,7 @@ export default function TileBackground({children}) {
     <div className="relative min-h-screen overflow-hidden">
       <div
         className={`
-            absolute -inset-[20%] 
+            absolute -inset-[200%] 
             bg-repeat
             bg-size-[1920px_200px]
             opacity-10
@@ -14,7 +14,7 @@ export default function TileBackground({children}) {
       />
       <div
         className={`
-            absolute -inset-[20%] 
+            absolute -inset-[200%] 
             bg-repeat
             bg-size-[1920px_200px]
             translate-y-15   /*  Shifts it down to show the overlap */
