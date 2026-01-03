@@ -116,8 +116,8 @@ function TitleSection() {
       <div
         className={`
           relative
-          font-bold text-5xl md:text-7xl lg:text-9xl 
-          flex flex-col items-center justify-center`}
+          font-bold text-6xl md:text-7xl lg:text-9xl 
+          flex flex-col items-start px-50 md:items-center md:px-0 justify-center`}
       >
         <h1>The Perfect</h1>
         {/* TODO: Add hover effect, change it to C0deB00k and create an underline */}
@@ -158,7 +158,7 @@ function GetStartedButton() {
         className={`
         group
         flex items-center gap-2 
-        bg-black text-white text-sm 
+        bg-black text-white text-lg 
         py-2 px-4 m-5
         rounded-lg hover:cursor-pointer
         ring-4 ring-gray-400
