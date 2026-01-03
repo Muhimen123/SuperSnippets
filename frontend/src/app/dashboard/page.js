@@ -31,12 +31,14 @@ export default function Dashboard() {
 					searchQuery={searchQuery}
 					setSearchQuery={setSearchQuery}
 					codebooks={codebooks}
+					selectedCodebookId={selectedCodebookId}
 					setSelectedCodebookId={setSelectedCodebookId}
 				/>
 				<MobileNavbar
 					searchQuery={searchQuery}
 					setSearchQuery={setSearchQuery}
 					codebooks={codebooks}
+					selectedCodebookId={selectedCodebookId}
 					setSelectedCodebookId={setSelectedCodebookId}
 				/>
 				<div>
@@ -50,7 +52,7 @@ export default function Dashboard() {
 	);
 }
 
-function DesktopNavbar({ searchQuery, setSearchQuery, codebooks, setSelectedCodebookId }) {
+function DesktopNavbar({ searchQuery, setSearchQuery, codebooks, selectedCodebookId, setSelectedCodebookId }) {
 	return (
 		<nav
 			className={`
@@ -64,6 +66,7 @@ function DesktopNavbar({ searchQuery, setSearchQuery, codebooks, setSelectedCode
 				searchQuery={searchQuery}
 				setSearchQuery={setSearchQuery}
 				codebooks={codebooks}
+				selectedCodebookId={selectedCodebookId}
 				setSelectedCodebookId={setSelectedCodebookId}
 			/>
 			<AccountIcon />
@@ -71,7 +74,7 @@ function DesktopNavbar({ searchQuery, setSearchQuery, codebooks, setSelectedCode
 	);
 }
 
-function MobileNavbar({ searchQuery, setSearchQuery, codebooks, setSelectedCodebookId }) {
+function MobileNavbar({ searchQuery, setSearchQuery, codebooks, selectedCodebookId, setSelectedCodebookId }) {
 	return (
 		<nav
 			className={`
@@ -86,6 +89,7 @@ function MobileNavbar({ searchQuery, setSearchQuery, codebooks, setSelectedCodeb
 					searchQuery={searchQuery}
 					setSearchQuery={setSearchQuery}
 					codebooks={codebooks}
+					selectedCodebookId={selectedCodebookId}
 					setSelectedCodebookId={setSelectedCodebookId}
 				/>
 			</div>

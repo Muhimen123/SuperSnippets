@@ -12,7 +12,7 @@ export default function Content({ codebooks, selectedCodebookId }) {
 
 	return (
 		<div className="mt-48 w-full max-w-7xl px-6 mb-20 mx-auto">
-			<div className="flex justify-between items-end mb-6">
+			<div className="flex justify-between items-end mb-6 px-4">
 				<h1 className="text-3xl font-mono font-bold tracking-tight">Codebooks</h1>
 				<button
 					onClick={() => setIsCreateModalOpen(true)}
@@ -24,7 +24,7 @@ export default function Content({ codebooks, selectedCodebookId }) {
 
 			<div className="w-full font-mono">
 				{/* Headers */}
-				<div className="grid grid-cols-12 gap-4 px-6 py-3 text-xs text-gray-500 uppercase tracking-wider font-semibold">
+				<div className="grid grid-cols-12 gap-4 px-6 pb-2 text-xs text-gray-500 uppercase tracking-wider font-semibold">
 					<div className="col-span-2">Serial No.</div>
 					<div className="col-span-4">Codebook Name</div>
 					<div className="col-span-3">Owner</div>
@@ -32,7 +32,7 @@ export default function Content({ codebooks, selectedCodebookId }) {
 				</div>
 
 				{/* List */}
-				<Link href={'/editor'} className="space-y-3 overflow-y-auto max-h-[60vh] p-2 custom-scrollbar">
+				<Link href={'/editor'} className="block space-y-3 overflow-y-auto max-h-[60vh] px-2 pb-2 custom-scrollbar">
 					{filteredCodebooks.map((book) => (
 						<div
 							key={book.id}
