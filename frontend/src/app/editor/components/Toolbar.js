@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import { getPDF } from "@/utility/pdf/PDF_Engine";
 
 export default function Toolbar({ currentTool, handleToolSelection }) {
   const primaryTools = [
@@ -68,9 +69,19 @@ function ToolbarElement({
         const targetToolKey = selected ? 0 : toolKey;
         if (toolKey === 6) {
           router.push("/dashboard");
-        } else {
-          handleToolSelection(targetToolKey);
+          return;
         }
+
+        if (toolKey === 5) {
+          try {
+            getPDF();
+          } catch (error) {
+            console.log("Error occured when downloading file");
+          }
+          return;
+        }
+
+        handleToolSelection(targetToolKey);
       }}
     >
       <div
