@@ -116,7 +116,7 @@ function TitleSection() {
       <div
         className={`
           relative
-          font-bold text-6xl md:text-7xl lg:text-9xl 
+          font-bold text-7xl md:text-7xl lg:text-9xl 
           flex flex-col items-start px-50 md:items-center md:px-0 justify-center`}
       >
         <h1>The Perfect</h1>
