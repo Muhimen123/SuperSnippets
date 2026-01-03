@@ -1,6 +1,14 @@
-export default function FinalCheck() {
+export default function FinalCheck({ repos, files }) {
+  const getRepoName = (url) => {
+    try {
+      const parts = url.replace(/\/$/, "").split("/");
+      return parts[parts.length - 1];
+    } catch (e) {
+      return url;
+    }
+  };
+
   const summaryData = {
-    githubRepos: "Katao",
     margin: "20",
     font: "Andika",
     fontSize: "12",
@@ -13,7 +21,10 @@ export default function FinalCheck() {
       <div className="rounded-3xl px-16 py-12 min-h-[300px]" style={{ backgroundColor: '#d9d9d9' }}>
         <div className="space-y-6 text-sm font-mono">
           <div>
-            Github Repos selected: {summaryData.githubRepos}
+            Github Repos selected: {repos?.map(getRepoName).join(", ")}
+          </div>
+          <div>
+            Files uploaded: {files?.map(f => f.name).join(", ")}
           </div>
           <div>
             Margin: {summaryData.margin}
