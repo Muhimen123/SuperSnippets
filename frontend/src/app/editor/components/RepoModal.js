@@ -1,34 +1,114 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { MOCK_REPO_DATABASE } from "@/utility/mockRepoDatabase";
 
-export default function RepoModal({ isOpen, onClose }) {
+export default function RepoModal({ isOpen, onClose, onRepoAdded }) {
+    const [githubUrl, setGithubUrl] = useState("");
+    const [addedRepos, setAddedRepos] = useState([]);
+    const [error, setError] = useState("");
+
     if (!isOpen) return null;
+
+    const validateGitHubUrl = (url) => {
+        const regex = /^https?:\/\/(www\.)?github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/?$/;
+        return regex.test(url);
+    };
+
+    const extractRepoName = (url) => {
+        const parts = url.replace(/\/$/, "").split("/");
+        return `${parts[parts.length - 2]}/${parts[parts.length - 1]}`;
+    };
+
+    const handleAddAnother = () => {
+        setError("");
+        if (githubUrl.trim()) {
+            if (!validateGitHubUrl(githubUrl)) {
+                setError("Invalid GitHub repository URL. Format: https://github.com/user/repo");
+                return;
+            }
+
+            if (addedRepos.length < 3) {
+                const repoName = extractRepoName(githubUrl);
+                
+                // Add to local list for display
+                setAddedRepos([...addedRepos, githubUrl]);
+                
+                // Add to mock database
+                if (!MOCK_REPO_DATABASE.includes(repoName)) {
+                    MOCK_REPO_DATABASE.push(repoName);
+                }
+
+                // Notify parent
+                if (onRepoAdded) {
+                    onRepoAdded(repoName);
+                }
+
+                setGithubUrl("");
+            }
+        }
+    };
+
+    const handleClose = () => {
+        setGithubUrl("");
+        setAddedRepos([]);
+        setError("");
+        onClose();
+    };
 
     return (
         <div 
             className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 outline-none"
-            onClick={(e) => e.target === e.currentTarget && onClose()}
-            onKeyDown={(e) => e.key === 'Escape' && onClose()}  /* Close on Escape key not working */
+            onClick={(e) => e.target === e.currentTarget && handleClose()}
+            onKeyDown={(e) => e.key === 'Escape' && handleClose()}
             tabIndex={-1}
         >
-            <div className="bg-[#E5E5E5] rounded-3xl p-8 w-[600px] shadow-2xl relative">
-                <h2 className="text-xl font-mono mb-4 text-black">
-                    Place your github repository link here
+            <div className="bg-[#d9d9d9] rounded-3xl p-8 w-[600px] shadow-2xl relative font-mono">
+                <h2 className="text-md font-mono mb-4 text-black pt-2">
+                    Place your github repository link here (max 3)
                 </h2>
 
-                <input
-                    type="text"
-                    autoFocus
-                    placeholder="example: https://github.com/zarif08/Katao"
-                    className="w-full bg-[#A3A3A3] text-black placeholder-black/60 p-4 rounded-lg mb-6 font-mono outline-none focus:ring-2 focus:ring-black/20"
-                />
+                <div className="space-y-2">
+                    {addedRepos.map((repo, index) => (
+                        <div 
+                            key={index} 
+                            className="w-full rounded-lg px-4 py-4 text-sm text-black mb-2" 
+                            style={{ backgroundColor: '#a0a1a0' }}
+                        >
+                            {repo}
+                        </div>
+                    ))}
+                    
+                    <div className="relative">
+                        <input
+                            type="text"
+                            autoFocus
+                            value={githubUrl}
+                            onChange={(e) => {
+                                setGithubUrl(e.target.value);
+                                setError("");
+                            }}
+                            placeholder={addedRepos.length >= 3 ? "Maximum 3 repositories allowed" : "example: https://github.com/zarif08/Katao"}
+                            disabled={addedRepos.length >= 3}
+                            className={`w-full rounded-lg px-4 py-4 text-sm border-none outline-none placeholder-gray-600 ${addedRepos.length >= 3 ? 'opacity-50 cursor-not-allowed' : ''} ${error ? 'border-2 border-red-500' : ''}`}
+                            style={{ backgroundColor: '#bab9b9ff' }}
+                        />
+                        {error && <p className="text-red-600 text-xs mt-1 absolute">{error}</p>}
+                    </div>
 
-                <div className="flex justify-end">
-                    <button
-                        className="bg-[#2A2A2A] text-white px-6 py-3 rounded-lg font-mono hover:bg-black transition-colors"
-                        onClick={onClose}
-                    >
-                        Add Another
-                    </button>
+                    <div className="flex justify-end pt-6 gap-2">
+                        <button
+                            onClick={handleClose}
+                            className="px-6 py-1 rounded-lg text-sm hover:bg-gray-200 transition-all duration-300"
+                        >
+                            Done
+                        </button>
+                        <button
+                            onClick={handleAddAnother}
+                            disabled={addedRepos.length >= 3}
+                            className={`bg-black text-white px-8 py-1 rounded-lg text-sm transition-all duration-300 ease-in-out ${addedRepos.length >= 3 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-black hover:font-bold hover:scale-105 active:scale-95'}`}
+                        >
+                            Add Another
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

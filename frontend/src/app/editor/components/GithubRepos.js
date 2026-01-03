@@ -4,12 +4,17 @@ import { MOCK_REPO_DATABASE } from "@/utility/mockRepoDatabase";
 
 export default function GithubRepos() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [repos, setRepos] = useState(MOCK_REPO_DATABASE);
+
+  const handleRepoAdded = (newRepo) => {
+    setRepos((prev) => [...prev, newRepo]);
+  };
 
   return (
     <>
       <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono">
         <div className="flex-1 overflow-y-auto">
-          {MOCK_REPO_DATABASE.map((repo, index) => (
+          {repos.map((repo, index) => (
             <div
               key={index}
               title={repo}
@@ -42,7 +47,11 @@ export default function GithubRepos() {
           </button>
         </div>
       </div>
-      <RepoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <RepoModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onRepoAdded={handleRepoAdded}
+      />
     </>
   );
 }

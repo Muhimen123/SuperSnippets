@@ -45,13 +45,26 @@ export default function CodeSegment() {
       </div>
 
       <div className="p-4">
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="w-full bg-black text-white py-2 rounded-md flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors font-medium"
-        >
-          <span className="text-sm">Add New</span>
-          <span className="text-lg font-light">+</span>
-        </button>
+        <button
+            onClick={() => setIsModalOpen(true)}
+            className="w-full bg-black text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors font-mono"
+          >
+            <span>Add New</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
       </div>
 
       <AddCodeSegmentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
