@@ -1,6 +1,18 @@
 "use client";
 import { useState } from "react";
 
+const MOCK_DATABASE = [
+  { name: "Al Muhimen", email: "kibene2010@gmail.com" },
+  { name: "Asif Rahman", email: "asifrifat143@gmail.com" },
+  { name: "Sameen Abrar", email: "sameenpcc2020@gmail.com" },
+  { name: "Rashed Islam", email: "rashedhippo@gmail.com" },
+  { name: "Tanvir Ahmed", email: "tanvirahmed@gmail.com" },
+  { name: "Nusrat Jahan", email: "nusratjahan@gmail.com" },
+  { name: "Fahim Uddin", email: "fahimuddin@gmail.com" },
+  { name: "Sadia Akter", email: "sadiaakter@gmail.com" },
+  { name: "Mahmudul Hasan", email: "mahmudulhasan@gmail.com" },
+];
+
 export default function Contributors() {
   const [contributors, setContributors] = useState([
     { name: "Al Muhimen", id: 1 },
@@ -29,11 +41,22 @@ export default function Contributors() {
       return;
     }
 
-    // Extract name from email
-    const name = newEmail.split("@")[0] || "New Contributor";
+    const user = MOCK_DATABASE.find((u) => u.email === newEmail);
+
+    if (!user) {
+      setError("User not found in database");
+      return;
+    }
+
+    const isAlreadyAdded = contributors.some((c) => c.name === user.name);
+    if (isAlreadyAdded) {
+      setError("User already added");
+      return;
+    }
+
     setContributors((prev) => [
       ...prev,
-      { name: name, id: Date.now() },
+      { name: user.name, id: Date.now() },
     ]);
     setNewEmail("");
     setError("");
