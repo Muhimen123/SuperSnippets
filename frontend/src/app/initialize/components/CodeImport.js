@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function CodeImport() {
+export default function CodeImport({ files, setFiles }) {
   const [isDragOver, setIsDragOver] = useState(false);
 
   const handleDragOver = (e) => {
@@ -17,12 +17,21 @@ export default function CodeImport() {
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragOver(false);
-    // Handle file drop logic here
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const newFiles = Array.from(e.dataTransfer.files);
+      setFiles((prev) => [...prev, ...newFiles]);
+    }
   };
 
   const handleFileSelect = () => {
-    // Handle file selection logic here
     document.getElementById('fileInput').click();
+  };
+
+  const handleFileInputChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files);
+      setFiles((prev) => [...prev, ...newFiles]);
+    }
   };
 
   return (
@@ -38,6 +47,19 @@ export default function CodeImport() {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
+        {files.length > 0 && (
+          <div className="w-full max-w-2xl mb-6 space-y-2 max-h-[220px] overflow-y-auto custom-scrollbar">
+            {files.map((file, index) => (
+              <div 
+                key={index} 
+                className="w-full rounded-lg px-4 py-3 text-sm text-black bg-white border border-gray-200 shadow-sm flex items-center"
+              >
+                <span className="truncate">{file.name}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
         <p className="text-gray-600 mb-6 text-sm">Drop files here to upload.</p>
         
         <button
@@ -52,10 +74,7 @@ export default function CodeImport() {
           type="file"
           multiple
           className="hidden"
-          onChange={(e) => {
-            // Handle file selection
-            console.log(e.target.files);
-          }}
+          onChange={handleFileInputChange}
         />
       </div>
     </div>

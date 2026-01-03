@@ -18,9 +18,17 @@ export default function Initialize() {
   const totalSteps = steps.length;
 
   const [currentStep, setCurrentStep] = useState(1);
+  const [repos, setRepos] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [githubUrl, setGithubUrl] = useState("");
 
-  const handleNext = () =>
+  const handleNext = () => {
+    if (currentStep === 1 && githubUrl.trim() && repos.length < 3) {
+      setRepos([...repos, githubUrl]);
+      setGithubUrl("");
+    }
     setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
+  };
   const handleBack = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
 
   return (
@@ -37,7 +45,15 @@ export default function Initialize() {
             `}
           >
             <StepperProgressBar />
-            <ContentSection activeStep={currentStep} />
+            <ContentSection 
+              activeStep={currentStep} 
+              repos={repos}
+              setRepos={setRepos}
+              files={files}
+              setFiles={setFiles}
+              githubUrl={githubUrl}
+              setGithubUrl={setGithubUrl}
+            />
             <DirectionController
               handleNext={handleNext}
               handleBack={handleBack}
