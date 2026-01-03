@@ -8,14 +8,6 @@ export default function FinalCheck({ repos, files, summaryData }) {
     }
   };
 
-  // const summaryData = {
-  //   marginSize: "20",
-  //   font: "Andika",
-  //   fontSize: "12",
-  //   pageLimit: "12",
-  //   columns: "3"
-  // };
-
   return (
     <div className="w-full" style={{ width: '1008px' }}>
       <div className="rounded-3xl px-16 py-12 min-h-[300px]" style={{ backgroundColor: '#d9d9d9' }}>
