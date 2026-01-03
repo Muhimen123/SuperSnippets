@@ -1,3 +1,5 @@
+import { useRouter } from "next/navigation";
+
 export default function Toolbar({ currentTool, handleToolSelection }) {
   const primaryTools = [
     { key: 1, title: "Code Segments", icon: "icons/code-segment.svg" },
@@ -54,6 +56,7 @@ function ToolbarElement({
   handleToolSelection,
 }) {
   const selected = toolKey === currentTool;
+  const router = useRouter();
   return (
     <div
       className={`
@@ -62,15 +65,19 @@ function ToolbarElement({
 				p-3 gap-2 group cursor-pointer
 			`}
       onClick={() => {
-        const targetToolKey = (selected) ? 0 : toolKey;
-        handleToolSelection(targetToolKey);
+        const targetToolKey = selected ? 0 : toolKey;
+        if (toolKey === 6) {
+          router.push("/dashboard");
+        } else {
+          handleToolSelection(targetToolKey);
+        }
       }}
     >
       <div
         className={`
           absolute left-0 w-1 bg-white transition-all duration-300 rounded-r
           ${selected ? "h-10 opacity-100" : "h-0 opacity-0"}
-					group-hover:h-10 group-hover:${selected ? "opacity-100" : "opacity-50"}
+					group-hover:h-10 ${selected ? "group-hover:opacity-100" : "group-hover:opacity-50"}
         `}
       ></div>
 

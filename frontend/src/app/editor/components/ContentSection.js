@@ -1,9 +1,11 @@
-import GithubRepos from './githubrepos';
+import React from "react";
+import GithubRepos from "./GithubRepos";
 import CodeSegment from "./CodeSegment";
 import Categories from './Categories';
 import ConfigBar from './ConfigBar';
+import Settings from './Settings';
 
-export default function ContentSection({ activeTool }) {
+export default function ContentSection({ activeTool, handleToolSelection }) {
   const renderContent = () => {
     switch (activeTool) {
       case 1:
@@ -15,13 +17,14 @@ export default function ContentSection({ activeTool }) {
       case 4:
         return <ConfigBar />;
       case 5:
-        return <h1 className="text-3xl font-bold">Download</h1>;
+        return <div className="w-0"></div>;
       case 6:
         return <h1 className="text-3xl font-bold">Home</h1>;
       case 7:
-        return <h1 className="text-3xl font-bold">Settings</h1>;
+        // Pass onClose to switch back to the default tool (e.g., 1)
+        return <Settings onClose={() => handleToolSelection(1)} />;
       default:
-        return <h1 className="text-3xl font-bold">Default - None</h1>;
+        return <div className="w-0"></div>;
     }
   };
 
