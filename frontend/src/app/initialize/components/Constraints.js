@@ -3,6 +3,21 @@
 import { useState } from "react";
 
 export default function Constraints({ constraints, setConstraints }) {
+  const PREDEFINED_FONTS = [
+    "Jetbrains Mono",
+    "Roboto",
+    "Open Sans",
+    "Lato",
+    "Montserrat",
+    "Cascadia Code",
+    "Arial",
+    "Helvetica",
+    "Times New Roman",
+    "Georgia",
+    "Courier New",
+    "Verdana",
+  ];
+
   const handleChange = (field, value) => {
     setConstraints((prev) => ({
       ...prev,
@@ -19,7 +34,7 @@ export default function Constraints({ constraints, setConstraints }) {
 
   const CounterInput = ({ label, value, field }) => (
     <div>
-      <label className="block text-xs font-medium text-black mb-1 font-mono">
+      <label className="block text-md font-medium text-black mb-1 font-mono">
         {label}
       </label>
       <div
@@ -30,7 +45,7 @@ export default function Constraints({ constraints, setConstraints }) {
           type="text"
           value={value === 0 ? "0" : value}
           readOnly
-          className="w-full bg-transparent text-gray-600 text-left px-4 py-2 text-xs border-none outline-none font-mono"
+          className="w-full bg-transparent text-gray-600 text-left px-4 py-2 text-sm border-none outline-none font-mono"
         />
         <div className="absolute right-2 flex flex-col gap-0.5">
           <button
@@ -89,20 +104,21 @@ export default function Constraints({ constraints, setConstraints }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
           {/* Font */}
           <div>
-            <label className="block text-xs font-medium text-black mb-1 font-mono">
+            <label className="block text-md font-medium text-black mb-1 font-mono">
               Font
             </label>
             <div className="relative">
               <select
                 value={constraints.font}
                 onChange={(e) => handleChange("font", e.target.value)}
-                className="w-full rounded-lg px-4 py-2 text-xs border-none outline-none text-gray-600 appearance-none font-mono"
+                className="w-full rounded-lg px-4 py-2 text-sm border-none outline-none text-gray-600 appearance-none font-mono"
                 style={{ backgroundColor: "#aeadadff" }}
               >
-                <option>Jetbrains Mono</option>
-                <option>Arial</option>
-                <option>Times New Roman</option>
-                <option>Courier New</option>
+                {PREDEFINED_FONTS.map((font) => (
+                  <option key={font} value={font}>
+                    {font}
+                  </option>
+                ))}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-black">
                 <svg
@@ -148,16 +164,16 @@ export default function Constraints({ constraints, setConstraints }) {
           {/* Header Text */}
           <div>
             <div className="flex justify-between mb-1">
-              <label className="block text-xs font-medium text-black font-mono">
+              <label className="block text-md font-medium text-black font-mono">
                 Header Text
               </label>
-              <span className="text-xs text-gray-600 font-mono">0/100</span>
+              <span className="text-sm text-gray-600 font-mono">0/100</span>
             </div>
             <textarea
               value={constraints.headerText}
               onChange={(e) => handleChange("headerText", e.target.value)}
               placeholder="0"
-              className="w-full rounded-lg px-4 py-2 text-xs border-none outline-none text-gray-600 font-mono resize-none h-24"
+              className="w-full rounded-lg px-4 py-2 text-sm border-none outline-none text-gray-600 font-mono resize-none h-24"
               style={{ backgroundColor: "#aeadadff" }}
             />
           </div>
