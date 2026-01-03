@@ -18,6 +18,7 @@ export default function Initialize() {
   const totalSteps = steps.length;
 
   const [currentStep, setCurrentStep] = useState(1);
+  const [repos, setRepos] = useState([]);
 
   const handleNext = () =>
     setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
@@ -37,7 +38,11 @@ export default function Initialize() {
             `}
           >
             <StepperProgressBar />
-            <ContentSection activeStep={currentStep} />
+            <ContentSection 
+              activeStep={currentStep} 
+              repos={repos}
+              setRepos={setRepos}
+            />
             <DirectionController
               handleNext={handleNext}
               handleBack={handleBack}
