@@ -1,4 +1,4 @@
-"use state";
+"use client";
 
 import { PDFViewer } from "@embedpdf/react-pdf-viewer";
 import { usePDF } from "@react-pdf/renderer";

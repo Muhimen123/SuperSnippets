@@ -62,9 +62,9 @@ export default function Categories() {
                 {category.items.map((item, index) => (
                   <div
                     key={index}
-                    className={`pl-4 border-b-2 border-black p-3 text-xs font-medium hover:bg-gray-50 cursor-pointer ${
-                      index !== category.items.length - 1 ? "" : ""
-                    }`}
+                    className={`
+                      pl-4 border-b-2 border-black p-3 text-xs font-medium hover:bg-gray-50 cursor-pointer 
+                    `}
                   >
                     {item}
                   </div>
