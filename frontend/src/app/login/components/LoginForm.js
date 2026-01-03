@@ -5,9 +5,35 @@ import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
 
 export default function LoginForm({ onSignUpClick, onHelpClick }) {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    const user = MOCK_AUTH_DATABASE.find(
+      (u) => u.email === email && u.password === password
+    );
+
+    if (user) {
+      router.push("/dashboard");
+    } else {
+      setError("Invalid email or password");
+    }
+  };
+
   return (
     <div>
       <div className="w-full max-w-xs">
@@ -37,21 +63,26 @@ export default function LoginForm({ onSignUpClick, onHelpClick }) {
 
         <form
           className="space-y-4"
-          onSubmit={(e) => {
-            e.preventDefault();
-            router.push("/dashboard");
-          }}
+          onSubmit={handleLogin}
         >
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
           <div>
             <TextField
               label="EMAIL"
               type="email"
               placeholder="johndoe@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
           <div>
-            <PasswordField label="PASSWORD" showToggle={true} />
+            <PasswordField 
+              label="PASSWORD" 
+              showToggle={true} 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
 
           <button

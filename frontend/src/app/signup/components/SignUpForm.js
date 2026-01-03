@@ -3,13 +3,37 @@ import Logo from "../../components/Logo";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
 
 export default function SignUpForm( {onLoginClick} ) {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleClick = () => {
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    const userExists = MOCK_AUTH_DATABASE.some((u) => u.email === email);
+
+    if (userExists) {
+      setError("Email already exists");
+      return;
+    }
+
+    const name = email.split('@')[0];
+    MOCK_AUTH_DATABASE.push({ name, email, password });
+    
+    // Console log to verify user addition
+    console.log("Updated Mock Database:", MOCK_AUTH_DATABASE);
     router.push('/login');
-    // TODO: For any kind of logiv validation, consider working here
   }
 
   return (
@@ -39,23 +63,30 @@ export default function SignUpForm( {onLoginClick} ) {
           Or use Email
         </div>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSignUp}>
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
           <div>
             <TextField
               label="EMAIL"
               type="email"
               placeholder="johndoe@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
           <div>
-            <PasswordField label="PASSWORD" showToggle={true} />
+            <PasswordField 
+              label="PASSWORD" 
+              showToggle={true} 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
 
           <button
             type="submit"
             className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors"
-            onClick={handleClick}
           >
             Sign Up &rarr;
           </button>
