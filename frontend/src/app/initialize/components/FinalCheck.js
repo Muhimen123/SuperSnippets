@@ -11,7 +11,7 @@ export default function FinalCheck({ repos, files, summaryData }) {
   return (
     <div className="w-full" style={{ width: '1008px' }}>
       <div className="rounded-3xl px-16 py-12 min-h-[300px]" style={{ backgroundColor: '#d9d9d9' }}>
-        <div className="space-y-6 text-sm font-mono">
+        <div className="space-y-6 text-md font-mono">
           <div>
             Github Repos selected: {repos?.map(getRepoName).join(", ")}
           </div>

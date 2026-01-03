@@ -60,11 +60,11 @@ export default function CodeImport({ files, setFiles }) {
           </div>
         )}
 
-        <p className="text-gray-600 mb-6 text-sm">Drop files here to upload.</p>
+        <p className="text-gray-600 mb-6 text-md">Drop files here to upload.</p>
         
         <button
           onClick={handleFileSelect}
-          className="bg-black text-white px-4 py-1 rounded-4xl text-xs hover:bg-black transition-all duration-300 ease-in-out hover:font-bold hover:scale-105 active:scale-95"
+          className="bg-black text-white px-4 py-1 rounded-4xl text-sm hover:bg-black transition-all duration-300 ease-in-out hover:font-bold hover:scale-105 active:scale-95"
         >
           Upload files
         </button>

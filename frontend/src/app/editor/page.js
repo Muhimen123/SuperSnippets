@@ -1,9 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Toolbar from "./components/Toolbar";
 import ContentSection from "../editor/components/ContentSection";
+import { useSearchParams } from "next/navigation";
 
 const PDFSection = dynamic(() => import("./components/PDFSection"), {
   ssr: false,
@@ -17,6 +18,19 @@ export default function Editor() {
     leftCode: "export default function App() {\n  return <h1>Hello</h1>\n}",
     rightCode: "// Rendered Output:\n// <h1>Hello</h1>",
   });
+
+  const searchParams = useSearchParams();
+
+  const constraints = useMemo(() => {
+    const raw = searchParams.get("constraints");
+    if (!raw) return null;
+
+    try {
+      return JSON.parse(decodeURIComponent(raw));
+    } catch {
+      return null;
+    }
+  }, [searchParams]);
 
   const handleToolSelection = (toolKey) => {
     setCurrentTool(toolKey);
@@ -75,6 +89,7 @@ export default function Editor() {
           <ContentSection
             activeTool={currentTool}
             handleToolSelection={handleToolSelection}
+            constraints={constraints}
           />
         </div>
 
