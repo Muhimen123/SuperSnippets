@@ -7,6 +7,15 @@ import DirectionController from "./components/DirectionController";
 import InitNavbar from "./components/InitNavbar";
 import StepperProgressBar from "./components/StepperProgressBar";
 
+const defaultConstraints = {
+  font: "Jetbrains Mono",
+  headerText: "CodeBook",
+  marginSize: 3,
+  fontSize: 11,
+  columns: 1,
+  pageLimit: 20,
+};
+
 export default function Initialize() {
   const steps = [
     { id: 1, name: `Github Link` },
@@ -21,6 +30,7 @@ export default function Initialize() {
   const [repos, setRepos] = useState([]);
   const [files, setFiles] = useState([]);
   const [githubUrl, setGithubUrl] = useState("");
+  const [constraints, setConstraints] = useState(defaultConstraints);
 
   const handleNext = () => {
     if (currentStep === 1 && githubUrl.trim() && repos.length < 3) {
@@ -45,14 +55,16 @@ export default function Initialize() {
             `}
           >
             <StepperProgressBar />
-            <ContentSection 
-              activeStep={currentStep} 
+            <ContentSection
+              activeStep={currentStep}
               repos={repos}
               setRepos={setRepos}
               files={files}
               setFiles={setFiles}
               githubUrl={githubUrl}
               setGithubUrl={setGithubUrl}
+              constraints={constraints}
+              setConstraints={setConstraints}
             />
             <DirectionController
               handleNext={handleNext}
