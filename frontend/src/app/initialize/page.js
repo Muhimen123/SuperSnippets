@@ -6,6 +6,7 @@ import ContentSection from "./components/ContentSection";
 import DirectionController from "./components/DirectionController";
 import InitNavbar from "./components/InitNavbar";
 import StepperProgressBar from "./components/StepperProgressBar";
+import { useRouter } from "next/navigation";
 
 const defaultConstraints = {
   font: "Jetbrains Mono",
@@ -17,6 +18,8 @@ const defaultConstraints = {
 };
 
 export default function Initialize() {
+  const router = useRouter();
+
   const steps = [
     { id: 1, name: `Github Link` },
     { id: 2, name: `Custom Code Upload` },
@@ -37,6 +40,16 @@ export default function Initialize() {
       setRepos([...repos, githubUrl]);
       setGithubUrl("");
     }
+
+    if (currentStep === 4) {
+      router.push(
+        `/editor?constraints=${encodeURIComponent(
+          JSON.stringify(constraints),
+        )}`,
+      );
+      return;
+    }
+
     setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
   };
   const handleBack = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
