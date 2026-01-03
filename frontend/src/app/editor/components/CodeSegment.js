@@ -20,7 +20,7 @@ export default function CodeSegment() {
   };
 
   return (
-    <div className="flex flex-col h-full w-64 border-r-2 border-black bg-white text-black font-mono">
+    <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono">
       <div className="flex-1 overflow-y-auto">
         {segments.map((segment) => (
           <div

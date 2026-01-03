@@ -40,7 +40,7 @@ export default function Settings({ onClose }) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 bg-[#E5E5E5] mx-8 mt-5 mb-8 overflow-hidden border-1 border-black rounded-2xl relative shadow-inner">
+        <div className="flex-1 bg-[#E5E5E5] mx-8 mt-5 mb-8 overflow-hidden border border-black rounded-2xl relative shadow-inner">
           {activeTab === "Import/Export" && <ImportExport onClose={onClose} />}
           {activeTab === "Contributors" && <Contributors />}
           {activeTab === "Activity Log" && <ActivityLog />}
