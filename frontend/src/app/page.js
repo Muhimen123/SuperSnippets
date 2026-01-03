@@ -85,8 +85,8 @@ function FeatureSection() {
   return (
     <div className={`flex flex-col items-center justify-center mb-5`}>
       <h3 className={`text-3xl font-bold mb-5`}>Our Features</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
-          <Link href="/features#code-fetching">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full auto-rows-fr items-stretch">
+          <Link href="/features#code-fetching" className="block h-full">
             <FeatureCard
               title={`Code Fetching`}
               subtitle={`Easily fetch codes from Github Repositories`}
@@ -94,7 +94,7 @@ function FeatureSection() {
             />
           </Link>
 
-          <Link href="/features#syntax-highlighting">
+          <Link href="/features#syntax-highlighting" className="block h-full">
             <FeatureCard
               title={`Syntax Highlighting`}
               subtitle={`Increase code comprehension with beautiful colors in the PDF`}
@@ -102,7 +102,7 @@ function FeatureSection() {
             />
           </Link>
 
-          <Link href="/features#collaboration">
+          <Link href="/features#collaboration" className="block h-full">
             <FeatureCard
               title={`Easy Collaboration`}
               subtitle={`Collaborate with your teammates and keep track of modifications. No more guess works.`}
@@ -110,7 +110,7 @@ function FeatureSection() {
             />
           </Link>
 
-          <Link href="/features#import-export">
+          <Link href="/features#import-export" className="block h-full">
             <FeatureCard
               title={`Import & Export`}
               subtitle={`Your work stays with you. Online or offline. You are in control of your data.`}

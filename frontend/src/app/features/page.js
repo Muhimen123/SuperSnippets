@@ -48,7 +48,7 @@ export default function FeaturesPage() {
               title="Code Fetching"
               items={[
                 "Give your repository URL to fetch code automatically",
-                "guide your codebook constraints",
+                "guide us your codebook constraints",
                 "Add,remove or customize your codebook as your wish",
               ]}
               highlight={highlightId === "code-fetching"}
