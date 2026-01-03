@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import CreateCodebookModal from "./createCodebookModal";
+import Link from "next/link";
 
 export default function Content() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -40,7 +41,7 @@ export default function Content() {
                 </div>
 
                 {/* List */}
-                <div className="space-y-3 overflow-y-auto max-h-[60vh] p-2 custom-scrollbar">
+                <Link href={'/editor'} className="space-y-3 overflow-y-auto max-h-[60vh] p-2 custom-scrollbar">
                     {codebooks.map((book) => (
                         <div
                             key={book.id}
@@ -70,7 +71,7 @@ export default function Content() {
                             </div>
                         </div>
                     ))}
-                </div>
+                </Link>
             </div>
 
             <CreateCodebookModal 
