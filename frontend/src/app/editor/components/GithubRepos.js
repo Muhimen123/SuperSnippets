@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import RepoModal from "./RepoModal";
-
-export const repos = [
-  "ShahjalalShohag/code-library",
-  "AsifRahman/UltimateHacks",
-];
+import { MOCK_REPO_DATABASE } from "@/utility/mockRepoDatabase";
 
 export default function GithubRepos() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,7 +9,7 @@ export default function GithubRepos() {
     <>
       <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono">
         <div className="flex-1 overflow-y-auto">
-          {repos.map((repo, index) => (
+          {MOCK_REPO_DATABASE.map((repo, index) => (
             <div
               key={index}
               title={repo}
