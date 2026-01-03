@@ -19,6 +19,7 @@ export default function Initialize() {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [repos, setRepos] = useState([]);
+  const [files, setFiles] = useState([]);
   const [githubUrl, setGithubUrl] = useState("");
 
   const handleNext = () => {
@@ -48,6 +49,8 @@ export default function Initialize() {
               activeStep={currentStep} 
               repos={repos}
               setRepos={setRepos}
+              files={files}
+              setFiles={setFiles}
               githubUrl={githubUrl}
               setGithubUrl={setGithubUrl}
             />

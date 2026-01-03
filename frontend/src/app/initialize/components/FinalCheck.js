@@ -1,4 +1,4 @@
-export default function FinalCheck({ repos }) {
+export default function FinalCheck({ repos, files }) {
   const getRepoName = (url) => {
     try {
       const parts = url.replace(/\/$/, "").split("/");
@@ -21,7 +21,10 @@ export default function FinalCheck({ repos }) {
       <div className="rounded-3xl px-16 py-12 min-h-[300px]" style={{ backgroundColor: '#d9d9d9' }}>
         <div className="space-y-6 text-sm font-mono">
           <div>
-            Github Repos selected: {repos.map(getRepoName).join(", ")}
+            Github Repos selected: {repos?.map(getRepoName).join(", ")}
+          </div>
+          <div>
+            Files uploaded: {files?.map(f => f.name).join(", ")}
           </div>
           <div>
             Margin: {summaryData.margin}

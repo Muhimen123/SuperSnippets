@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 
-export default function CodeImport() {
+export default function CodeImport({ files, setFiles }) {
   const [isDragOver, setIsDragOver] = useState(false);
-  const [files, setFiles] = useState([]);
 
   const handleDragOver = (e) => {
     e.preventDefault();

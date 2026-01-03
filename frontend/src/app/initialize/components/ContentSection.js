@@ -3,7 +3,7 @@ import CodeImport from "./CodeImport";
 import Constraints from "./Constraints";
 import FinalCheck from "./FinalCheck";
 
-export default function ContentSection({ activeStep, repos, setRepos, githubUrl, setGithubUrl }) {
+export default function ContentSection({ activeStep, repos, setRepos, files, setFiles, githubUrl, setGithubUrl }) {
   const renderContent = () => {
     switch (activeStep) {
       case 1:
@@ -16,11 +16,11 @@ export default function ContentSection({ activeStep, repos, setRepos, githubUrl,
           />
         );
       case 2:
-        return <CodeImport />;
+        return <CodeImport files={files} setFiles={setFiles} />;
       case 3:
         return <Constraints />;
       default:
-        return <FinalCheck repos={repos} />;
+        return <FinalCheck repos={repos} files={files} />;
     }
   };
 
