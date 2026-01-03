@@ -89,6 +89,7 @@ export default function Editor() {
           <ContentSection
             activeTool={currentTool}
             handleToolSelection={handleToolSelection}
+            constraints={constraints}
           />
         </div>
 
