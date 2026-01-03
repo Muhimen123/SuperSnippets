@@ -48,6 +48,12 @@ export default function Contributors() {
       return;
     }
 
+    const isAlreadyAdded = contributors.some((c) => c.name === user.name);
+    if (isAlreadyAdded) {
+      setError("User already added");
+      return;
+    }
+
     setContributors((prev) => [
       ...prev,
       { name: user.name, id: Date.now() },
