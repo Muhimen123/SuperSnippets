@@ -51,14 +51,14 @@ const PREDEFINED_FONTS = [
   "Verdana",
 ];
 
-export default function ConfigBar() {
+export default function ConfigBar({ constraints }) {
   const [fonts, setFonts] = useState(PREDEFINED_FONTS);
 
   return (
     <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono p-6 overflow-y-auto gap-6">
       {/* Font */}
       <div className="flex flex-col gap-2">
-        <label className="font-bold text-sm">Font</label>
+        <label className="font-bold text-sm">{constraints.font}</label>
         <Select>
           {fonts.map((font, index) => (
             <option key={index} value={font} style={{ fontFamily: font }}>
@@ -70,7 +70,7 @@ export default function ConfigBar() {
 
       {/* Font Size */}
       <div className="flex flex-col gap-2">
-        <label className="font-bold text-sm">Font Size</label>
+        <label className="font-bold text-sm"></label>
         <Input type="number" placeholder="11" />
       </div>
 
@@ -82,7 +82,7 @@ export default function ConfigBar() {
         </div>
         <textarea
           className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg outline-none resize-none h-24 focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#E5E5E5] font-mono"
-          placeholder="CodeBook"
+          placeholder={constraints.headerText}
           maxLength={100}
         />
       </div>
@@ -90,19 +90,19 @@ export default function ConfigBar() {
       {/* Margin Size */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">Margin Size (cm)</label>
-        <Input type="number" placeholder="3" />
+        <Input type="number" placeholder={constraints.marginSize} />
       </div>
 
       {/* Columns */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">Columns</label>
-        <Input type="number" placeholder="1" />
+        <Input type="number" placeholder={constraints.columns} />
       </div>
 
       {/* Page Limit */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">Page Limit</label>
-        <Input type="number" placeholder="1" />
+        <Input type="number" placeholder={constraints.pageLimit} />
       </div>
 
       {/* Page Orientation */}
