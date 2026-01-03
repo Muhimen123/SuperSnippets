@@ -28,7 +28,11 @@ export default function SignUpForm( {onLoginClick} ) {
       return;
     }
 
-    MOCK_AUTH_DATABASE.push({ email, password });
+    const name = email.split('@')[0];
+    MOCK_AUTH_DATABASE.push({ name, email, password });
+    
+    // Console log to verify user addition
+    console.log("Updated Mock Database:", MOCK_AUTH_DATABASE);
     router.push('/login');
   }
 
