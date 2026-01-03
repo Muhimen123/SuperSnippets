@@ -1,6 +1,7 @@
 "use client";
 
 import FeatureCard from "./components/FeatureCard";
+import Link from "next/link";
 import MemberCard from "./components/MemberCard";
 import { TwitterIcon, FacebookIcon, GithubIcon } from "./components/FooterIcons";
 import Navbar from "./components/NavBar";
@@ -84,28 +85,39 @@ function FeatureSection() {
   return (
     <div className={`flex flex-col items-center justify-center mb-5`}>
       <h3 className={`text-3xl font-bold mb-5`}>Our Features</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
-        <FeatureCard
-          title={`Code Fetching`}
-          subtitle={`Easily fetch codes from Github Repositories`}
-          icon_src={`icons/git-fetch.svg`}
-        />
-        <FeatureCard
-          title={`Syntax Highlighting`}
-          subtitle={`Increase code comprehension with beautiful colors in the PDF`}
-          icon_src={`icons/eye-dropper.svg`}
-        />
-        <FeatureCard
-          title={`Easy Collaboration`}
-          subtitle={`Collaborate with your teammates and keep track of modifications. No more guess works.`}
-          icon_src={`icons/team-plus.svg`}
-        />
-        <FeatureCard
-          title={`Import & Export`}
-          subtitle={`Your work stays with you. Online or offline. You are in control of your data.`}
-          icon_src={`icons/file-upload.svg`}
-        />
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+          <Link href="/features#code-fetching">
+            <FeatureCard
+              title={`Code Fetching`}
+              subtitle={`Easily fetch codes from Github Repositories`}
+              icon_src={`icons/git-fetch.svg`}
+            />
+          </Link>
+
+          <Link href="/features#syntax-highlighting">
+            <FeatureCard
+              title={`Syntax Highlighting`}
+              subtitle={`Increase code comprehension with beautiful colors in the PDF`}
+              icon_src={`icons/eye-dropper.svg`}
+            />
+          </Link>
+
+          <Link href="/features#collaboration">
+            <FeatureCard
+              title={`Easy Collaboration`}
+              subtitle={`Collaborate with your teammates and keep track of modifications. No more guess works.`}
+              icon_src={`icons/team-plus.svg`}
+            />
+          </Link>
+
+          <Link href="/features#import-export">
+            <FeatureCard
+              title={`Import & Export`}
+              subtitle={`Your work stays with you. Online or offline. You are in control of your data.`}
+              icon_src={`icons/file-upload.svg`}
+            />
+          </Link>
+        </div>
     </div>
   );
 }

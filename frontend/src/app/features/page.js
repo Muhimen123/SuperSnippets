@@ -1,8 +1,33 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Navbar from "../components/NavBar";
 import TileBackground from "../components/TileBackground";
 import FeatureCardDocs from "../components/FeatureCardDocs";
 
 export default function FeaturesPage() {
+  const [highlightId, setHighlightId] = useState(null);
+
+  useEffect(() => {
+    function handleHash() {
+      const h = window.location.hash;
+      if (h && h.startsWith("#")) {
+        const id = h.slice(1);
+        setHighlightId(id);
+        const el = document.getElementById(id);
+        if (el) {
+          setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+        }
+      } else {
+        setHighlightId(null);
+      }
+    }
+
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
   return (
     <TileBackground>
       <Navbar />
@@ -22,21 +47,22 @@ export default function FeaturesPage() {
               id="code-fetching"
               title="Code Fetching"
               items={[
-                "Fetch entire repositories or selected paths",
-                "Authenticate for private repositories (token / OAuth)",
-                "Branch selection and shallow fetch options",
-                "Filter files by extension or path",
+                "Give your repository URL to fetch code automatically",
+                "guide your codebook constraints",
+                "Add,remove or customize your codebook as your wish",
               ]}
+              highlight={highlightId === "code-fetching"}
             />
 
             <FeatureCardDocs
               id="syntax-highlighting"
               title="Syntax Highlighting"
               items={[
-                "Language-aware highlighting with consistent theme",
+                " Highlight your codebook with consistent theme",
                 "Optional line numbers and inline annotations",
-                "Deterministic rendering for PDF exports",
+                "Easy PDF exports",
               ]}
+              highlight={highlightId === "syntax-highlighting"}
             />
 
             <FeatureCardDocs
@@ -44,9 +70,9 @@ export default function FeaturesPage() {
               title="Easy Collaboration"
               items={[
                 "Shareable codebooks with invite links",
-                "Role-based permissions (owner, editor, commenter, viewer)",
-                "Version history with change review and revert",
+                "Let others customize your codebooks",
               ]}
+              highlight={highlightId === "collaboration"}
             />
 
             <FeatureCardDocs
@@ -54,9 +80,9 @@ export default function FeaturesPage() {
               title="Import & Export"
               items={[
                 "Export to printable PDF with embedded snippets",
-                "Export and import JSON for portable, editable projects",
-                "Include or omit source files in exports",
+                "Save your latest work and happily use in offline mode",
               ]}
+              highlight={highlightId === "import-export"}
             />
           </section>
         </div>

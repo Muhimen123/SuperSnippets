@@ -9,8 +9,8 @@ import { useState } from "react";
 const navLink = [
   { name: "Home", href: "/" },
   { name: "Features", href: "/features" },
-  { name: "About Us", href: "/about" },
-  { name: "Contribute", href: "/contribute" },
+  { name: "About Us", href: null },
+  { name: "Contribute", href: null },
 ];
 
 export default function Navbar() {
@@ -95,17 +95,23 @@ function HamBurgerMenu() {
           lg:hidden
         `}
       >
-        <div className="flex flex-col p-10 pt-20 space-y-4">
-          {navLink.map((nav) => (
-            <Link
-              onClick={() => setIsOpen(false)}
-              key={nav.name}
-              href={nav.href}
-            >
-              {nav.name}
-            </Link>
-          ))}
-        </div>
+          <div className="flex flex-col p-10 pt-20 space-y-4">
+            {navLink.map((nav) => (
+              nav.href ? (
+                <Link
+                  onClick={() => setIsOpen(false)}
+                  key={nav.name}
+                  href={nav.href}
+                >
+                  {nav.name}
+                </Link>
+              ) : (
+                <div key={nav.name} className="text-black text-sm">
+                  {nav.name}
+                </div>
+              )
+            ))}
+          </div>
       </div>
     </div>
   );
@@ -129,9 +135,18 @@ function PageNavigation() {
 		`}
     >
       {navLink.map((link) => (
-        <NavButton key={link.name} href={link.href}>
-          {link.name}
-        </NavButton>
+        link.href ? (
+          <NavButton key={link.name} href={link.href}>
+            {link.name}
+          </NavButton>
+        ) : (
+          <button
+            key={link.name}
+            className={`text-xs bg-white text-black font-bold border border-black py-2 px-4 rounded-full transition-colors duration-200`}
+          >
+            {link.name}
+          </button>
+        )
       ))}
     </div>
   );
