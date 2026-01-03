@@ -13,6 +13,7 @@ import {
   Cog03,
 } from "./components/Artifacts";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   return (
@@ -116,8 +117,8 @@ function TitleSection() {
       <div
         className={`
           relative
-          font-bold text-5xl md:text-7xl lg:text-9xl 
-          flex flex-col items-center justify-center`}
+          font-bold text-7xl md:text-7xl lg:text-9xl 
+          flex flex-col items-start px-50 md:items-center md:px-0 justify-center`}
       >
         <h1>The Perfect</h1>
         {/* TODO: Add hover effect, change it to C0deB00k and create an underline */}
@@ -147,8 +148,10 @@ function TitleSection() {
 }
 
 function GetStartedButton() {
+  const router = useRouter();
+
   const handleClick = () => {
-    console.log("Button Beep boop");
+    router.push("/login");
   };
 
   return (
@@ -158,7 +161,7 @@ function GetStartedButton() {
         className={`
         group
         flex items-center gap-2 
-        bg-black text-white text-sm 
+        bg-black text-white text-lg 
         py-2 px-4 m-5
         rounded-lg hover:cursor-pointer
         ring-4 ring-gray-400
