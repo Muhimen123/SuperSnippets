@@ -19,9 +19,15 @@ export default function Initialize() {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [repos, setRepos] = useState([]);
+  const [githubUrl, setGithubUrl] = useState("");
 
-  const handleNext = () =>
+  const handleNext = () => {
+    if (currentStep === 1 && githubUrl.trim() && repos.length < 3) {
+      setRepos([...repos, githubUrl]);
+      setGithubUrl("");
+    }
     setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
+  };
   const handleBack = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
 
   return (
@@ -42,6 +48,8 @@ export default function Initialize() {
               activeStep={currentStep} 
               repos={repos}
               setRepos={setRepos}
+              githubUrl={githubUrl}
+              setGithubUrl={setGithubUrl}
             />
             <DirectionController
               handleNext={handleNext}

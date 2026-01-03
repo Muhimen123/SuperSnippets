@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 
-export default function GithubRepo({ repos, setRepos }) {
-  const [githubUrl, setGithubUrl] = useState("");
-
+export default function GithubRepo({ repos, setRepos, githubUrl, setGithubUrl }) {
   const handleAddAnother = () => {
     if (githubUrl.trim() && repos.length < 3) {
+      console.log("Added repo:", githubUrl);
       setRepos([...repos, githubUrl]);
       setGithubUrl("");
     }
@@ -35,7 +34,7 @@ export default function GithubRepo({ repos, setRepos }) {
             placeholder={repos.length >= 3 ? "Maximum 3 repositories allowed. You can add more later" : "example: https://github.com/zarif08/Katao"}
             disabled={repos.length >= 3}
             className={`w-full rounded-lg px-4 py-4 text-sm border-none outline-none placeholder-gray-600 ${repos.length >= 3 ? 'opacity-50 cursor-not-allowed' : ''}`}
-            style={{ backgroundColor: '#a1a1a1ff' }}
+            style={{ backgroundColor: '#bab9b9ff' }}
           />
           
           <div className="flex justify-end pt-4">
@@ -43,6 +42,7 @@ export default function GithubRepo({ repos, setRepos }) {
               onClick={handleAddAnother}
               disabled={repos.length >= 3}
               className={`bg-black text-white px-8 py-1 rounded-lg text-sm transition-all duration-300 ease-in-out ${repos.length >= 3 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-black hover:font-bold hover:scale-105 active:scale-95'}`}
+              
             >
               Add Another
             </button>
