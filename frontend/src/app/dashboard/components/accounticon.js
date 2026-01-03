@@ -8,6 +8,7 @@ export default function AccountIcon() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
 	const [name, setName] = useState("John Doe");
+	const [email] = useState("john.doe@example.com");
 	const [isEditingName, setIsEditingName] = useState(false);
 
 	return (
@@ -81,6 +82,7 @@ export default function AccountIcon() {
 								</svg>
 							</h3>
 						)}
+						<p className="text-sm text-gray-500 mt-1">{email}</p>
 					</div>
 
 					<div className="pt-4 border-t border-gray-100">
