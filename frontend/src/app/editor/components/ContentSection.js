@@ -1,11 +1,15 @@
 import React from "react";
 import GithubRepos from "./GithubRepos";
 import CodeSegment from "./CodeSegment";
-import Categories from './Categories';
-import ConfigBar from './ConfigBar';
-import Settings from './Settings';
+import Categories from "./Categories";
+import ConfigBar from "./ConfigBar";
+import Settings from "./Settings";
 
-export default function ContentSection({ activeTool, handleToolSelection }) {
+export default function ContentSection({
+  activeTool,
+  handleToolSelection,
+  constraints,
+}) {
   const renderContent = () => {
     switch (activeTool) {
       case 1:
@@ -15,7 +19,7 @@ export default function ContentSection({ activeTool, handleToolSelection }) {
       case 3:
         return <GithubRepos />;
       case 4:
-        return <ConfigBar />;
+        return <ConfigBar constraints={constraints} />;
       case 5:
         return <div className="w-0"></div>;
       case 6:
@@ -28,9 +32,5 @@ export default function ContentSection({ activeTool, handleToolSelection }) {
     }
   };
 
-  return (
-    <div className="h-full w-full">
-      {renderContent()}
-    </div>
-  );
+  return <div className="h-full w-full">{renderContent()}</div>;
 }
