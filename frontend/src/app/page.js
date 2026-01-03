@@ -13,6 +13,7 @@ import {
   Cog03,
 } from "./components/Artifacts";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   return (
@@ -147,8 +148,10 @@ function TitleSection() {
 }
 
 function GetStartedButton() {
+  const router = useRouter();
+
   const handleClick = () => {
-    console.log("Button Beep boop");
+    router.push("/login");
   };
 
   return (
