@@ -1,4 +1,4 @@
-export default function FinalCheck({ repos, files }) {
+export default function FinalCheck({ repos, files, summaryData }) {
   const getRepoName = (url) => {
     try {
       const parts = url.replace(/\/$/, "").split("/");
@@ -8,13 +8,13 @@ export default function FinalCheck({ repos, files }) {
     }
   };
 
-  const summaryData = {
-    margin: "20",
-    font: "Andika",
-    fontSize: "12",
-    pageLimit: "12",
-    columns: "3"
-  };
+  // const summaryData = {
+  //   marginSize: "20",
+  //   font: "Andika",
+  //   fontSize: "12",
+  //   pageLimit: "12",
+  //   columns: "3"
+  // };
 
   return (
     <div className="w-full" style={{ width: '1008px' }}>
@@ -27,7 +27,7 @@ export default function FinalCheck({ repos, files }) {
             Files uploaded: {files?.map(f => f.name).join(", ")}
           </div>
           <div>
-            Margin: {summaryData.margin}
+            Margin (cm): {summaryData.marginSize}
           </div>
           <div>
             Font: {summaryData.font}

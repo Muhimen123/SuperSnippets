@@ -35,7 +35,9 @@ export default function ContentSection({
           />
         );
       default:
-        return <FinalCheck repos={repos} files={files} />;
+        return (
+          <FinalCheck repos={repos} files={files} summaryData={constraints} />
+        );
     }
   };
 
