@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
 import Toolbar from "./components/Toolbar";
 import ContentSection from "../editor/components/ContentSection";
 import { useSearchParams } from "next/navigation";
@@ -11,6 +11,14 @@ const PDFSection = dynamic(() => import("./components/PDFSection"), {
 });
 
 export default function Editor() {
+  return (
+    <Suspense>
+      <EditorContent />
+    </Suspense>
+  )
+}
+
+function EditorContent() {
   const [currentTool, setCurrentTool] = useState(1);
 
   const [codeData, setCodeData] = useState({
