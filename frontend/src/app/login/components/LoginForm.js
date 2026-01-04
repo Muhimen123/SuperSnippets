@@ -28,6 +28,7 @@ export default function LoginForm({ onSignUpClick, onHelpClick }) {
     );
 
     if (user) {
+      localStorage.setItem("userEmail", email);
       router.push("/dashboard");
     } else {
       setError("Invalid email or password");
