@@ -40,7 +40,7 @@ export default function GithubRepo({ repos, setRepos, githubUrl, setGithubUrl })
   };
 
   return (
-    <div className="w-full font-mono" style={{ width: '1008px' }}>
+    <div className="w-full font-mono" >
       <div className="rounded-3xl px-16 py-8 min-h-[300px]" style={{ backgroundColor: '#d9d9d9' }}>
         <p className="text-black mb-2 text-md pt-10">Place your github repository link here (max 3)
         </p>

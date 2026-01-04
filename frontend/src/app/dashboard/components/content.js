@@ -42,7 +42,7 @@ export default function Content({ codebooks, selectedCodebookId }) {
 								}`}
 						>
 							<div className="col-span-2 opacity-80">{book.id}</div>
-							<div className="col-span-4 font-medium text-lg">{book.name}</div>
+							<div className="col-span-4 font-medium text-sm md:text-lg">{book.name}</div>
 							<div className="col-span-3 opacity-80 text-sm">{book.owner}</div>
 							<div className="col-span-3 flex items-center gap-2 opacity-80 text-sm">
 								<svg
