@@ -4,7 +4,7 @@ import { useState } from "react";
 const Input = (props) => (
   <input
     {...props}
-    className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg outline-none focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#E5E5E5] font-mono"
+    className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg outline-none focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#E5E5E5] font-mono text-sm"
   />
 );
 
@@ -12,7 +12,7 @@ const Select = ({ children, ...props }) => (
   <div className="relative">
     <select
       {...props}
-      className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg appearance-none outline-none focus:ring-2 focus:ring-black/20 transition-all cursor-pointer hover:bg-[#E5E5E5] font-mono"
+      className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg appearance-none outline-none focus:ring-2 focus:ring-black/20 transition-all cursor-pointer hover:bg-[#E5E5E5] font-mono text-sm"
     >
       {children}
     </select>
@@ -54,11 +54,20 @@ const PREDEFINED_FONTS = [
 export default function ConfigBar({ constraints }) {
   const [fonts, setFonts] = useState(PREDEFINED_FONTS);
 
+  // Default values if constraints is null/undefined
+  const safeConstraints = constraints || {
+    font: "Jetbrains Mono",
+    headerText: "My Codebook",
+    marginSize: "2",
+    columns: "2",
+    pageLimit: "100"
+  };
+
   return (
     <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono p-6 overflow-y-auto gap-6">
       {/* Font */}
       <div className="flex flex-col gap-2">
-        <label className="font-bold text-sm">{constraints.font}</label>
+        <label className="font-bold text-sm">{safeConstraints.font}</label>
         <Select>
           {fonts.map((font, index) => (
             <option key={index} value={font} style={{ fontFamily: font }}>
@@ -71,7 +80,7 @@ export default function ConfigBar({ constraints }) {
       {/* Font Size */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm"></label>
-        <Input type="number" placeholder="11" />
+        <Input type="number" placeholder="11" min="1" />
       </div>
 
       {/* Header Text */}
@@ -81,8 +90,8 @@ export default function ConfigBar({ constraints }) {
           <span className="text-xs opacity-60">0/100</span>
         </div>
         <textarea
-          className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg outline-none resize-none h-24 focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#E5E5E5] font-mono"
-          placeholder={constraints.headerText}
+          className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg outline-none resize-none h-24 focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#E5E5E5] font-mono text-sm"
+          placeholder={safeConstraints.headerText}
           maxLength={100}
         />
       </div>
@@ -90,19 +99,19 @@ export default function ConfigBar({ constraints }) {
       {/* Margin Size */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">Margin Size (cm)</label>
-        <Input type="number" placeholder={constraints.marginSize} />
+        <Input type="number" placeholder={safeConstraints.marginSize} min="0" />
       </div>
 
       {/* Columns */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">Columns</label>
-        <Input type="number" placeholder={constraints.columns} />
+        <Input type="number" placeholder={safeConstraints.columns} min="1" />
       </div>
 
       {/* Page Limit */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">Page Limit</label>
-        <Input type="number" placeholder={constraints.pageLimit} />
+        <Input type="number" placeholder={safeConstraints.pageLimit} min="1" />
       </div>
 
       {/* Page Orientation */}

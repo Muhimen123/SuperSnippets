@@ -1,13 +1,41 @@
 "use client";
 
 import { useState } from "react";
+import { MOCK_REPO_DATABASE } from "@/utility/mockRepoDatabase";
 
 export default function GithubRepo({ repos, setRepos, githubUrl, setGithubUrl }) {
+  const [error, setError] = useState("");
+
+  const validateGitHubUrl = (url) => {
+    const regex = /^https?:\/\/(www\.)?github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/?$/;
+    return regex.test(url);
+  };
+
+  const extractRepoName = (url) => {
+    const parts = url.replace(/\/$/, "").split("/");
+    return `${parts[parts.length - 2]}/${parts[parts.length - 1]}`;
+  };
+
   const handleAddAnother = () => {
-    if (githubUrl.trim() && repos.length < 3) {
-      console.log("Added repo:", githubUrl);
-      setRepos([...repos, githubUrl]);
-      setGithubUrl("");
+    setError("");
+    if (githubUrl.trim()) {
+      if (!validateGitHubUrl(githubUrl)) {
+        setError("Invalid GitHub repository URL. Format: https://github.com/user/repo");
+        return;
+      }
+
+      if (repos.length < 3) {
+        console.log("Added repo:", githubUrl);
+        setRepos([...repos, githubUrl]);
+        
+        // Add to mock database for the editor view
+        const repoName = extractRepoName(githubUrl);
+        if (!MOCK_REPO_DATABASE.includes(repoName)) {
+          MOCK_REPO_DATABASE.push(repoName);
+        }
+
+        setGithubUrl("");
+      }
     }
   };
 
@@ -27,17 +55,23 @@ export default function GithubRepo({ repos, setRepos, githubUrl, setGithubUrl })
               {repo}
             </div>
           ))}
-          <input
-            type="text"
-            value={githubUrl}
-            onChange={(e) => setGithubUrl(e.target.value)}
-            placeholder={repos.length >= 3 ? "Maximum 3 repositories allowed. You can add more later" : "example: https://github.com/zarif08/Katao"}
-            disabled={repos.length >= 3}
-            className={`w-full rounded-lg px-4 py-4 text-sm border-none outline-none placeholder-gray-600 ${repos.length >= 3 ? 'opacity-50 cursor-not-allowed' : ''}`}
-            style={{ backgroundColor: '#bab9b9ff' }}
-          />
+          <div className="relative">
+            <input
+              type="text"
+              value={githubUrl}
+              onChange={(e) => {
+                setGithubUrl(e.target.value);
+                setError("");
+              }}
+              placeholder={repos.length >= 3 ? "Maximum 3 repositories allowed. You can add more later" : "example: https://github.com/zarif08/Katao"}
+              disabled={repos.length >= 3}
+              className={`w-full rounded-lg px-4 py-4 text-sm border-none outline-none placeholder-gray-600 ${repos.length >= 3 ? 'opacity-50 cursor-not-allowed' : ''} ${error ? 'border-2 border-red-500' : ''}`}
+              style={{ backgroundColor: '#bab9b9ff' }}
+            />
+            {error && <p className="text-red-600 text-xs mt-1 absolute">{error}</p>}
+          </div>
           
-          <div className="flex justify-end pt-4">
+          <div className="flex justify-end pt-6">
             <button
               onClick={handleAddAnother}
               disabled={repos.length >= 3}

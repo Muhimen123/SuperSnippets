@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import RepoModal from "./RepoModal";
-
-export const repos = [
-  "ShahjalalShohag/code-library",
-  "AsifRahman/UltimateHacks",
-];
+import { MOCK_REPO_DATABASE } from "@/utility/mockRepoDatabase";
 
 export default function GithubRepos() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [repos, setRepos] = useState(MOCK_REPO_DATABASE);
+
+  const handleRepoAdded = (newRepo) => {
+    setRepos((prev) => [...prev, newRepo]);
+  };
 
   return (
     <>
@@ -46,7 +47,11 @@ export default function GithubRepos() {
           </button>
         </div>
       </div>
-      <RepoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <RepoModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onRepoAdded={handleRepoAdded}
+      />
     </>
   );
 }
