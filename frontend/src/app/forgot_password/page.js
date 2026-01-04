@@ -24,7 +24,7 @@ export default function ResetPassword() {
       <div className="min-h-screen flex ml-20">
         {/* Left side - Reset Password Form */}
         <div
-          className={`w-full lg:w-1/2 flex items-center justify-end px-8 pr-24`}
+          className={`w-full lg:w-1/2 flex items-center justify-center lg:justify-end px-8 pr-24`}
         >
           <AnimatePresence>
             {isVisible && (

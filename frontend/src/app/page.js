@@ -117,8 +117,8 @@ function TitleSection() {
       <div
         className={`
           relative
-          font-bold text-7xl md:text-7xl lg:text-9xl 
-          flex flex-col items-start px-50 md:items-center md:px-0 justify-center`}
+          font-bold text-7xl md:text-8xl lg:text-9xl 
+          flex flex-col items-start pt-16 lg:pt-0 md:items-center md:px-0 justify-center`}
       >
         <h1>The Perfect</h1>
         {/* TODO: Add hover effect, change it to C0deB00k and create an underline */}

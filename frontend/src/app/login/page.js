@@ -30,7 +30,7 @@ export default function LogIn() {
     <TileBackground>
       <div className="min-h-screen flex">
         {/* Left side - Abstract Pattern */}
-        <div className="hidden lg:flex lg:w-1/2 items-center justify-end">
+        <div className="hidden w-0 lg:flex lg:w-1/2 items-center justify-end">
           <AnimatePresence>
             {isVisible && (
               <SlideIn direction={"right"}>
@@ -41,7 +41,7 @@ export default function LogIn() {
         </div>
 
         <div
-          className={`w-full lg:w-1/2 flex items-center justify-left px-8 pl-24`}
+          className={`w-full lg:w-1/2 flex items-center justify-center lg:justify-start px-8 lg:pl-24`}
         >
           <AnimatePresence>
             {isVisible && (

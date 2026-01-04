@@ -23,7 +23,7 @@ export default function SignUp() {
   return (
     <TileBackground>
       <div className="min-h-screen flex">
-        <div className="w-full lg:w-1/2 flex items-center justify-end px-8 pr-24">
+        <div className="w-full lg:w-1/2 flex items-center justify-center lg:justify-end px-8 lg:pr-24">
           <AnimatePresence>
             {isVisible && (
               <SlideIn direction={"right"}>
