@@ -1,8 +1,7 @@
 import express from "express";
+import { generatePDF } from "../controllers/pdf.controller.js";
 const router = express.Router();
 
-router.get('/', (req, res) => {
-	res.send("Hello world");
-});
+router.post("/generate", generatePDF);
 
 export default router;
