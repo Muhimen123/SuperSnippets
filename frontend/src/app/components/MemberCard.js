@@ -49,7 +49,7 @@ export default function MemberCard({
       className={`bg-white hover:shadow-2xl hover:scale-105 border rounded-lg p-2 md:w-100`}
     >
       <div className={`flex flex-col md:flex-row justify-start items-center gap-2`}>
-        <div className={`pt-5 basis-1/2`}>
+        <div className={`basis-1/2`}>
           <MemberImage image={image} />
         </div>
         <div className={`p-5 md:p-0 basis-1/2`}>
