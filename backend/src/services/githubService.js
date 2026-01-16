@@ -37,34 +37,16 @@ export const fetchRepoFiles = async (url) => {
     owner,
     repo,
     tree_sha: defaultBranch,
-    recursive: '1',
+    recursive: "1",
   });
 
   const codeFiles = treeData.tree.filter(
-    (item) => item.type === 'blob' && isCodeFile(item.path)
+    (item) => item.type === "blob" && isCodeFile(item.path)
   );
 
-  const filesWithContent = await Promise.all(
-    codeFiles.map(async (file) => {
-      try {
-        const { data: blobData } = await octokit.rest.git.getBlob({
-          owner,
-          repo,
-          file_sha: file.sha,
-        });
-
-        const content = Buffer.from(blobData.content, 'base64').toString('utf-8');
-
-        return {
-          name: file.path,
-          content: content,
-        };
-      } catch (err) {
-        console.error(`Error fetching file ${file.path}:`, err.message);
-        return null; 
-      }
-    })
-  );
-
-  return filesWithContent.filter((f) => f !== null);
+  // Return only file metadata (name and sha) to avoid rate limits
+  return codeFiles.map((file) => ({
+    name: file.path,
+    sha: file.sha,
+  }));
 };
