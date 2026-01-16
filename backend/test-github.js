@@ -2,7 +2,7 @@
 // import fetch from 'node-fetch'; 
 
 const testFetch = async () => {
-  const url = "https://github.com/Shinigami2018/HavenApp";
+  const url = "https://github.com/ShahjalalShohag/code-library";
   const apiUrl = "http://localhost:8000/api/github/fetch";
 
   console.log(`Fetching from: ${apiUrl}`);
