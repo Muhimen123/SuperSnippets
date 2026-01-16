@@ -21,16 +21,19 @@ const testFetch = async () => {
     }
 
     const data = await response.json();
-    console.log(`\n✅ Success! Found ${data.length} files.`);
+    console.log(`\n Success! Found ${data.length} files.`);
     
     if (data.length > 0) {
-      console.log("\n--- Preview of first file ---");
-      console.log(`File: ${data[0].name}`);
-      console.log(`Content (first 100 chars):\n${data[0].content.substring(0, 100)}...`);
+      console.log("\n--- File List ---");
+      // Display all file names
+      data.forEach((file, index) => {
+        console.log(`${index + 1}. ${file.name}`);
+      });
+      console.log("----------------------------\n");
     }
 
   } catch (error) {
-    console.error("\n❌ Error:", error.message);
+    console.error("\n Error:", error.message);
   }
 };
 

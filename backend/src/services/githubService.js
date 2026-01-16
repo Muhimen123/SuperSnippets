@@ -44,9 +44,8 @@ export const fetchRepoFiles = async (url) => {
     (item) => item.type === "blob" && isCodeFile(item.path)
   );
 
-  // Return only file metadata (name and sha) to avoid rate limits
+  // Return only file metadata (name) to avoid rate limits
   return codeFiles.map((file) => ({
     name: file.path,
-    sha: file.sha,
   }));
 };

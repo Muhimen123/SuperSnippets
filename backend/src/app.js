@@ -6,7 +6,7 @@ import githubRoutes from "./routes/githubRoutes.js";
 const app = express();
 
 app.use(cors());
-app.use(json());
+//app.use(json());
 app.use("/api", allRoutes);
 // Middleware
 app.use(cors()); // Allow frontend requests
