@@ -162,7 +162,7 @@ ${s.content}
 
 % Configure the look of the code blocks
 \\lstset{
-  basicstyle=\\ttfamily\\tiny,
+  basicstyle=\\ttfamily,
   breaklines=true, % Important: This wraps long lines
   frame=single,
   backgroundcolor=\\color{gray!5},
