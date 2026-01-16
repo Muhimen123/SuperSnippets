@@ -42,7 +42,7 @@ export const fetchRepoFiles = async (url) => {
 
   const codeFiles = treeData.tree.filter(
     (item) => item.type === "blob" && isCodeFile(item.path)
-  );
+  ); //SHA dia kisu ekta kora jabe maybe content er jonno idk
 
   // Return only file metadata (name) to avoid rate limits
   return codeFiles.map((file) => ({
