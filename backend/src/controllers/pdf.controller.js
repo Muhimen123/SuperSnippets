@@ -16,7 +16,7 @@ export const generatePDF = async (req, res) => {
     }
 
     const pdfBuffer = await response.arrayBuffer();
-		const title = "tmp";
+    const title = "tmp";
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
