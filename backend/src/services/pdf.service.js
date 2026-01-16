@@ -1,9 +1,31 @@
-/**
- * Generates a LaTeX string for testing.
- * This template uses the 'listings' package for better code handling.
- */
-export const buildLatex = () => {
-  // 1. Define some random test data inside the function
+import archiver from "archiver";
+import { Writable } from "stream";
+
+export const generateTarBuffer = async () => {
+  return new Promise((resolve, reject) => {
+    const texCode = buildLatex();
+    const chunks = [];
+    const archive = archiver("tar");
+
+    const stream = new Writable({
+      write(chunk, encoding, next) {
+        chunks.push(chunk);
+        next();
+      },
+    });
+
+    archive.pipe(stream);
+
+    archive.append(texCode, { name: "main.tex" });
+
+    archive.on("error", (err) => reject(err));
+    stream.on("finish", () => resolve(Buffer.concat(chunks)));
+
+    archive.finalize();
+  });
+};
+
+const buildLatex = () => {
   var content = {
     name: "CounterComponent.tsx",
     content: `import React, { useState } from 'react';
@@ -114,7 +136,6 @@ export const Counter = () => {
     },
   ];
 
-  // 2. Map the snippets into LaTeX blocks
   const snippetsTex = testSnippets
     .map(
       (s) => `
@@ -126,7 +147,6 @@ ${s.content}
     )
     .join("\n");
 
-  // 3. Return the full document string
   return `
 \\documentclass[landscape, a4paper]{article}
 \\usepackage[margin=1.5cm]{geometry}
