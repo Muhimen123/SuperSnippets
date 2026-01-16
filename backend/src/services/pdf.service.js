@@ -4,7 +4,21 @@
  */
 export const buildLatex = () => {
   // 1. Define some random test data inside the function
+  var content = {
+    name: "CounterComponent.tsx",
+    content: `import React, { useState } from 'react';
+export const Counter = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <button onClick={() => setCount(c => c + 1)}>
+      Count is {count}
+    </button>
+  );
+};`,
+  };
+
   const testSnippets = [
+    content,
     {
       name: "CounterComponent.tsx",
       content: `import React, { useState } from 'react';
@@ -98,53 +112,13 @@ export const Counter = () => {
     average = total / len(data) if data else 0
     return {"total": total, "average": average}`,
     },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
   ];
 
   // 2. Map the snippets into LaTeX blocks
   const snippetsTex = testSnippets
     .map(
       (s) => `
-\\section*{${s.name.replace(/_/g, "\\_")}}
+\\section {${s.name.replace(/_/g, "\\_")}}
 \\begin{lstlisting}
 ${s.content}
 \\end{lstlisting}
@@ -172,9 +146,10 @@ ${s.content}
   showstringspaces=false,
   keepspaces=true
 }
-
 \\begin{document}
 \\begin{multicols*}{2} % Creates two columns for the snippets
+\\tableofcontents
+\\newpage
   ${snippetsTex}
 \\end{multicols*}
 \\end{document}
