@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import allRoutes from "./routes/index.js";
-import githubRoutes from "./routes/githubRoutes.js";
+import githubRoutes from "./routes/github.routes.js";
 
 const app = express();
 

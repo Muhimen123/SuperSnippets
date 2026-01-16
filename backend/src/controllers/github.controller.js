@@ -1,4 +1,4 @@
-import { fetchRepoFiles } from "../services/githubService.js";
+import { fetchRepoFiles } from "../services/github.service.js";
 
 export const getRepoFiles = async (req, res) => {
   try {
