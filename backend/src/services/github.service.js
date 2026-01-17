@@ -95,5 +95,3 @@ export const fetchRepoFiles = async (url) => {
     file_name: file.path,
   }));
 };
-
-getRawFileData({});

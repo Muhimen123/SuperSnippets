@@ -24,7 +24,13 @@ export const getFileContent = async (req, res) => {
   try {
     const { owner_name, repository, file_name } = req.body;
 
-    const linesArray = getRawFileData({ owner_name, repository, file_name });
+    if (!owner_name || !repository || !file_name) {
+      return res.status(400).json({
+        error: "Not enough information to fetch file content",
+      });
+    }
+
+    const linesArray = await getRawFileData({ owner_name, repository, file_name });
     const fileData = {
       code: linesArray,
     };
