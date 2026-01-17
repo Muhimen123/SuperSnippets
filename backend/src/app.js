@@ -1,22 +1,21 @@
-import express from "express";
+import express, {json} from "express";
 import cors from "cors";
 import allRoutes from "./routes/index.js";
-import githubRoutes from "./routes/github.routes.js";
 
 const app = express();
 
 app.use(cors());
-//app.use(json());
-app.use("/api", allRoutes);
-// Middleware
-app.use(cors()); // Allow frontend requests
-app.use(express.json());
+app.use(json());
 
-// Routes
-app.use("/api/github", githubRoutes);
+app.use("/api", allRoutes);
 
 app.get("/", (req, res) => {
-  res.send("SuperSnippets Backend API is running");
+  const currentDate = new Date();
+
+  res.status(200).json({
+    message: "Server is up and running!",
+    serverClock: currentDate.toString(),
+  });
 });
 
 export default app;
