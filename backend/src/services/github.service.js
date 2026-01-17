@@ -16,7 +16,37 @@ const extractOwnerAndRepo = (url) => {
   }
 };
 
-const generateRawFileLink = ({ owner, repo, file }) => {};
+export const generateRawFileLink = ({ owner_name, repository, file_name }) => {
+  const safeFileName = encodeURIComponent(file_name);
+  const rawFileLink = `https://raw.githubusercontent.com/${owner_name}/${repository}/refs/heads/main/${safeFileName}`;
+  return rawFileLink;
+};
+
+export const getRawFileData = async ({ owner_name, repository, file_name }) => {
+  const fileData = {
+    owner_name: owner_name,
+    repository: repository,
+    file_name: file_name,
+  };
+
+  const link = generateRawFileLink(fileData);
+
+  try {
+    const response = await fetch(link);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`);
+    }
+
+    const fileContent = await response.text();
+    const linesArray = fileContent.split(/\r?\n/);
+    
+    return linesArray;
+  } catch (error) {
+    console.error("Error fetching raw file:", error);
+    return null;
+  }
+};
 
 const isCodeFile = (path) => {
   const validExtensions = [
@@ -57,7 +87,7 @@ export const fetchRepoFiles = async (url) => {
 
   const codeFiles = treeData.tree.filter(
     (item) => item.type === "blob" && isCodeFile(item.path),
-  ); 
+  );
 
   return codeFiles.map((file) => ({
     owner_name: owner,
@@ -65,3 +95,5 @@ export const fetchRepoFiles = async (url) => {
     file_name: file.path,
   }));
 };
+
+getRawFileData({});
