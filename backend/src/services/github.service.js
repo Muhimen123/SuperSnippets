@@ -1,7 +1,7 @@
 import { Octokit } from "octokit";
 
 const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN
+  auth: process.env.GITHUB_TOKEN,
 });
 
 const extractOwnerAndRepo = (url) => {
@@ -16,15 +16,60 @@ const extractOwnerAndRepo = (url) => {
   }
 };
 
+export const generateRawFileLink = ({ owner_name, repository, file_name }) => {
+  const safeFileName = encodeURIComponent(file_name);
+  const rawFileLink = `https://raw.githubusercontent.com/${owner_name}/${repository}/refs/heads/main/${safeFileName}`;
+  return rawFileLink;
+};
+
+export const getRawFileData = async ({ owner_name, repository, file_name }) => {
+  const fileData = {
+    owner_name: owner_name,
+    repository: repository,
+    file_name: file_name,
+  };
+
+  const link = generateRawFileLink(fileData);
+
+  try {
+    const response = await fetch(link);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`);
+    }
+
+    const fileContent = await response.text();
+    const linesArray = fileContent.split(/\r?\n/);
+    
+    return linesArray;
+  } catch (error) {
+    console.error("Error fetching raw file:", error);
+    return null;
+  }
+};
+
 const isCodeFile = (path) => {
   const validExtensions = [
-    '.cpp', '.c', '.cc', '.h', '.hpp',
-    '.java', '.py',
-    '.js', '.jsx', '.ts', '.tsx',
-    '.go', '.rs', '.kt', '.cs',
-    '.sh', '.md', '.txt'
+    ".cpp",
+    ".c",
+    ".cc",
+    ".h",
+    ".hpp",
+    ".java",
+    ".py",
+    ".js",
+    ".jsx",
+    ".ts",
+    ".tsx",
+    ".go",
+    ".rs",
+    ".kt",
+    ".cs",
+    ".sh",
+    ".md",
+    ".txt",
   ];
-  return validExtensions.some(ext => path.toLowerCase().endsWith(ext));
+  return validExtensions.some((ext) => path.toLowerCase().endsWith(ext));
 };
 
 export const fetchRepoFiles = async (url) => {
@@ -41,11 +86,12 @@ export const fetchRepoFiles = async (url) => {
   });
 
   const codeFiles = treeData.tree.filter(
-    (item) => item.type === "blob" && isCodeFile(item.path)
-  ); //SHA dia kisu ekta kora jabe maybe content er jonno idk
+    (item) => item.type === "blob" && isCodeFile(item.path),
+  );
 
-  // Return only file metadata (name) to avoid rate limits
   return codeFiles.map((file) => ({
-    name: file.path,
+    owner_name: owner,
+    repository: repo,
+    file_name: file.path,
   }));
 };
