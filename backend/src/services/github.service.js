@@ -44,7 +44,7 @@ export const getRawFileData = async ({ owner_name, repository, file_name }) => {
     return linesArray;
   } catch (error) {
     console.error("Error fetching raw file:", error);
-    return null;
+    throw error;
   }
 };
 
