@@ -6,7 +6,8 @@ import PasswordField from "../../components/PasswordField";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
+//import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
+import { doCredentialLogin } from "@/app/actions";
 
 export default function LoginForm({ onSignUpClick, onHelpClick }) {
   const router = useRouter();
@@ -22,17 +23,9 @@ export default function LoginForm({ onSignUpClick, onHelpClick }) {
       setError("Please fill in all fields");
       return;
     }
-
-    const user = MOCK_AUTH_DATABASE.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (user) {
-      localStorage.setItem("userEmail", email);
-      router.push("/dashboard");
-    } else {
-      setError("Invalid email or password");
-    }
+    doCredentialLogin(email, password)
+      .then((res) => {
+        if (res.success) {
   };
 
   return (
