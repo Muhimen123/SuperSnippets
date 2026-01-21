@@ -26,6 +26,14 @@ export default function LoginForm({ onSignUpClick, onHelpClick }) {
     doCredentialLogin(email, password)
       .then((res) => {
         if (res.success) {
+          router.push("/dashboard");
+        } else {
+          setError(res.message || "Login failed");
+        }
+      })
+      .catch(() => {
+        setError("An error occurred during login");
+      });
   };
 
   return (
