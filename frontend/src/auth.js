@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google"; // 1. Import Google Provider
 
+const API_BASE = process.env.BACKEND_URL || "http://localhost:5000";
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Google({
@@ -9,7 +11,42 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     Credentials({
-      // ... your existing credentials config ...
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const email = credentials?.email?.toLowerCase();
+        const password = credentials?.password;
+
+        if (!email || !password) {
+          return null;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/api/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (!response.ok) {
+            return null;
+          }
+
+          const user = await response.json();
+
+          return {
+            id: user.id || user.email,
+            name: user.name || user.email?.split("@")[0],
+            email: user.email,
+            role: user.role || "user",
+          };
+        } catch (error) {
+          return null;
+        }
+      },
     }),
   ],
   callbacks: {
@@ -18,7 +55,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (account.provider === "google") {
         try {
             // 3. Send Google Profile to YOUR Express Backend
-            const response = await fetch("http://localhost:5000/api/auth/google", {
+            const response = await fetch(`${API_BASE}/api/auth/google`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

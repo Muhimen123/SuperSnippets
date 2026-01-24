@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 //import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
 import { doCredentialLogin } from "@/app/actions";
+import { doSocialLogin } from "@/app/actions";
 
 export default function LoginForm({ onSignUpClick, onHelpClick }) {
   const router = useRouter();
@@ -52,12 +53,18 @@ export default function LoginForm({ onSignUpClick, onHelpClick }) {
           </p>
         </div>
 
-        <button className="w-full bg-black text-white py-3 px-4 rounded-lg mb-6 flex items-center justify-center gap-3 hover:bg-gray-800 transition-colors">
-          <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
-            <span className="text-black text-xs font-bold">G</span>
-          </div>
-          Log in with Google
-        </button>
+        <form action={async () => {
+          const formData = new FormData();
+          formData.append('action', 'google');
+          await doSocialLogin(formData);
+        }}>
+          <button type="submit" className="w-full bg-black text-white py-3 px-4 rounded-lg mb-6 flex items-center justify-center gap-3 hover:bg-gray-800 transition-colors">
+            <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
+              <span className="text-black text-xs font-bold">G</span>
+            </div>
+            Log in with Google
+          </button>
+        </form>
 
         <div className="text-center text-gray-500 text-sm mb-6">
           Or use Email
