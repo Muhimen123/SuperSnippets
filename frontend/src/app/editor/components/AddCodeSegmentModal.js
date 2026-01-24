@@ -21,7 +21,7 @@ export default function AddCodeSegmentModal({ isOpen, onClose, onFilesAdded }) {
     setIsDragOver(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const newFiles = Array.from(e.dataTransfer.files);
-      setFiles((prev) => [...prev, ...newFiles]);
+      processFiles(newFiles);
     }
   };
 
@@ -32,8 +32,27 @@ export default function AddCodeSegmentModal({ isOpen, onClose, onFilesAdded }) {
   const handleFileInputChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const newFiles = Array.from(e.target.files);
-      setFiles((prev) => [...prev, ...newFiles]);
+      processFiles(newFiles);
     }
+  };
+
+  const processFiles = (fileList) => { // EI FUNCTION TA FILE CONTENT FETCH LOGIC HANDLE KORE
+    const filePromises = fileList.map((file) => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const content = e.target.result;
+          console.log(`File Name: ${file.name}`);
+          console.log(`Content:\n${content}`);
+          resolve({ name: file.name, content: content });
+        };
+        reader.readAsText(file);
+      });
+    });
+
+    Promise.all(filePromises).then((processedFiles) => {
+      setFiles((prev) => [...prev, ...processedFiles]);
+    });
   };
 
   const handleDone = () => {
