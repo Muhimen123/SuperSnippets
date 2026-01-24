@@ -271,7 +271,7 @@ function ContributeSection() {
       className={`flex flex-col items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
     >
       <h3 className={`text-2xl font-bold mb-4`}>Contribute</h3>
-      <p className={`max-w-3xl text-center text-gray-700 px-4`}>
+      <p className={`max-w-3xl text-center text-gray-700 px-4 mb-2`}>
         Our software is completely open-source. We hope to see people using our
         code as a base to create custom solutions tailored to their needs. Our
         GitHub repository is open for community contribution. Visit the
