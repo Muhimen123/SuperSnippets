@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { processFiles } from "@/utility/fileProcessing";
 
 export default function CodeImport({ files, setFiles }) {
   const [isDragOver, setIsDragOver] = useState(false);
@@ -14,12 +15,13 @@ export default function CodeImport({ files, setFiles }) {
     setIsDragOver(false);
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     setIsDragOver(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const newFiles = Array.from(e.dataTransfer.files);
-      processFiles(newFiles);
+      const processedFiles = await processFiles(newFiles);
+      setFiles((prev) => [...prev, ...processedFiles]);
     }
   };
 
@@ -27,30 +29,12 @@ export default function CodeImport({ files, setFiles }) {
     document.getElementById('fileInput').click();
   };
 
-  const handleFileInputChange = (e) => {
+  const handleFileInputChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const newFiles = Array.from(e.target.files);
-      processFiles(newFiles);
-    }
-  };
-
-  const processFiles = (fileList) => {
-    const filePromises = fileList.map((file) => {
-      return new Promise((resolve) => {
-        const reader = new FileReader(); //EKHANE CHANGE KORSI FILE CONTENT FETCH LOGIC HANDLE ER JONNO
-        reader.onload = (e) => {
-          const content = e.target.result;
-          console.log(`File Name: ${file.name}`);
-          console.log(`Content:\n${content}`);
-          resolve({ name: file.name, content: content });
-        };
-        reader.readAsText(file);
-      });
-    });
-
-    Promise.all(filePromises).then((processedFiles) => {
+      const processedFiles = await processFiles(newFiles);
       setFiles((prev) => [...prev, ...processedFiles]);
-    });
+    }
   };
 
   return (
