@@ -1,5 +1,6 @@
-import "dotenv/config";
-import nodemailer from "nodemailer";
+import 'dotenv/config';
+import nodemailer from 'nodemailer';
+import { welcomeTemplate } from '../utils/email_templates/welcome.mail.js';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -9,17 +10,20 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-const mailOptions = {
-  from: 'supersnippetsofficial@gmail.com',
-  to: 'supersnippetsofficial@protonmail.com',
-  subject: 'Hello from Node.js',
-  text: 'This is a test email sent using Nodemailer!',
-  html: '<b>Hello world!</b>' // Optional: use HTML body
-};
+export const sendWelcomeEmail = async (to, name) => {
+  const customizedMail = welcomeTemplate.replace(`{{name}}`, name);
 
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) {
-    return console.log('Error occurred:', error.message);
+  const mailOptions = {
+    from: `"Super Snippets" <${process.env.EMAIL_APP_USER}>`,
+    to: to,
+    subject: 'Welcome to Super Snippets! 📋',
+		html: customizedMail
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    return info;
+  } catch (error) {
+    throw new Error(`Email Service Error: ${error.message}`);
   }
-  console.log('Email sent successfully! Message ID:', info.messageId);
-});
+};
