@@ -78,6 +78,7 @@ export const login = async (req, res) => {
 export const googleAuth = async (req, res) => {
   try {
     const { email, name, image, googleId } = req.body;
+    console.log("Google Auth Request Body:", req.body);
 
     // Validate input
     if (!email || !googleId) {
