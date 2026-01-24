@@ -268,16 +268,41 @@ function AboutSection() {
 function ContributeSection() {
   return (
     <div
-      id="contribute"
-      className={`scroll-mt-100 flex flex-col items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
+      className={`flex flex-col items-center justify-center w-full p-12 m-8 bg-white/0 backdrop-blur-xs`}
     >
       <h3 className={`text-2xl font-bold mb-4`}>Contribute</h3>
-      <p className={`max-w-3xl text-center text-gray-700 px-4`}>
+      <p className={`max-w-3xl text-center text-gray-700 px-4 mb-2`}>
         Our software is completely open-source. We hope to see people using our
         code as a base to create custom solutions tailored to their needs. Our
         GitHub repository is open for community contribution. Visit the
         repository to learn how you can contribute to the project.
       </p>
+      <a
+        href="https://github.com/Muhimen123/SuperSnippets"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`
+          group
+          flex items-center gap-2 
+          bg-black text-white text-sm 
+          py-2 px-4 m-5
+          rounded-lg hover:cursor-pointer
+          ring-4 ring-gray-400
+          transition-all duration-200
+          active:scale-95
+        `}
+      >
+        Contribute on GitHub
+        <img
+          src="/next-arrow.svg"
+          className={`
+            invert brightness-0
+            group-hover:animate-arrow-ping
+          `}
+          height={25}
+          width={25}
+        ></img>
+      </a>
     </div>
   );
 }
