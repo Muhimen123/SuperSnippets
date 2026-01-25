@@ -4,12 +4,12 @@ export const sendWelcomeMail = async (req, res) => {
   const { email, name } = req.body;
 
   if (!email || !name) {
-    return res.status(400).json({ error: "Email Address/Name is Requierd" });
+    return res.status(400).json({ error: "Email Address/Name is Required" });
   }
 
   try {
     await emailService.sendWelcomeEmail(email, name);
-    res.status(201).json({
+    res.status(200).json({
       message: "Welcome mail sent successfully",
     });
   } catch (error) {
