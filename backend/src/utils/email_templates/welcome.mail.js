@@ -32,7 +32,7 @@ export const welcomeTemplate = `
                     <p>Thanks for joining Super Snippets. We're thrilled to have you in our community!</p>
                     <p>To get started and explore your dashboard, click the button below:</p>
                     <div class="button-container">
-                        <a href="https://yourwebsite.com/login" class="button">Go to Dashboard</a>
+                        <a href="http://localhost:3000/dashboard" class="button">Go to Dashboard</a>
                     </div>
                     <p>If you have any questions, feel free to reply to this email.</p>
                     <p>Cheers,<br>The Super Snippets Team</p>
