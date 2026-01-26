@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
 
 /**
  * Create a new user with email and password
@@ -15,7 +16,7 @@ export const createUser = async ({ name, email, password }) => {
     const user = await User.create({
       name,
       email,
-      password, // In production, hash this password using bcrypt
+      password: await bcrypt.hash(password, 10), // In production, hash this password using bcrypt
       role: "user",
     });
 
@@ -44,7 +45,8 @@ export const authenticateUser = async ({ email, password }) => {
     }
 
     // In production, use bcrypt.compare(password, user.password)
-    if (user.password !== password) {
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       throw new Error("Invalid credentials");
     }
 
