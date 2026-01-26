@@ -14,13 +14,10 @@ export async function doSocialSignUp(formData) {
     // If user doesn't exist, backend creates them via the signIn callback
     await signIn(action, { redirectTo: "/dashboard" });
 }
-export async function doCredentialLogin(formData) {
+export async function doCredentialLogin(email, password) {
     try {
-        const email = formData.get("email");
-        const password = formData.get("password");
-        
         // This calls the 'authorize' function we defined in auth.js
-        await signIn("credentials", {
+        const result = await signIn("credentials", {
             email,
             password,
             redirect: false,
@@ -28,7 +25,8 @@ export async function doCredentialLogin(formData) {
 
         return { success: true };
     } catch (error) {
-        return { error: error };
+        console.error("Login error:", error);
+        return { success: false, message: error.message || "Invalid credentials" };
     }
 }
 
