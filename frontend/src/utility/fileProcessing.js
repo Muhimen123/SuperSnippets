@@ -4,6 +4,7 @@ export const processFiles = (fileList) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const content = e.target.result;
+        console.log(file.name, content);
         resolve({ name: file.name, content: content });
       };
       reader.onerror = () => {
