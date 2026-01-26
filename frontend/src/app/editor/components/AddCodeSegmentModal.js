@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { processFiles } from "@/utility/fileProcessing";
 
 export default function AddCodeSegmentModal({ isOpen, onClose, onFilesAdded }) {
   const [isDragOver, setIsDragOver] = useState(false);
@@ -16,12 +17,13 @@ export default function AddCodeSegmentModal({ isOpen, onClose, onFilesAdded }) {
     setIsDragOver(false);
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     setIsDragOver(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const newFiles = Array.from(e.dataTransfer.files);
-      setFiles((prev) => [...prev, ...newFiles]);
+      const processedFiles = await processFiles(newFiles);
+      setFiles((prev) => [...prev, ...processedFiles]);
     }
   };
 
@@ -29,10 +31,11 @@ export default function AddCodeSegmentModal({ isOpen, onClose, onFilesAdded }) {
     document.getElementById('modalFileInput').click();
   };
 
-  const handleFileInputChange = (e) => {
+  const handleFileInputChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const newFiles = Array.from(e.target.files);
-      setFiles((prev) => [...prev, ...newFiles]);
+      const processedFiles = await processFiles(newFiles);
+      setFiles((prev) => [...prev, ...processedFiles]);
     }
   };
 
