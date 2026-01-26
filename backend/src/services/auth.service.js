@@ -17,7 +17,6 @@ export const createUser = async ({ name, email, password }) => {
       name,
       email,
       password: await bcrypt.hash(password, 10), // In production, hash this password using bcrypt
-      role: "user",
     });
 
     // Return user without password
@@ -25,7 +24,6 @@ export const createUser = async ({ name, email, password }) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role,
       createdAt: user.createdAt,
     };
   } catch (error) {
@@ -55,7 +53,6 @@ export const authenticateUser = async ({ email, password }) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role,
       image: user.image,
     };
   } catch (error) {
@@ -86,7 +83,6 @@ export const handleGoogleAuth = async ({ email, name, image, googleId }) => {
         email,
         googleId,
         image,
-        role: "user",
       });
     }
 
@@ -95,7 +91,6 @@ export const handleGoogleAuth = async ({ email, name, image, googleId }) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role,
       image: user.image,
     };
   } catch (error) {
