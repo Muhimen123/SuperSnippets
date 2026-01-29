@@ -3,14 +3,16 @@ import Logo from "../../components/Logo";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
+import { useState, useTransition } from "react";
+import { doSignUp, doSocialSignUp } from "../../actions";
+
 
 export default function SignUpForm( {onLoginClick} ) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [pending, startTransition] = useTransition();
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -21,19 +23,16 @@ export default function SignUpForm( {onLoginClick} ) {
       return;
     }
 
-    const userExists = MOCK_AUTH_DATABASE.some((u) => u.email === email);
+    startTransition(async () => {
+      const result = await doSignUp({ email, password });
 
-    if (userExists) {
-      setError("Email already exists");
-      return;
-    }
+      if (result?.error) {
+        setError(result.error);
+        return;
+      }
 
-    const name = email.split('@')[0];
-    MOCK_AUTH_DATABASE.push({ name, email, password });
-    
-    // Console log to verify user addition
-    console.log("Updated Mock Database:", MOCK_AUTH_DATABASE);
-    router.push('/login');
+      router.push("/login");
+    });
   }
 
   return (
@@ -52,12 +51,18 @@ export default function SignUpForm( {onLoginClick} ) {
           </p>
         </div>
 
-        <button className="w-full bg-black text-white py-3 px-4 rounded-lg mb-6 flex items-center justify-center gap-3 hover:bg-gray-800 transition-colors">
-          <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
-            <span className="text-black text-xs font-bold">G</span>
-          </div>
-          Sign up with Google
-        </button>
+        <form action={async () => {
+          const formData = new FormData();
+          formData.append('action', 'google');
+          await doSocialSignUp(formData);
+        }}>
+          <button type="submit" className="w-full bg-black text-white py-3 px-4 rounded-lg mb-6 flex items-center justify-center gap-3 hover:bg-gray-800 transition-colors">
+            <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
+              <span className="text-black text-xs font-bold">G</span>
+            </div>
+            Sign up with Google
+          </button>
+        </form>
 
         <div className="text-center text-gray-500 text-sm mb-6">
           Or use Email
@@ -86,9 +91,10 @@ export default function SignUpForm( {onLoginClick} ) {
 
           <button
             type="submit"
-            className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors"
+            className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-60"
+            disabled={pending}
           >
-            Sign Up &rarr;
+            {pending ? "Creating account..." : "Sign Up →"}
           </button>
         </form>
 
