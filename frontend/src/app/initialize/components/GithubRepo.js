@@ -25,13 +25,10 @@ export default function GithubRepo({ repos, setRepos, githubUrl, setGithubUrl })
       }
 
       if (repos.length < 3) {
-        console.log("Added repo:", githubUrl);
-        setRepos([...repos, githubUrl]);
         
-        // Add to mock database for the editor view
         const repoName = extractRepoName(githubUrl);
-        if (!MOCK_REPO_DATABASE.includes(repoName)) {
-          MOCK_REPO_DATABASE.push(repoName);
+        if (!repos.includes(repoName)) {
+          setRepos([...repos, repoName]);
         }
 
         setGithubUrl("");
@@ -78,7 +75,7 @@ export default function GithubRepo({ repos, setRepos, githubUrl, setGithubUrl })
               className={`bg-black text-white px-8 py-1 rounded-lg text-sm transition-all duration-300 ease-in-out ${repos.length >= 3 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-black hover:font-bold hover:scale-105 active:scale-95'}`}
               
             >
-              Add Another
+              Add
             </button>
           </div>
         </div>

@@ -36,9 +36,8 @@ export default function Initialize() {
   const [constraints, setConstraints] = useState(defaultConstraints);
 
   const handleNext = () => {
-    if (currentStep === 1 && githubUrl.trim() && repos.length < 3) {
-      setRepos([...repos, githubUrl]);
-      setGithubUrl("");
+    if (currentStep === 1) {
+      console.log(repos);
     }
 
     if (currentStep === 4) {
