@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import PasswordModal from "./passwordModal";
 import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
+import { doUpdateProfile } from "@/app/actions";
 
 export default function AccountIcon() {
 	const router = useRouter();
@@ -11,6 +12,17 @@ export default function AccountIcon() {
 	const [name, setName] = useState("John Doe");
 	const [email, setEmail] = useState("john.doe@example.com");
 	const [isEditingName, setIsEditingName] = useState(false);
+
+	const handleNameUpdate = async () => {
+		setIsEditingName(false);
+		if (!name.trim()) return;
+
+		const response = await doUpdateProfile(email, name);
+		if (response.error) {
+			console.error("Failed to update name:", response.error);
+			// Optionally revert name change here if needed
+		}
+	};
 
 	useEffect(() => {
 		const userEmail = localStorage.getItem("userEmail");
@@ -76,9 +88,9 @@ export default function AccountIcon() {
 								type="text"
 								value={name}
 								onChange={(e) => setName(e.target.value)}
-								onBlur={() => setIsEditingName(false)}
+								onBlur={handleNameUpdate}
 								onKeyDown={(e) => {
-									if (e.key === 'Enter') setIsEditingName(false);
+									if (e.key === 'Enter') handleNameUpdate();
 								}}
 								autoFocus
 								className="text-xl font-semibold text-center border-b-2 border-black outline-none pb-1 w-full max-w-[200px]"

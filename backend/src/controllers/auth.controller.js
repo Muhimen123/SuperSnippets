@@ -2,6 +2,7 @@ import {
   createUser,
   authenticateUser,
   handleGoogleAuth,
+  updateUser,
 } from "../services/auth.service.js";
 
 /**
@@ -96,6 +97,31 @@ export const googleAuth = async (req, res) => {
 
     res.status(500).json({
       error: "Failed to authenticate with Google",
+      details: error.message,
+    });
+  }
+};
+
+/**
+ * Handle profile update
+ */
+export const updateProfile = async (req, res) => {
+  try {
+    const { email, name } = req.body;
+
+    if (!email || !name) {
+      return res.status(400).json({
+        error: "Email and name are required",
+      });
+    }
+
+    const user = await updateUser({ email, name });
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Update Profile Error:", error);
+    res.status(500).json({
+      error: "Failed to update profile",
       details: error.message,
     });
   }
