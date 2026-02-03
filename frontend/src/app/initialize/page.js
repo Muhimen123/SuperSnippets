@@ -7,6 +7,7 @@ import DirectionController from "./components/DirectionController";
 import InitNavbar from "./components/InitNavbar";
 import StepperProgressBar from "./components/StepperProgressBar";
 import { useRouter } from "next/navigation";
+import { ConfigHandler } from "@/utility/configHandler";
 
 const defaultConstraints = {
   font: "Jetbrains Mono",
@@ -19,6 +20,7 @@ const defaultConstraints = {
 
 export default function Initialize() {
   const router = useRouter();
+  const configHandler = new ConfigHandler();
 
   const steps = [
     { id: 1, name: `Github Link` },
@@ -37,7 +39,7 @@ export default function Initialize() {
 
   const handleNext = () => {
     if (currentStep === 1) {
-      console.log(repos);
+      configHandler.addRepo(repos);
     }
 
     if (currentStep === 4) {

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { MOCK_REPO_DATABASE } from "@/utility/mockRepoDatabase";
 
 export default function GithubRepo({ repos, setRepos, githubUrl, setGithubUrl }) {
   const [error, setError] = useState("");

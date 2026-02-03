@@ -1,10 +1,24 @@
 export class ConfigHandler {
+
+	#storageKey = 'configuration';
+
 	initiate(codebookName) {
 		const config = {
-			'codebookName': codebookName
+			'codebookName': codebookName,
+			'repoArray': [],
 		};
 
-		localStorage.setItem('configuration', this.convertToJSONString(config));
+		this.write(config);
+	}
+
+	write(config) {
+		localStorage.setItem(this.#storageKey, this.convertToJSONString(config));
+	}
+
+	addRepo(repoList) {
+		let config = this.convertToJSON();
+		config['repoArray'] = [...config['repoArray'], ...repoList];
+		this.write(config);
 	}
 
 	clearAll() {
