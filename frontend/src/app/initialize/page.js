@@ -12,7 +12,7 @@ import { ConfigHandler } from "@/utility/configHandler";
 const defaultConstraints = {
   font: "Jetbrains Mono",
   headerText: "CodeBook",
-  marginSize: 3,
+  marginSize: 1,
   fontSize: 11,
   columns: 1,
   pageLimit: 20,

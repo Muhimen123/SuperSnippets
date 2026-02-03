@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { ConfigHandler } from "@/utility/configHandler";
 
 export default function Constraints({ constraints, setConstraints }) {
+  const configHandler = new ConfigHandler();
+
   const PREDEFINED_FONTS = [
     "Jetbrains Mono",
     "Roboto",
@@ -26,10 +28,24 @@ export default function Constraints({ constraints, setConstraints }) {
   };
 
   const handleCounterChange = (field, increment) => {
-    setConstraints((prev) => ({
-      ...prev,
-      [field]: Math.max(0, prev[field] + increment),
-    }));
+    setConstraints((prev) => {
+      const newValue = Math.max(0, prev[field] + increment);
+
+      if (field === "marginSize") {
+        configHandler.setMargin(newValue);
+      } else if (field === "fontSize") {
+        configHandler.setFontSize(newValue);
+      } else if (field === "columns") {
+        configHandler.setColumns(newValue);
+      } else if (field === "pageLimit") {
+        configHandler.setPageLimit(newValue);
+      }
+
+      return {
+        ...prev,
+        [field]: newValue,
+      };
+    });
   };
 
   const CounterInput = ({ label, value, field }) => (
@@ -110,7 +126,10 @@ export default function Constraints({ constraints, setConstraints }) {
             <div className="relative">
               <select
                 value={constraints.font}
-                onChange={(e) => handleChange("font", e.target.value)}
+                onChange={(e) => {
+                  handleChange("font", e.target.value);
+                  configHandler.setFont(e.target.value);
+                }}
                 className="w-full rounded-lg px-4 py-2 text-sm border-none outline-none text-gray-600 appearance-none font-mono"
                 style={{ backgroundColor: "#aeadadff" }}
               >
