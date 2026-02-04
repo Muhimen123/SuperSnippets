@@ -1,3 +1,4 @@
+import { ConfigHandler } from "@/utility/configHandler";
 import React from "react";
 import { useState } from "react";
 
@@ -52,23 +53,40 @@ const PREDEFINED_FONTS = [
 ];
 
 export default function ConfigBar({ constraints }) {
+  const configHandler = new ConfigHandler();
   const [fonts, setFonts] = useState(PREDEFINED_FONTS);
 
   // Default values if constraints is null/undefined
-  const safeConstraints = constraints || {
+  let safeConstraints = constraints || {
     font: "Jetbrains Mono",
     headerText: "My Codebook",
     marginSize: "2",
     columns: "2",
-    pageLimit: "100"
+    pageLimit: "100",
   };
 
+  const [currConstraints, setCurrConstraints] = useState(safeConstraints);
+
+  const handleChange = (field, value) => {
+    setCurrConstraints((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  safeConstraints["font"] = configHandler.getFont();
   return (
     <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono p-6 overflow-y-auto gap-6">
       {/* Font */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">{safeConstraints.font}</label>
-        <Select>
+        <Select
+          value={safeConstraints.font}
+          onChange={(e) => {
+            handleChange("font", e.target.value);
+            configHandler.setFont(e.target.value);
+          }}
+        >
           {fonts.map((font, index) => (
             <option key={index} value={font} style={{ fontFamily: font }}>
               {font}

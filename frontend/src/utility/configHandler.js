@@ -31,6 +31,11 @@ export class ConfigHandler {
     this.write(config);
   }
 
+  getFont = () => {
+    let config = this.convertToJSON();
+    return config["font"];
+  };
+
   setMargin = (marginSize) => {
     let config = this.convertToJSON();
     config["marginSize"] = marginSize;
