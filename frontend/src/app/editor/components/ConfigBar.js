@@ -59,11 +59,18 @@ export default function ConfigBar({ constraints }) {
   // Default values if constraints is null/undefined
   let safeConstraints = constraints || {
     font: "Jetbrains Mono",
+    fontSize: "11",
     headerText: "My Codebook",
     marginSize: "2",
     columns: "2",
     pageLimit: "100",
   };
+
+  safeConstraints["font"] = configHandler.getFont();
+  safeConstraints["fontSize"] = configHandler.getFontSize();
+  safeConstraints["marginSize"] = configHandler.getMargin();
+  safeConstraints["columns"] = configHandler.getColumns();
+  safeConstraints["pageLimit"] = configHandler.getPageLimit();
 
   const [currConstraints, setCurrConstraints] = useState(safeConstraints);
 
@@ -74,14 +81,13 @@ export default function ConfigBar({ constraints }) {
     }));
   };
 
-  safeConstraints["font"] = configHandler.getFont();
   return (
     <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono p-6 overflow-y-auto gap-6">
       {/* Font */}
       <div className="flex flex-col gap-2">
-        <label className="font-bold text-sm">{safeConstraints.font}</label>
+        <label className="font-bold text-sm">Font Family</label>
         <Select
-          value={safeConstraints.font}
+          value={currConstraints.font}
           onChange={(e) => {
             handleChange("font", e.target.value);
             configHandler.setFont(e.target.value);
@@ -97,8 +103,18 @@ export default function ConfigBar({ constraints }) {
 
       {/* Font Size */}
       <div className="flex flex-col gap-2">
-        <label className="font-bold text-sm"></label>
-        <Input type="number" placeholder="11" min="1" />
+        <label className="font-bold text-sm">Font Size</label>
+        <Input
+          className="hidden"
+          type="number"
+          placeholder="11"
+          min="1"
+          value={currConstraints.fontSize}
+          onChange={(e) => {
+            handleChange("fontSize", e.target.value);
+            configHandler.setFontSize(Number(e.target.value));
+          }}
+        />
       </div>
 
       {/* Header Text */}
