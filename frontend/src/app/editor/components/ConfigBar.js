@@ -64,19 +64,26 @@ export default function ConfigBar({ constraints }) {
     marginSize: "2",
     columns: "2",
     pageLimit: "100",
+    orientation: "landscape",
   };
 
   safeConstraints["font"] = configHandler.getFont();
   safeConstraints["fontSize"] = configHandler.getFontSize();
+  safeConstraints["headerText"] = configHandler.getHeader();
   safeConstraints["marginSize"] = configHandler.getMargin();
   safeConstraints["columns"] = configHandler.getColumns();
   safeConstraints["pageLimit"] = configHandler.getPageLimit();
+  safeConstraints["orientation"] = configHandler.getOrientation();
 
   const [currConstraints, setCurrConstraints] = useState(safeConstraints);
 
   const handleChange = (field, value) => {
     setCurrConstraints((prev) => {
-      if (field !== "font") {
+      if (
+        field !== "font" &&
+        field !== "orientation" &&
+        field !== "headerText"
+      ) {
         value = Math.max(1, value);
       }
 
@@ -132,6 +139,11 @@ export default function ConfigBar({ constraints }) {
         <textarea
           className="w-full bg-[#E5E5E5] text-black p-3 rounded-lg outline-none resize-none h-24 focus:ring-2 focus:ring-black/20 transition-all placeholder-black/40 hover:bg-[#E5E5E5] font-mono text-sm"
           placeholder={safeConstraints.headerText}
+          value={currConstraints.headerText}
+          onChange={(e) => {
+            handleChange("headerText", e.target.value);
+            configHandler.setHeader(e.target.value);
+          }}
           maxLength={100}
         />
       </div>
@@ -169,16 +181,28 @@ export default function ConfigBar({ constraints }) {
       {/* Page Limit */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">Page Limit</label>
-        <Input type="number" placeholder={safeConstraints.pageLimit} min="1" value={currConstraints.pageLimit} onChange={(e) => {
-          handleChange("pageLimit", e.target.value);
-          configHandler.setPageLimit(Number(e.target.value));
-        }} />
+        <Input
+          type="number"
+          placeholder={safeConstraints.pageLimit}
+          min="1"
+          value={currConstraints.pageLimit}
+          onChange={(e) => {
+            handleChange("pageLimit", e.target.value);
+            configHandler.setPageLimit(Number(e.target.value));
+          }}
+        />
       </div>
 
       {/* Page Orientation */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">Page Orientation</label>
-        <Select>
+        <Select
+          value={currConstraints.orientation}
+          onChange={(e) => {
+            handleChange("orientation", e.target.value);
+            configHandler.setOrientation(e.target.value);
+          }}
+        >
           <option value={"landscape"}>Landscape</option>
           <option value={"portrait"}>Portrait</option>
         </Select>

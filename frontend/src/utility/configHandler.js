@@ -4,12 +4,14 @@ export class ConfigHandler {
   initiate(codebookName) {
     const config = {
       codebookName: codebookName,
+      headerText: "",
       repoArray: [],
       font: "Jetbrains Mono",
       marginSize: 1,
       fontSize: 11,
       columns: 1,
       pageLimit: 20,
+      orientation: "landscape",
     };
 
     this.write(config);
@@ -78,6 +80,28 @@ export class ConfigHandler {
   getPageLimit = () => {
     let config = this.convertToJSON();
     return config["pageLimit"];
+  };
+
+  setOrientation = (orientation) => {
+    let config = this.convertToJSON();
+    config["orientation"] = orientation;
+    this.write(config);
+  };
+
+  getOrientation = () => {
+    let config = this.convertToJSON();
+    return config["orientation"];
+  };
+
+  setHeader = (headerText) => {
+    let config = this.convertToJSON();
+    config["headerText"] = headerText;
+    this.write(config);
+  };
+
+  getHeader = () => {
+    let config = this.convertToJSON();
+    return config["headerText"];
   };
 
   clearAll() {

@@ -190,7 +190,10 @@ export default function Constraints({ constraints, setConstraints }) {
             </div>
             <textarea
               value={constraints.headerText}
-              onChange={(e) => handleChange("headerText", e.target.value)}
+              onChange={(e) => {
+                handleChange("headerText", e.target.value);
+                configHandler.setHeader(e.target.value);
+              }}
               placeholder="0"
               className="w-full rounded-lg px-4 py-2 text-sm border-none outline-none text-gray-600 font-mono resize-none h-24"
               style={{ backgroundColor: "#aeadadff" }}
