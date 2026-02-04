@@ -38,7 +38,7 @@ export class ConfigHandler {
 
   setMargin = (marginSize) => {
     let config = this.convertToJSON();
-    config["marginSize"] = marginSize;
+    config["marginSize"] = Math.max(1, marginSize);
     this.write(config);
   };
 
@@ -60,7 +60,7 @@ export class ConfigHandler {
 
   setColumns = (columns) => {
     let config = this.convertToJSON();
-    config["columns"] = columns;
+    config["columns"] = Math.max(1, columns);
     this.write(config);
   };
 

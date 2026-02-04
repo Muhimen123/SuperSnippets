@@ -75,10 +75,16 @@ export default function ConfigBar({ constraints }) {
   const [currConstraints, setCurrConstraints] = useState(safeConstraints);
 
   const handleChange = (field, value) => {
-    setCurrConstraints((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setCurrConstraints((prev) => {
+      if (field !== "font") {
+        value = Math.max(1, value);
+      }
+
+      return {
+        ...prev,
+        [field]: value,
+      };
+    });
   };
 
   return (
@@ -132,20 +138,41 @@ export default function ConfigBar({ constraints }) {
 
       {/* Margin Size */}
       <div className="flex flex-col gap-2">
-        <label className="font-bold text-sm">Margin Size (cm)</label>
-        <Input type="number" placeholder={safeConstraints.marginSize} min="0" />
+        <label className="font-bold text-sm">Margin Size (Inch)</label>
+        <Input
+          type="number"
+          placeholder={safeConstraints.marginSize}
+          min="0"
+          value={currConstraints.marginSize}
+          onChange={(e) => {
+            handleChange("marginSize", e.target.value);
+            configHandler.setMargin(Number(e.target.value));
+          }}
+        />
       </div>
 
       {/* Columns */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">Columns</label>
-        <Input type="number" placeholder={safeConstraints.columns} min="1" />
+        <Input
+          type="number"
+          placeholder={safeConstraints.columns}
+          min="1"
+          value={currConstraints.columns}
+          onChange={(e) => {
+            handleChange("columns", e.target.value);
+            configHandler.setColumns(Number(e.target.value));
+          }}
+        />
       </div>
 
       {/* Page Limit */}
       <div className="flex flex-col gap-2">
         <label className="font-bold text-sm">Page Limit</label>
-        <Input type="number" placeholder={safeConstraints.pageLimit} min="1" />
+        <Input type="number" placeholder={safeConstraints.pageLimit} min="1" value={currConstraints.pageLimit} onChange={(e) => {
+          handleChange("pageLimit", e.target.value);
+          configHandler.setPageLimit(Number(e.target.value));
+        }} />
       </div>
 
       {/* Page Orientation */}
