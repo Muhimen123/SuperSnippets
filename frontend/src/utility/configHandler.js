@@ -125,8 +125,8 @@ export class ConfigHandler {
 
   downloadConfig = () => {
     const config = this.convertToJSON();
-    const configString = this.convertToJSONString(config);
-    console.log(config);
+    const configString = this.convertToJSONString(config) + "\n";
+
     const blob = new Blob([configString], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
