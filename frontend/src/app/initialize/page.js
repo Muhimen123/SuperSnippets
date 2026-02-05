@@ -43,11 +43,7 @@ export default function Initialize() {
     }
 
     if (currentStep === 4) {
-      router.push(
-        `/editor?constraints=${encodeURIComponent(
-          JSON.stringify(constraints),
-        )}`,
-      );
+      router.push("/editor");
       return;
     }
 

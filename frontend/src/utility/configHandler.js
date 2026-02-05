@@ -117,4 +117,23 @@ export class ConfigHandler {
     const config = JSON.parse(configString);
     return config;
   }
+
+  downloadConfig = () => {
+    const config = this.convertToJSON();
+    const configString = this.convertToJSONString(config);
+    console.log(config);
+    const blob = new Blob([configString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    
+    const fileName = `${config.codebookName || 'codebook'}_config.json`;
+    
+    link.href = url;
+    link.download = fileName;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
 }
