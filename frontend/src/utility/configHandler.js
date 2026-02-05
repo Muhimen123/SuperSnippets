@@ -4,7 +4,7 @@ export class ConfigHandler {
   initiate(codebookName) {
     const config = {
       codebookName: codebookName,
-      headerText: "",
+      headerText: "CodeBook",
       repoArray: [],
       font: "Jetbrains Mono",
       marginSize: 1,
@@ -21,10 +21,15 @@ export class ConfigHandler {
     localStorage.setItem(this.#storageKey, this.convertToJSONString(config));
   }
 
-  addRepo(repoList) {
+  addRepo = (repoList) => {
     let config = this.convertToJSON();
     config["repoArray"] = [...config["repoArray"], ...repoList];
     this.write(config);
+  }
+
+  getRepos = () => {
+    let config = this.convertToJSON();
+    return config.repoArray; 
   }
 
   setFont(fontName) {
