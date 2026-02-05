@@ -187,7 +187,7 @@ export default function Constraints({ constraints, setConstraints }) {
                 Header Text
               </label>
               <span className="text-sm text-gray-600 font-mono">
-                {(constraints.headerText || "").length}
+                {`${(constraints.headerText || "").length} / 100`}
               </span>
             </div>
             <textarea
@@ -197,6 +197,7 @@ export default function Constraints({ constraints, setConstraints }) {
                 configHandler.setHeader(e.target.value);
               }}
               placeholder="0"
+              maxLength={100}
               className="w-full rounded-lg px-4 py-2 text-sm border-none outline-none text-gray-600 font-mono resize-none h-24"
               style={{ backgroundColor: "#aeadadff" }}
             />
