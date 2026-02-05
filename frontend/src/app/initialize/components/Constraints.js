@@ -186,7 +186,9 @@ export default function Constraints({ constraints, setConstraints }) {
               <label className="block text-md font-medium text-black font-mono">
                 Header Text
               </label>
-              <span className="text-sm text-gray-600 font-mono">0/100</span>
+              <span className="text-sm text-gray-600 font-mono">
+                {(constraints.headerText || "").length}
+              </span>
             </div>
             <textarea
               value={constraints.headerText}
