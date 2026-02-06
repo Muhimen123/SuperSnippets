@@ -110,7 +110,7 @@ export class ConfigHandler {
   };
 
   clearAll() {
-    localStorage.clear();
+    localStorage.removeItem(this.#storageKey);
   }
 
   convertToJSONString(config) {
