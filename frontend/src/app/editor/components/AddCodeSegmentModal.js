@@ -85,7 +85,7 @@ export default function AddCodeSegmentModal({ isOpen, onClose, onFilesAdded }) {
         
         <button
           onClick={handleFileSelect}
-          className="bg-black text-white px-4 py-1 rounded-4xl text-sm hover:bg-black transition-all duration-300 ease-in-out hover:font-bold hover:scale-105 active:scale-95 font-mono"
+          className="bg-black text-white px-4 py-1 rounded-lg text-sm hover:bg-black transition-all duration-300 ease-in-out hover:font-bold hover:scale-105 active:scale-95 font-mono"
         >
           Upload files
         </button>
@@ -101,7 +101,7 @@ export default function AddCodeSegmentModal({ isOpen, onClose, onFilesAdded }) {
         <div className="absolute bottom-4 right-4">
           <button
             onClick={handleDone}
-            className="px-6 py-1 rounded-lg text-sm hover:bg-gray-200 transition-all duration-300 font-mono text-black"
+            className="px-6 py-1 rounded-lg text-sm bg-black transition-all duration-300 font-mono text-white hover:scale-105 ease-in-out"
           >
             Done
           </button>

@@ -7,11 +7,12 @@ import DirectionController from "./components/DirectionController";
 import InitNavbar from "./components/InitNavbar";
 import StepperProgressBar from "./components/StepperProgressBar";
 import { useRouter } from "next/navigation";
+import { ConfigHandler } from "@/utility/configHandler";
 
 const defaultConstraints = {
   font: "Jetbrains Mono",
   headerText: "CodeBook",
-  marginSize: 3,
+  marginSize: 1,
   fontSize: 11,
   columns: 1,
   pageLimit: 20,
@@ -19,6 +20,7 @@ const defaultConstraints = {
 
 export default function Initialize() {
   const router = useRouter();
+  const configHandler = new ConfigHandler();
 
   const steps = [
     { id: 1, name: `Github Link` },
@@ -36,17 +38,12 @@ export default function Initialize() {
   const [constraints, setConstraints] = useState(defaultConstraints);
 
   const handleNext = () => {
-    if (currentStep === 1 && githubUrl.trim() && repos.length < 3) {
-      setRepos([...repos, githubUrl]);
-      setGithubUrl("");
+    if (currentStep === 1) {
+      configHandler.addRepo(repos);
     }
 
     if (currentStep === 4) {
-      router.push(
-        `/editor?constraints=${encodeURIComponent(
-          JSON.stringify(constraints),
-        )}`,
-      );
+      router.push("/editor");
       return;
     }
 

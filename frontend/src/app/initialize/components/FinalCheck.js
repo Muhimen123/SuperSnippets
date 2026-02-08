@@ -33,6 +33,9 @@ export default function FinalCheck({ repos, files, summaryData }) {
           <div>
             Columns: {summaryData.columns}
           </div>
+          <div>
+            Header Text: {summaryData.headerText}
+          </div>
         </div>
       </div>
     </div>

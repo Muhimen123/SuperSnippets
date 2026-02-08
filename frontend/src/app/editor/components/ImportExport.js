@@ -1,7 +1,9 @@
 "use client";
+import { ConfigHandler } from "@/utility/configHandler";
 import { useState, useRef } from "react";
 
 export default function ImportExport({ onClose }) {
+  const configHandler = new ConfigHandler();
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState(null);
   const fileInputRef = useRef(null);
@@ -40,24 +42,7 @@ export default function ImportExport({ onClose }) {
   };
 
   const handleExportClick = () => {
-    // Mock export logic
-    const config = {
-      version: "1.0",
-      settings: { theme: "dark", fontSize: 14 },
-      timestamp: new Date().toISOString(),
-    };
-
-    const blob = new Blob([JSON.stringify(config, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "codebook-config.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    configHandler.downloadConfig();
   };
 
   const handleConfirm = () => {
