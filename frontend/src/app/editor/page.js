@@ -34,13 +34,21 @@ function EditorContent() {
     {
       id: 1,
       name: "Tree Traversal",
-      items: ["BFS", "DFS", "Segment Tree"],
+      items: [
+        { name: "BFS", included: true, id: "c1-i1" },
+        { name: "DFS", included: true, id: "c1-i2" },
+        { name: "Segment Tree", included: true, id: "c1-i3" }
+      ],
       isOpen: true,
     },
     {
       id: 2,
       name: "Sort",
-      items: ["Merge Sort", "Bubble Sort", "Quick Sort"],
+      items: [
+        { name: "Merge Sort", included: true, id: "c2-i1" },
+        { name: "Bubble Sort", included: true, id: "c2-i2" },
+        { name: "Quick Sort", included: true, id: "c2-i3" }
+      ],
       isOpen: true,
     },
   ]);
@@ -126,8 +134,19 @@ function EditorContent() {
     setCategories((prev) =>
       prev.map((cat) => {
         if (cat.id === id) {
-          if (!cat.items.includes(fileName)) {
-            return { ...cat, items: [...cat.items, fileName] };
+          // Check if item exists by name
+          if (!cat.items.some(item => item.name === fileName)) {
+            return { 
+                ...cat, 
+                items: [
+                    ...cat.items, 
+                    { 
+                        name: fileName, 
+                        included: true, 
+                        id: `${cat.id}-item-${Date.now()}` // Generate unique ID
+                    }
+                ] 
+            };
           }
         }
         return cat;
