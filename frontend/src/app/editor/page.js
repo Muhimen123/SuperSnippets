@@ -4,14 +4,9 @@ import dynamic from "next/dynamic";
 import { useState, useMemo, Suspense, useEffect } from "react";
 import Toolbar from "./components/Toolbar";
 import ContentSection from "../editor/components/ContentSection";
+import CodeEditorWindow from "./components/CodeEditorWindow";
 import { useSearchParams } from "next/navigation";
 import { FileHandler } from "@/utility/fileHandler";
-import CodeEditor from "react-simple-code-editor";
-import Prism from "prismjs";
-import "prismjs/themes/prism.css";
-import "prismjs/components/prism-javascript";
-import "prismjs/components/prism-css";
-import "prismjs/components/prism-jsx";
 
 const PDFSection = dynamic(() => import("./components/PDFSection"), {
   ssr: false,
@@ -22,7 +17,7 @@ export default function Editor() {
     <Suspense>
       <EditorContent />
     </Suspense>
-  )
+  );
 }
 
 function EditorContent() {
@@ -35,7 +30,21 @@ function EditorContent() {
     title: "Project Alpha Codebase",
   });
 
-  // State moved here to be shared between sidebar and editor
+  const [categories, setCategories] = useState([
+    {
+      id: 1,
+      name: "Tree Traversal",
+      items: ["BFS", "DFS", "Segment Tree"],
+      isOpen: true,
+    },
+    {
+      id: 2,
+      name: "Sort",
+      items: ["Merge Sort", "Bubble Sort", "Quick Sort"],
+      isOpen: true,
+    },
+  ]);
+
   const [files, setFiles] = useState([]);
 
   // Load files from local storage on mount
@@ -44,12 +53,6 @@ function EditorContent() {
     if (storedFiles && storedFiles.length > 0) {
       setFiles(storedFiles);
     } else {
-      // Initialize with default data only if nothing is in storage
-      // Or keep empty if that's the desired behavior. 
-      // User said "fetched from backend... then will be fetched from local storage"
-      // Assuming for this demo we might want some data if empty, but let's stick to storage.
-      // If storage is empty, we default to empty array or previously hardcoded values?
-      // I'll keep the hardcoded values as fallback for now so the app isn't blank on first run.
       setFiles([
         {
           name: "Button.tsx",
@@ -105,10 +108,6 @@ function EditorContent() {
     setCurrentTool(toolKey);
   };
 
-  const handleFileSelection = (index) => {
-    setActiveFileIndex((prevIndex) => (prevIndex === index ? null : index));
-  };
-
   const handleCodeChange = (newCode) => {
     if (activeFileIndex !== null) {
       setFiles((prev) =>
@@ -118,6 +117,33 @@ function EditorContent() {
       );
     }
   };
+
+  const handleAddToCategory = (categoryId) => {
+    if (activeFileIndex === null) return;
+    const fileName = files[activeFileIndex].name;
+    const id = parseInt(categoryId);
+
+    setCategories((prev) =>
+      prev.map((cat) => {
+        if (cat.id === id) {
+          if (!cat.items.includes(fileName)) {
+            return { ...cat, items: [...cat.items, fileName] };
+          }
+        }
+        return cat;
+      })
+    );
+  };
+
+  const handleFileSelection = (index) => {
+    if (activeFileIndex === index) {
+      setActiveFileIndex(null);
+    } else {
+      setActiveFileIndex(index);
+    }
+  };
+
+  const activeFile = activeFileIndex !== null ? files[activeFileIndex] : null;
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-gray-50">
@@ -136,42 +162,20 @@ function EditorContent() {
             setFiles={setFiles}
             activeFileIndex={activeFileIndex}
             setActiveFileIndex={handleFileSelection}
+            categories={categories}
+            setCategories={setCategories}
           />
         </div>
 
         <div className="relative flex-1 h-full bg-gray-200 overflow-hidden">
-          {activeFileIndex !== null ? (
-            <div className="h-full w-full bg-white flex flex-col">
-              {/* Editor Header */}
-              <div className="flex items-center justify-between px-4 py-2 bg-gray-100 border-b border-gray-300">
-                <span className="font-mono text-sm font-bold text-gray-700">
-                  {files[activeFileIndex].name}
-                </span>
-                <button 
-                  onClick={() => setActiveFileIndex(null)}
-                  className="text-xs text-gray-500 hover:text-black font-mono underline"
-                >
-                  Close Editor
-                </button>
-              </div>
-              
-              {/* Code Editor */}
-              <div className="flex-1 overflow-auto custom-scrollbar">
-                <CodeEditor
-                  value={files[activeFileIndex].content}
-                  onValueChange={handleCodeChange}
-                  highlight={(code) => Prism.highlight(code, Prism.languages.javascript, "javascript")}
-                  padding={20}
-                  className="font-mono text-sm min-h-full"
-                  style={{
-                    fontFamily: '"JetBrains Mono", "Fira Code", monospace',
-                    fontSize: 14,
-                    backgroundColor: "#ffffff",
-                  }}
-                  textareaClassName="focus:outline-none"
-                />
-              </div>
-            </div>
+          {activeFile ? (
+            <CodeEditorWindow
+              activeFile={activeFile}
+              onCodeChange={handleCodeChange}
+              onClose={() => setActiveFileIndex(null)}
+              categories={categories}
+              onAddToCategory={handleAddToCategory}
+            />
           ) : (
             <div className="absolute inset-0 z-0">
               <PDFSection

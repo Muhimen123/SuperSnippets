@@ -12,7 +12,9 @@ export default function ContentSection({
   files,
   setFiles,
   activeFileIndex,
-  setActiveFileIndex
+  setActiveFileIndex,
+  categories,
+  setCategories
 }) {
   const renderContent = () => {
     switch (activeTool) {
@@ -26,7 +28,7 @@ export default function ContentSection({
           />
         );
       case 2:
-        return <Categories />;
+        return <Categories categories={categories} setCategories={setCategories} />;
       case 3:
         return <GithubRepos />;
       case 4:

@@ -1,22 +1,7 @@
 "use client";
 import { useState } from "react";
 
-export default function Categories() {
-  const [categories, setCategories] = useState([
-    {
-      id: 1,
-      name: "Tree Traversal",
-      items: ["BFS", "DFS", "Segment Tree"],
-      isOpen: true,
-    },
-    {
-      id: 2,
-      name: "Sort",
-      items: ["Merge Sort", "Bubble Sort", "Quick Sort"],
-      isOpen: true,
-    },
-  ]);
-
+export default function Categories({ categories, setCategories }) {
   const toggleCategory = (id) => {
     setCategories((prev) =>
       prev.map((cat) =>
