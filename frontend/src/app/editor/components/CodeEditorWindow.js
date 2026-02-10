@@ -5,26 +5,87 @@ import "prismjs/themes/prism.css";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-css";
 import "prismjs/components/prism-jsx";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-c";
+import "prismjs/components/prism-cpp";
+import "prismjs/components/prism-csharp";
+import "prismjs/components/prism-go";
+import "prismjs/components/prism-rust";
+import "prismjs/components/prism-kotlin";
+import "prismjs/components/prism-bash";
+import "prismjs/components/prism-json";
 
 export default function CodeEditorWindow({
   activeFile,
   onCodeChange,
+  onFileNameChange,
   onClose,
   categories,
   onAddToCategory,
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  // Helper to determine language from extension
+  const getLanguage = (fileName) => {
+    if (!fileName) return "javascript";
+    const ext = fileName.split('.').pop().toLowerCase();
+    
+    const languageMap = {
+      'js': 'javascript',
+      'jsx': 'jsx',
+      'ts': 'typescript',
+      'tsx': 'tsx',
+      'css': 'css',
+      'py': 'python',
+      'java': 'java',
+      'c': 'c',
+      'cpp': 'cpp',
+      'h': 'cpp',
+      'hpp': 'cpp',
+      'cs': 'csharp',
+      'go': 'go',
+      'rs': 'rust',
+      'kt': 'kotlin',
+      'sh': 'bash',
+      'json': 'json'
+    };
+
+    return languageMap[ext] || 'javascript';
+  };
+
+  // Helper to split filename and extension for display
+  const getFileNameParts = (fileName) => {
+    const lastDotIndex = fileName.lastIndexOf(".");
+    // Handle files with no extension or hidden files starting with dot
+    if (lastDotIndex === -1 || lastDotIndex === 0) return { name: fileName, extension: "" };
+    return {
+      name: fileName.substring(0, lastDotIndex),
+      extension: fileName.substring(lastDotIndex)
+    };
+  };
+
   // If no file is active, returning null or a placeholder handles the conditional rendering logic in parent
   if (!activeFile) return null;
+
+  const { name: fileNameBase, extension: fileExtension } = getFileNameParts(activeFile.name);
 
   return (
     <div className="h-full w-full bg-white flex flex-col">
       {/* Editor Header */}
       <div className="flex items-center justify-between px-4 py-2 bg-gray-100 border-b border-gray-300">
-        <span className="font-mono text-sm font-bold text-gray-700">
-          {activeFile.name}
-        </span>
+        <div className="flex items-center w-48 border border-transparent hover:border-gray-300 rounded px-2 py-1 focus-within:bg-white focus-within:border-black transition-all">
+          <input 
+            value={fileNameBase}
+            onChange={(e) => onFileNameChange(`${e.target.value}${fileExtension}`)}
+            className="font-mono text-sm font-bold text-gray-700 bg-transparent outline-none flex-grow min-w-0"
+            placeholder="Filename"
+          />
+          <span className="font-mono text-sm font-bold text-gray-500 whitespace-nowrap select-none">
+            {fileExtension}
+          </span>
+        </div>
 
         <div className="flex items-center gap-4">
           <div className="relative">
@@ -52,18 +113,26 @@ export default function CodeEditorWindow({
 
             {isDropdownOpen && (
               <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-10 overflow-hidden">
-                {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => {
-                      onAddToCategory(cat.id);
-                      setIsDropdownOpen(false);
-                    }}
-                    className="w-full text-left px-4 py-2 text-xs font-mono text-gray-700 hover:bg-black hover:text-white transition-colors"
-                  >
-                    {cat.name}
-                  </button>
-                ))}
+                {categories.map((cat) => {
+                  const isAdded = cat.items.some((item) => item.name === activeFile.name);
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => {
+                        onAddToCategory(cat.id);
+                        setIsDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-xs font-mono text-gray-700 hover:bg-black hover:text-white transition-colors flex items-center justify-between"
+                    >
+                      <span className="truncate">{cat.name}</span>
+                      {isAdded && (
+                        <svg className="w-3 h-3 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -82,9 +151,14 @@ export default function CodeEditorWindow({
         <CodeEditor
           value={activeFile.content}
           onValueChange={onCodeChange}
-          highlight={(code) =>
-            Prism.highlight(code, Prism.languages.javascript, "javascript")
-          }
+          highlight={(code) => {
+            const language = getLanguage(activeFile.name);
+            return Prism.highlight(
+              code, 
+              Prism.languages[language] || Prism.languages.javascript, 
+              language
+            );
+          }}
           padding={20}
           className="font-mono text-sm min-h-full"
           style={{

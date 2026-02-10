@@ -126,6 +126,16 @@ function EditorContent() {
     }
   };
 
+  const handleFileNameChange = (newName) => {
+    if (activeFileIndex !== null) {
+      setFiles((prev) =>
+        prev.map((file, index) =>
+          index === activeFileIndex ? { ...file, name: newName } : file
+        )
+      );
+    }
+  };
+
   const handleAddToCategory = (categoryId) => {
     if (activeFileIndex === null) return;
     const fileName = files[activeFileIndex].name;
@@ -191,6 +201,7 @@ function EditorContent() {
             <CodeEditorWindow
               activeFile={activeFile}
               onCodeChange={handleCodeChange}
+              onFileNameChange={handleFileNameChange}
               onClose={() => setActiveFileIndex(null)}
               categories={categories}
               onAddToCategory={handleAddToCategory}
