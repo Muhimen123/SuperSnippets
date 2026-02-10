@@ -24,8 +24,7 @@ export default function ImportExport({ onClose }) {
     const files = e.dataTransfer.files;
     if (files.length > 0) {
       setUploadedFileName(files[0].name);
-      console.log("Dropped file:", files[0].name);
-      // Implement actual import logic here
+      setFileContent(files[0]);
     }
   };
 
