@@ -141,4 +141,9 @@ export class ConfigHandler {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   }
+
+  importConfig = (configString) => {
+    this.clearAll();
+    localStorage.setItem(this.#storageKey, configString);
+  }
 }
