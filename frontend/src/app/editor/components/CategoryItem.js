@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { Reorder, useDragControls } from "framer-motion";
+import { Reorder, useDragControls, motion } from "framer-motion";
 
 export default function CategoryItem({ category, setCategories }) {
     const controls = useDragControls();
@@ -52,10 +52,14 @@ export default function CategoryItem({ category, setCategories }) {
     };
 
     const handleToggleIncludeCategory = () => {
-        // Check if all are included, if so uncheck all, else check all
         const allIncluded = category.items.every(i => i.included);
         const newItems = category.items.map(item => ({...item, included: !allIncluded}));
         updateCategory({ items: newItems });
+        setIsMenuOpen(false);
+    };
+
+    const handleToggleExpand = () => {
+        updateCategory({ isOpen: !category.isOpen });
         setIsMenuOpen(false);
     };
 
@@ -66,12 +70,16 @@ export default function CategoryItem({ category, setCategories }) {
             dragControls={controls}
             className="border-b-2 border-black bg-white"
         >
-            <div 
-                className="flex items-center justify-between p-3 gap-2 group hover:bg-gray-50 cursor-move"
+            <motion.div 
+                layout
+                className="flex items-center justify-between p-3 gap-2 group hover:bg-gray-50 cursor-move select-none"
                 onPointerDown={(e) => controls.start(e)}
             >
                 {/* Name or Edit Input */}
-                <div className="flex-1 min-w-0">
+                <div 
+                    className="flex-1 min-w-0"
+                    onClick={() => updateCategory({ isOpen: !category.isOpen })}
+                >
                     {isEditing ? (
                         <input 
                             onPointerDown={(e) => e.stopPropagation()}
@@ -80,10 +88,10 @@ export default function CategoryItem({ category, setCategories }) {
                             onBlur={handleRename}
                             onKeyDown={(e) => e.key === 'Enter' && handleRename()}
                             autoFocus
-                            className="w-full text-sm font-bold border-b border-black outline-none bg-transparent"
+                            className="w-full text-sm font-bold border-b border-black outline-none bg-transparent font-mono"
                         />
                     ) : (
-                        <span className="text-sm font-bold truncate block select-none">
+                        <span className="text-sm font-bold font-mono truncate block select-none cursor-pointer">
                             {category.name}
                         </span>
                     )}
@@ -105,13 +113,7 @@ export default function CategoryItem({ category, setCategories }) {
 
                     {/* Dropdown Menu */}
                     {isMenuOpen && (
-                        <div className="absolute right-0 mt-2 w-48 bg-white border-2 border-black shadow-xl rounded-lg z-50 overflow-hidden">
-                            <button 
-                                onClick={() => { updateCategory({ isOpen: !category.isOpen }); setIsMenuOpen(false); }}
-                                className="w-full text-left px-4 py-2 text-xs font-mono hover:bg-black hover:text-white"
-                            >
-                                {category.isOpen ? "Collapse" : "Expand"}
-                            </button>
+                        <div className="absolute right-0 mt-2 w-48 bg-white border border-black shadow-xl rounded-lg z-50 overflow-hidden">
                             <button 
                                 onClick={() => { setIsEditing(true); setIsMenuOpen(false); }}
                                 className="w-full text-left px-4 py-2 text-xs font-mono hover:bg-black hover:text-white"
@@ -122,28 +124,28 @@ export default function CategoryItem({ category, setCategories }) {
                                 onClick={handleToggleIncludeCategory}
                                 className="w-full text-left px-4 py-2 text-xs font-mono hover:bg-black hover:text-white"
                             >
-                                Include all in Codebook
+                                Toggle all selection
                             </button>
-                            <div className="h-px bg-gray-200 my-1"></div>
+                            
                             <button 
                                 onClick={handleDeleteCategory}
-                                className="w-full text-left px-4 py-2 text-xs font-mono text-red-600 hover:bg-red-50"
+                                className="w-full text-left px-4 py-2 text-xs font-mono text-red-600 hover:bg-red-200"
                             >
                                 Delete
                             </button>
                         </div>
                     )}
                 </div>
-            </div>
+            </motion.div>
 
             {/* Sub Items Area */}
             {category.isOpen && (
-                <div className="pl-4 pb-2 bg-gray-50/50">
+                <div className="bg-white">
                     <Reorder.Group axis="y" values={category.items} onReorder={handleReorderItems}>
                         {category.items.map((item) => (
-                            <Reorder.Item key={item.id} value={item} className="touch-none">
-                                <div className="flex items-center justify-between p-2 pl-3 hover:bg-gray-100 group border-l-2 border-gray-300 ml-2">
-                                    <div className="flex items-center gap-3 overflow-hidden">
+                            <Reorder.Item key={item.id} value={item} className="touch-none border-t border-black">
+                                <div className="flex items-center justify-between p-2 pl-4 hover:bg-gray-50 group">
+                                    <div className="flex items-center gap-3 overflow-hidden flex-1">
                                         {/* Toggle Include */}
                                         <button 
                                             onClick={() => toggleItemInclude(item.id)}
@@ -158,7 +160,7 @@ export default function CategoryItem({ category, setCategories }) {
                                                 </svg>
                                             )}
                                         </button>
-                                        <span className={`text-xs font-mono truncate ${!item.included && 'opacity-50 line-through'}`}>
+                                        <span className={`text-xs font-mono truncate select-none ${!item.included ? 'opacity-50' : ''}`}>
                                             {item.name}
                                         </span>
                                     </div>
@@ -177,7 +179,7 @@ export default function CategoryItem({ category, setCategories }) {
                         ))}
                     </Reorder.Group>
                     {category.items.length === 0 && (
-                        <div className="p-3 text-xs text-gray-400 font-mono text-center italic">
+                        <div className="p-3 text-xs text-gray-400 font-mono text-center italic border-t border-black">
                             No items
                         </div>
                     )}
