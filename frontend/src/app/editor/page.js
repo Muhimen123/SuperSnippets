@@ -1,11 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState, useMemo, Suspense } from "react";
+import { useState, useMemo, Suspense, useEffect } from "react";
 import Toolbar from "./components/Toolbar";
 import ContentSection from "../editor/components/ContentSection";
 import { useSearchParams } from "next/navigation";
-// Renamed import to avoid conflict with the component name 'Editor'
+import { FileHandler } from "@/utility/fileHandler";
 import CodeEditor from "react-simple-code-editor";
 import Prism from "prismjs";
 import "prismjs/themes/prism.css";
@@ -28,21 +28,37 @@ export default function Editor() {
 function EditorContent() {
   const [currentTool, setCurrentTool] = useState(1);
   const [activeFileIndex, setActiveFileIndex] = useState(null);
+  const fileHandler = useMemo(() => new FileHandler(), []);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [codeData, setCodeData] = useState({
     title: "Project Alpha Codebase",
   });
 
   // State moved here to be shared between sidebar and editor
-  const [files, setFiles] = useState([
-    {
-      name: "Button.tsx",
-      content: "const Button = () => <button>Click</button>",
-    },
-    { name: "theme.js", content: "export const colors = { blue: '#0070f3' }" },
-    {
-      name: "Dijkstra.ts",
-      content: `function dijkstra(graph, start) {
+  const [files, setFiles] = useState([]);
+
+  // Load files from local storage on mount
+  useEffect(() => {
+    const storedFiles = fileHandler.getFiles();
+    if (storedFiles && storedFiles.length > 0) {
+      setFiles(storedFiles);
+    } else {
+      // Initialize with default data only if nothing is in storage
+      // Or keep empty if that's the desired behavior. 
+      // User said "fetched from backend... then will be fetched from local storage"
+      // Assuming for this demo we might want some data if empty, but let's stick to storage.
+      // If storage is empty, we default to empty array or previously hardcoded values?
+      // I'll keep the hardcoded values as fallback for now so the app isn't blank on first run.
+      setFiles([
+        {
+          name: "Button.tsx",
+          content: "const Button = () => <button>Click</button>",
+        },
+        { name: "theme.js", content: "export const colors = { blue: '#0070f3' }" },
+        {
+          name: "Dijkstra.ts",
+          content: `function dijkstra(graph, start) {
         const distances = {};
         const visited = new Set();
         const nodes = Object.keys(graph);
@@ -59,8 +75,18 @@ function EditorContent() {
           return distances;
         }
       }`,
-    },
-  ]);
+        },
+      ]);
+    }
+    setIsLoaded(true);
+  }, [fileHandler]);
+
+  // Auto-save to local storage whenever files change
+  useEffect(() => {
+    if (isLoaded) {
+      fileHandler.saveFiles(files);
+    }
+  }, [files, isLoaded, fileHandler]);
 
   const searchParams = useSearchParams();
 
@@ -77,6 +103,10 @@ function EditorContent() {
 
   const handleToolSelection = (toolKey) => {
     setCurrentTool(toolKey);
+  };
+
+  const handleFileSelection = (index) => {
+    setActiveFileIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
   const handleCodeChange = (newCode) => {
@@ -105,7 +135,7 @@ function EditorContent() {
             files={files}
             setFiles={setFiles}
             activeFileIndex={activeFileIndex}
-            setActiveFileIndex={setActiveFileIndex}
+            setActiveFileIndex={handleFileSelection}
           />
         </div>
 
