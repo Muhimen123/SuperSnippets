@@ -9,13 +9,26 @@ export default function ContentSection({
   activeTool,
   handleToolSelection,
   constraints,
+  files,
+  setFiles,
+  activeFileIndex,
+  setActiveFileIndex,
+  categories,
+  setCategories
 }) {
   const renderContent = () => {
     switch (activeTool) {
       case 1:
-        return <CodeSegment />;
+        return (
+          <CodeSegment 
+            files={files} 
+            setFiles={setFiles} 
+            activeFileIndex={activeFileIndex} 
+            setActiveFileIndex={setActiveFileIndex}
+          />
+        );
       case 2:
-        return <Categories />;
+        return <Categories categories={categories} setCategories={setCategories} />;
       case 3:
         return <GithubRepos />;
       case 4:
@@ -25,7 +38,6 @@ export default function ContentSection({
       case 6:
         return <h1 className="text-3xl font-bold">Home</h1>;
       case 7:
-        // Pass onClose to switch back to the default tool (e.g., 1)
         return <Settings onClose={() => handleToolSelection(1)} />;
       default:
         return <div className="w-0"></div>;
