@@ -27,7 +27,7 @@ export default function LoginForm({ onSignUpClick, onHelpClick }) {
     doCredentialLogin(email, password)
       .then((res) => {
         if (res.success) {
-          router.push("/dashboard");
+          window.location.href = "/dashboard";
         } else {
           setError(res.message || "Login failed");
         }

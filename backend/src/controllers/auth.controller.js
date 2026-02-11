@@ -1,8 +1,4 @@
-import {
-  createUser,
-  authenticateUser,
-  handleGoogleAuth,
-} from "../services/auth.service.js";
+import * as authService from "../services/auth.service.js";
 
 /**
  * Handle user signup
@@ -19,7 +15,7 @@ export const signup = async (req, res) => {
     }
 
     // Create user
-    const user = await createUser({ name, email, password });
+    const user = await authService.createUser({ name, email, password });
 
     res.status(201).json(user);
   } catch (error) {
@@ -53,7 +49,7 @@ export const login = async (req, res) => {
     }
 
     // Authenticate user
-    const user = await authenticateUser({ email, password });
+    const user = await authService.authenticateUser({ email, password });
 
     res.status(200).json(user);
   } catch (error) {
@@ -88,7 +84,7 @@ export const googleAuth = async (req, res) => {
     }
 
     // Handle Google authentication
-    const user = await handleGoogleAuth({ email, name, image, googleId });
+    const user = await authService.handleGoogleAuth({ email, name, image, googleId });
 
     res.status(200).json(user);
   } catch (error) {
@@ -98,5 +94,18 @@ export const googleAuth = async (req, res) => {
       error: "Failed to authenticate with Google",
       details: error.message,
     });
+  }
+};
+
+/**
+ * Update user profile
+ */
+export const updateUser = async (req, res) => {
+  try {
+    const { email, name } = req.body;
+    const updatedUser = await authService.updateUserProfile({ email, name });
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

@@ -84,7 +84,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true; // Allow Credentials login to proceed normally
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session }) {
+      if (trigger === "update" && session?.name) {
+        token.name = session.name;
+      }
       if (user) {
         token.id = user.id;
         token.role = user.role;
@@ -95,6 +98,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.name = token.name;
       }
       return session;
     }

@@ -2,26 +2,45 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import PasswordModal from "./passwordModal";
-import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
+import { useSession, signOut } from "next-auth/react";
 
 export default function AccountIcon() {
 	const router = useRouter();
+	const { data: session, status, update } = useSession(); // Added update function
 	const [isOpen, setIsOpen] = useState(false);
 	const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
-	const [name, setName] = useState("John Doe");
-	const [email, setEmail] = useState("john.doe@example.com");
+	const [name, setName] = useState("");
 	const [isEditingName, setIsEditingName] = useState(false);
 
 	useEffect(() => {
-		const userEmail = localStorage.getItem("userEmail");
-		if (userEmail) {
-			const user = MOCK_AUTH_DATABASE.find((u) => u.email === userEmail);
-			if (user) {
-				setName(user.name);
-				setEmail(user.email);
-			}
+		if (status === "authenticated" && session?.user) {
+			setName(session.user.name || "");
 		}
-	}, []);
+	}, [session, status]);
+
+	const handleSaveName = async () => {
+		try {
+			// 1. Update Backend
+			const response = await fetch(`${API_BASE}/api/auth/update-user`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: session?.user?.email,
+                name: name,
+            }),
+        });
+
+			if (response.ok) {
+				// 2. Update Client Session
+				await update({ name: name }); 
+				setIsEditingName(false);
+			} else {
+				console.error("Failed to update name");
+			}
+		} catch (error) {
+			console.error("Error updating name:", error);
+		}
+	};
 
 	return (
 		<div>
@@ -65,7 +84,7 @@ export default function AccountIcon() {
 					<div className="space-y-2 flex-1 flex flex-col items-center pt-8">
 						<div className="w-24 h-24 bg-black rounded-full flex items-center justify-center overflow-hidden mb-4">
 							<img
-								src="/github-mark-white.svg"
+								src={session?.user?.image || "/github-mark-white.svg"}
 								alt="Account"
 								className="w-14 h-14"
 							/>
@@ -76,7 +95,7 @@ export default function AccountIcon() {
 								type="text"
 								value={name}
 								onChange={(e) => setName(e.target.value)}
-								onBlur={() => setIsEditingName(false)}
+								onBlur={handleSaveName}
 								onKeyDown={(e) => {
 									if (e.key === 'Enter') setIsEditingName(false);
 								}}
@@ -88,13 +107,13 @@ export default function AccountIcon() {
 								onClick={() => setIsEditingName(true)}
 								className="text-xl font-semibold text-gray-800 cursor-pointer hover:text-gray-600 flex items-center gap-2"
 							>
-								{name}
+								{name || session?.user?.name || "User"}
 								<svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
 								</svg>
 							</h3>
 						)}
-						<p className="text-sm text-gray-500 mt-1">{email}</p>
+						<p className="text-sm text-gray-500 mt-1">{session?.user?.email || ""}</p>
 					</div>
 
 					<div className="pt-4 border-t border-gray-100">
@@ -110,8 +129,7 @@ export default function AccountIcon() {
 						</button>
 						<button
 							onClick={() => {
-								localStorage.removeItem("userEmail");
-								router.push("/");
+								signOut({ callbackUrl: "/" });
 							}}
 							className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-colors flex items-center gap-3">
 							<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

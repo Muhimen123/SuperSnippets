@@ -97,3 +97,19 @@ export const handleGoogleAuth = async ({ email, name, image, googleId }) => {
     throw error;
   }
 };
+
+export const updateUserProfile = async ({ email, name }) => {
+  try {
+    const user = await User.findOneAndUpdate(
+      { email },
+      { name },
+      { new: true }
+    );
+    console.log("Updated user:", user.name, user.email);
+    if (!user) throw new Error("User not found");
+    return { name: user.name, email: user.email };
+  }
+   catch (error) {
+    throw error;
+  }
+};
