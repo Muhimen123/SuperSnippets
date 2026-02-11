@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { getPDF } from "@/utility/pdf/PDF_Engine";
 import { ConfigHandler } from "@/utility/configHandler";
+import toast from "react-hot-toast";
 
 export default function Toolbar({ currentTool, handleToolSelection }) {
   const configHandler = useMemo(() => new ConfigHandler(), []);
@@ -82,6 +83,12 @@ function ToolbarElement({
 
         if (toolKey === 8) {
           const config = configHandler.createSchemaData("test id");
+          toast.success("Configuration saved successfully!", {
+            style: {
+              border: "1px solid black",
+              padding: "16px",
+            },
+          });
           console.log("Config to save:", config);
           return;
         }
