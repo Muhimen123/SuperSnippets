@@ -14,6 +14,9 @@ export const addCollaboratorToCodebook = async (codebookId, collaboratorId) => {
     { $addToSet: { collaborators: collaboratorId } },
     { new: true },
   );
+  if(!updatedCodebook) {
+    throw new Error("Could not add collaborator");
+  }
   return updatedCodebook;
 };
 
@@ -23,6 +26,9 @@ export const removeCollaboratorFromCodebook = async (codebookId, collaboratorId)
     { $pull: { collaborators: collaboratorId } },
     { new: true },
   );
+  if(!updatedCodebook) {
+    throw new Error("Could not remove collaborator");
+  }
   return updatedCodebook;
 };
 

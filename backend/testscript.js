@@ -11,7 +11,7 @@ async function runTest() {
 
     // Run test function
     const result = await removeCollaboratorFromCodebook(
-      "698cfca337fb8abaa77fdebe", 
+      "698cfca337fb8abaa77fdede", 
       "64a1f8e5c9e77b001d2b3c5f"
     );
 
