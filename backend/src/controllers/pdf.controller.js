@@ -70,7 +70,7 @@ export const addCollaborator = async (req, res) => {
 export const removeCollaborator = async (req, res) => {
   try {
     const { codebookId, collaboratorId } = req.body;
-    removeCollaboratorFromCodebook(codebookId, collaboratorId);
+    await removeCollaboratorFromCodebook(codebookId, collaboratorId);
     res.status(200).json({
       message: "Collaborator removed successfully",
     });
