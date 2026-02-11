@@ -1,4 +1,9 @@
-import { generateTarBuffer } from "../services/pdf.service.js";
+import {
+  generateTarBuffer,
+  createNewConfiguration,
+  addCollaboratorToCodebook,
+  removeCollaboratorFromCodebook,
+} from "../services/pdf.service.js";
 
 export const generatePDF = async (req, res) => {
   try {
@@ -32,3 +37,48 @@ export const generatePDF = async (req, res) => {
       .json({ error: "Compilation failed", details: error.message });
   }
 };
+
+export const createConfiguration = async (req, res) => {
+  try {
+    const codeBookData = req.body;
+    const savedConfigID = await createNewConfiguration(codeBookData);
+    res.status(201).json({
+      codebookId: savedConfigID,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to create configuration",
+      details: error.message,
+    });
+  }
+};
+
+export const addCollaborator = async (req, res) => {
+  try {
+    const { codebookId, collaboratorId } = req.body;
+    await addCollaboratorToCodebook(codebookId, collaboratorId);
+    res.status(200).json({
+      message: "Collaborator added successfully",
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Failed to add collaborator", details: error.message });
+  }
+};
+
+export const removeCollaborator = async (req, res) => {
+  try {
+    const { codebookId, collaboratorId } = req.body;
+    await removeCollaboratorFromCodebook(codebookId, collaboratorId);
+    res.status(200).json({
+      message: "Collaborator removed successfully",
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Failed to remove collaborator", details: error.message });
+  }
+};
+
+export const modifyConfiguration = async (req, res) => {};

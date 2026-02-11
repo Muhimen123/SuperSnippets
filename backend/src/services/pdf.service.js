@@ -1,6 +1,39 @@
 import archiver from "archiver";
 import { Writable } from "stream";
+import Codebook from "../models/Codebook.js";
 
+export const createNewConfiguration = async (data) => {
+  const codebook = new Codebook(data);
+  const savedConfig = await codebook.save();
+  return savedConfig._id;
+};
+
+export const addCollaboratorToCodebook = async (codebookId, collaboratorId) => {
+  const updatedCodebook = await Codebook.findByIdAndUpdate(
+    codebookId,
+    { $addToSet: { collaborators: collaboratorId } },
+    { new: true },
+  );
+  if(!updatedCodebook) {
+    throw new Error("Could not add collaborator");
+  }
+  return updatedCodebook;
+};
+
+export const removeCollaboratorFromCodebook = async (codebookId, collaboratorId) => {
+  const updatedCodebook = await Codebook.findByIdAndUpdate(
+    codebookId,
+    { $pull: { collaborators: collaboratorId } },
+    { new: true },
+  );
+  if(!updatedCodebook) {
+    throw new Error("Could not remove collaborator");
+  }
+  return updatedCodebook;
+};
+
+
+// TODO: Move the following functions in utility
 export const generateTarBuffer = async () => {
   return new Promise((resolve, reject) => {
     const texCode = buildLatex();
