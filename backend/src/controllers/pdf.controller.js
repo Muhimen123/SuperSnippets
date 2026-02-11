@@ -1,5 +1,5 @@
-import { generateTarBuffer } from "../services/pdf.service.js";
 import {
+  generateTarBuffer,
   createNewConfiguration,
   addCollaboratorToCodebook,
   removeCollaboratorFromCodebook,
