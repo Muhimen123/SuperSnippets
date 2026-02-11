@@ -23,4 +23,10 @@ const codebookSchema = new mongoose.Schema({
 	configuration: Configuration.schema,
 	codeSegments: [CodeSegment.schema],
 	categories: [Category.schema],
+	repositories: [
+		{
+			type: String,
+			required: true,
+		},
+	],
 });
