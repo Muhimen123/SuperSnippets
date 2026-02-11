@@ -6,8 +6,28 @@ export const createNewConfiguration = async (data) => {
   const codebook = new Codebook(data);
   const savedConfig = await codebook.save();
   return savedConfig._id;
-}
+};
 
+export const addCollaboratorToCodebook = async (codebookId, collaboratorId) => {
+  const updatedCodebook = await Codebook.findByIdAndUpdate(
+    codebookId,
+    { $addToSet: { collaborators: collaboratorId } },
+    { new: true },
+  );
+  return updatedCodebook;
+};
+
+export const removeCollaboratorFromCodebook = async (codebookId, collaboratorId) => {
+  const updatedCodebook = await Codebook.findByIdAndUpdate(
+    codebookId,
+    { $pull: { collaborators: collaboratorId } },
+    { new: true },
+  );
+  return updatedCodebook;
+};
+
+
+// TODO: Move the following functions in utility
 export const generateTarBuffer = async () => {
   return new Promise((resolve, reject) => {
     const texCode = buildLatex();
