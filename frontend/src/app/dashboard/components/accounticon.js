@@ -97,7 +97,7 @@ export default function AccountIcon() {
 					</div>
 
 					{/* Main Account View */}
-					<!showNotifications && (
+					{!showNotifications && (
 						<>
 							<div className="space-y-2 flex-1 flex flex-col items-center pt-8">
 								<div className="w-24 h-24 bg-black rounded-full flex items-center justify-center overflow-hidden mb-4">
