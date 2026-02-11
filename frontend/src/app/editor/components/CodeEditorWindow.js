@@ -58,8 +58,8 @@ export default function CodeEditorWindow({
   // Helper to split filename and extension for display
   const getFileNameParts = (fileName) => {
     const lastDotIndex = fileName.lastIndexOf(".");
-    // Handle files with no extension or hidden files starting with dot
-    if (lastDotIndex === -1 || lastDotIndex === 0) return { name: fileName, extension: "" };
+    // Handle files with no extension
+    if (lastDotIndex === -1) return { name: fileName, extension: "" };
     return {
       name: fileName.substring(0, lastDotIndex),
       extension: fileName.substring(lastDotIndex)
@@ -70,6 +70,11 @@ export default function CodeEditorWindow({
   if (!activeFile) return null;
 
   const { name: fileNameBase, extension: fileExtension } = getFileNameParts(activeFile.name);
+
+  // Check if file is already in a category
+  const currentCategory = categories.find((cat) =>
+    cat.items.some((item) => item.name === activeFile.name)
+  );
 
   return (
     <div className="h-full w-full bg-white flex flex-col">
@@ -90,31 +95,40 @@ export default function CodeEditorWindow({
         <div className="flex items-center gap-4">
           <div className="relative">
             <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="bg-white border border-gray-300 text-gray-700 text-xs rounded-lg px-3 py-1.5 font-mono focus:ring-1 focus:ring-black focus:border-black outline-none flex items-center gap-2"
+              onClick={() => {
+                // Only toggle dropdown if not already assigned
+                if (!currentCategory) {
+                  setIsDropdownOpen(!isDropdownOpen);
+                }
+              }}
+              className={`bg-white border border-gray-300 text-gray-700 text-xs rounded-lg px-3 py-1.5 font-mono focus:ring-1 focus:ring-black focus:border-black outline-none flex items-center gap-2 ${
+                currentCategory ? "opacity-75 cursor-default bg-gray-50" : "hover:bg-gray-50"
+              }`}
+              title={currentCategory ? "Remove from category sidebar to change" : ""}
             >
-              Add to category
-              <svg
-                className={`w-3 h-3 transition-transform ${
-                  isDropdownOpen ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
+              {currentCategory ? currentCategory.name : "Add to category"}
+              {!currentCategory && (
+                <svg
+                  className={`w-3 h-3 transition-transform ${
+                    isDropdownOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              )}
             </button>
 
-            {isDropdownOpen && (
+            {isDropdownOpen && !currentCategory && (
               <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-10 overflow-hidden">
                 {categories.map((cat) => {
-                  const isAdded = cat.items.some((item) => item.name === activeFile.name);
                   return (
                     <button
                       key={cat.id}
@@ -122,14 +136,9 @@ export default function CodeEditorWindow({
                         onAddToCategory(cat.id);
                         setIsDropdownOpen(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-xs font-mono text-gray-700 hover:bg-black hover:text-white transition-colors flex items-center justify-between"
+                      className="w-full text-left px-4 py-2 text-xs font-mono text-gray-700 hover:bg-black hover:text-white transition-colors block"
                     >
                       <span className="truncate">{cat.name}</span>
-                      {isAdded && (
-                        <svg className="w-3 h-3 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
                     </button>
                   );
                 })}
