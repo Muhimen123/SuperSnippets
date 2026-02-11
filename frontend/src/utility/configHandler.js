@@ -25,12 +25,12 @@ export class ConfigHandler {
     let config = this.convertToJSON();
     config["repoArray"] = [...config["repoArray"], ...repoList];
     this.write(config);
-  }
+  };
 
   getRepos = () => {
     let config = this.convertToJSON();
-    return config.repoArray; 
-  }
+    return config.repoArray;
+  };
 
   setFont(fontName) {
     let config = this.convertToJSON();
@@ -130,20 +130,41 @@ export class ConfigHandler {
     const blob = new Blob([configString], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    
-    const fileName = `${config.codebookName || 'codebook'}_config.json`;
-    
+
+    const fileName = `${config.codebookName || "codebook"}_config.json`;
+
     link.href = url;
     link.download = fileName;
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-  }
+  };
 
   importConfig = (configString) => {
     this.clearAll();
     localStorage.setItem(this.#storageKey, configString);
-  }
+  };
+
+  createSchemaData = (ownerId) => {
+    const config = this.convertToJSON();
+    return {
+      codebook_name: config.codebookName,
+      owner: ownerId,
+      collaborators: [],
+      repositories: config.repoArray || [],
+      configuration: {
+        margin: config.marginSize,
+        header_text: config.headerText,
+        column_number: config.columns,
+        page_number: config.pageLimit,
+        font_size: config.fontSize,
+        font_family: config.font,
+        orientation: config.orientation,
+      },
+      codeSegments: [],
+      categories: [],
+    };
+  };
 }

@@ -1,12 +1,17 @@
+import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { getPDF } from "@/utility/pdf/PDF_Engine";
+import { ConfigHandler } from "@/utility/configHandler";
 
 export default function Toolbar({ currentTool, handleToolSelection }) {
+  const configHandler = useMemo(() => new ConfigHandler(), []);
+
   const primaryTools = [
     { key: 1, title: "Code Segments", icon: "icons/code-segment.svg" },
     { key: 2, title: "Category", icon: "icons/categories.svg" },
     { key: 3, title: "Github Repos", icon: "icons/github-repos.svg" },
     { key: 4, title: "Configure", icon: "icons/configure.svg" },
+    { key: 8, title: "Save", icon: "icons/save.svg" },
     { key: 5, title: "Download", icon: "icons/download.svg" },
   ];
 
@@ -27,6 +32,7 @@ export default function Toolbar({ currentTool, handleToolSelection }) {
           title={tool.title}
           currentTool={currentTool}
           handleToolSelection={handleToolSelection}
+          configHandler={configHandler}
         />
       ))}
 
@@ -43,6 +49,7 @@ export default function Toolbar({ currentTool, handleToolSelection }) {
           title={tool.title}
           currentTool={currentTool}
           handleToolSelection={handleToolSelection}
+          configHandler={configHandler}
         />
       ))}
     </div>
@@ -55,6 +62,7 @@ function ToolbarElement({
   title,
   currentTool,
   handleToolSelection,
+  configHandler,
 }) {
   const selected = toolKey === currentTool;
   const router = useRouter();
@@ -69,6 +77,12 @@ function ToolbarElement({
         const targetToolKey = selected ? 0 : toolKey;
         if (toolKey === 6) {
           router.push("/dashboard");
+          return;
+        }
+
+        if (toolKey === 8) {
+          const config = configHandler.createSchemaData("test id");
+          console.log("Config to save:", config);
           return;
         }
 
