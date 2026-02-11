@@ -82,7 +82,7 @@ function ToolbarElement({
         }
 
         if (toolKey === 8) {
-          const config = configHandler.createSchemaData("test id");
+          const config = configHandler.createSchemaData("698cb24b1a1c86f156b1ec06");
           toast.success("Configuration saved successfully!", {
             style: {
               border: "1px solid black",

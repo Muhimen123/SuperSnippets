@@ -1,5 +1,12 @@
 import archiver from "archiver";
 import { Writable } from "stream";
+import Codebook from "../models/Codebook.js";
+
+export const createNewConfiguration = async (data) => {
+  const codebook = new Codebook(data);
+  const savedConfig = await codebook.save();
+  return savedConfig._id;
+}
 
 export const generateTarBuffer = async () => {
   return new Promise((resolve, reject) => {

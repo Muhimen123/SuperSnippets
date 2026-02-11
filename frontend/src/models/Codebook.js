@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import Configuration from "./Configuration";
-import CodeSegment from "./CodeSegments";
-import Category from "./Category";
+import Configuration from "./Configuration.js";
+import CodeSegment from "./CodeSegments.js";
+import Category from "./Category.js";
 
 const codebookSchema = new mongoose.Schema({
   codebook_name: {

@@ -1,4 +1,5 @@
 import { generateTarBuffer } from "../services/pdf.service.js";
+import { createNewConfiguration } from "../services/pdf.service.js";
 
 export const generatePDF = async (req, res) => {
   try {
@@ -32,3 +33,22 @@ export const generatePDF = async (req, res) => {
       .json({ error: "Compilation failed", details: error.message });
   }
 };
+
+export const createConfiguration = async (req, res) => {
+  try {
+    const codeBookData = req.body;
+    const savedConfigID = await createNewConfiguration(codeBookData);
+    res.status(201).json({
+      codebookId: savedConfigID,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        error: "Failed to create configuration",
+        details: error.message,
+      });
+  }
+};
+
+export const modifyConfiguration = async (req, res) => {};
