@@ -6,41 +6,19 @@ import { useSession, signOut } from "next-auth/react";
 
 export default function AccountIcon() {
 	const router = useRouter();
-	const { data: session, status, update } = useSession(); // Added update function
+	const { data: session } = useSession();
 	const [isOpen, setIsOpen] = useState(false);
 	const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
 	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
 	const [isEditingName, setIsEditingName] = useState(false);
 
 	useEffect(() => {
-		if (status === "authenticated" && session?.user) {
-			setName(session.user.name || "");
+		if (session?.user) {
+			setName(session.user.name || "User");
+			setEmail(session.user.email || "");
 		}
-	}, [session, status]);
-
-	const handleSaveName = async () => {
-		try {
-			// 1. Update Backend
-			const response = await fetch(`${API_BASE}/api/auth/update-user`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                email: session?.user?.email,
-                name: name,
-            }),
-        });
-
-			if (response.ok) {
-				// 2. Update Client Session
-				await update({ name: name }); 
-				setIsEditingName(false);
-			} else {
-				console.error("Failed to update name");
-			}
-		} catch (error) {
-			console.error("Error updating name:", error);
-		}
-	};
+	}, [session]);
 
 	return (
 		<div>
@@ -95,7 +73,7 @@ export default function AccountIcon() {
 								type="text"
 								value={name}
 								onChange={(e) => setName(e.target.value)}
-								onBlur={handleSaveName}
+								onBlur={() => setIsEditingName(false)}
 								onKeyDown={(e) => {
 									if (e.key === 'Enter') setIsEditingName(false);
 								}}
@@ -107,13 +85,13 @@ export default function AccountIcon() {
 								onClick={() => setIsEditingName(true)}
 								className="text-xl font-semibold text-gray-800 cursor-pointer hover:text-gray-600 flex items-center gap-2"
 							>
-								{name || session?.user?.name || "User"}
+								{name}
 								<svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
 								</svg>
 							</h3>
 						)}
-						<p className="text-sm text-gray-500 mt-1">{session?.user?.email || ""}</p>
+						<p className="text-sm text-gray-500 mt-1">{email}</p>
 					</div>
 
 					<div className="pt-4 border-t border-gray-100">
