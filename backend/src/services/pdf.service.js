@@ -36,7 +36,7 @@ export const removeCollaboratorFromCodebook = async (codebookId, collaboratorId)
 /**
  *
  * @param {*} userId
- * @returns {Array} List of codebooks where the user is either owner or collaborator.
+ * @returns {Promise<Array>} List of codebooks where the user is either owner or collaborator.
  * Each codebook includes the owner's name and the codebook name. Mainly to use it in the dashboard.
  */
 export const fetchAllCodebooksForUser = async (userId) => {
@@ -44,7 +44,8 @@ export const fetchAllCodebooksForUser = async (userId) => {
     $or: [{ owner: userId }, { collaborators: userId }],
   })
     .populate("owner", "name")
-    .select("owner codebook_name");
+    .select("owner codebook_name")
+    .exec();
 
   return codebooks;
 };

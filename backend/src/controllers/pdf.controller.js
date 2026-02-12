@@ -3,6 +3,7 @@ import {
   createNewConfiguration,
   addCollaboratorToCodebook,
   removeCollaboratorFromCodebook,
+  fetchAllCodebooksForUser
 } from "../services/pdf.service.js";
 
 export const generatePDF = async (req, res) => {
@@ -78,6 +79,18 @@ export const removeCollaborator = async (req, res) => {
     res
       .status(500)
       .json({ error: "Failed to remove collaborator", details: error.message });
+  }
+};
+
+export const getAllCodebooksForUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const codebooks = await fetchAllCodebooksForUser(userId);
+    res.status(200).json(codebooks);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Failed to fetch codebooks", details: error.message });
   }
 };
 
