@@ -1,6 +1,7 @@
 import archiver from "archiver";
 import { Writable } from "stream";
 import Codebook from "../models/Codebook.js";
+import User from "../models/User.js";
 
 export const createNewConfiguration = async (data) => {
   const codebook = new Codebook(data);
@@ -14,7 +15,7 @@ export const addCollaboratorToCodebook = async (codebookId, collaboratorId) => {
     { $addToSet: { collaborators: collaboratorId } },
     { new: true },
   );
-  if(!updatedCodebook) {
+  if (!updatedCodebook) {
     throw new Error("Could not add collaborator");
   }
   return updatedCodebook;
@@ -26,12 +27,27 @@ export const removeCollaboratorFromCodebook = async (codebookId, collaboratorId)
     { $pull: { collaborators: collaboratorId } },
     { new: true },
   );
-  if(!updatedCodebook) {
+  if (!updatedCodebook) {
     throw new Error("Could not remove collaborator");
   }
   return updatedCodebook;
 };
 
+/**
+ *
+ * @param {*} userId
+ * @returns {Array} List of codebooks where the user is either owner or collaborator.
+ * Each codebook includes the owner's name and the codebook name. Mainly to use it in the dashboard.
+ */
+export const fetchAllCodebooksForUser = async (userId) => {
+  const codebooks = await Codebook.find({
+    $or: [{ owner: userId }, { collaborators: userId }],
+  })
+    .populate("owner", "name")
+    .select("owner codebook_name");
+
+  return codebooks;
+};
 
 // TODO: Move the following functions in utility
 export const generateTarBuffer = async () => {
