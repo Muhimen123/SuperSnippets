@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import TileBackground from "../components/TileBackground";
 import ContentSection from "./components/ContentSection";
 import DirectionController from "./components/DirectionController";
 import InitNavbar from "./components/InitNavbar";
 import StepperProgressBar from "./components/StepperProgressBar";
-import { useRouter } from "next/navigation";
 import { ConfigHandler } from "@/utility/configHandler";
 
 const defaultConstraints = {
@@ -19,8 +20,23 @@ const defaultConstraints = {
 };
 
 export default function Initialize() {
+  const { data: session, status } = useSession();
   const router = useRouter();
   const configHandler = new ConfigHandler();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-xl">Loading...</div>
+      </div>
+    );
+  }
 
   const steps = [
     { id: 1, name: `Github Link` },

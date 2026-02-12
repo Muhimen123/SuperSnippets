@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 import PasswordModal from "./passwordModal";
 import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
 
@@ -167,9 +168,15 @@ export default function AccountIcon() {
 									Change Password
 								</button>
 								<button
-									onClick={() => {
+									onClick={async () => {
+										// Clear all localStorage data
 										localStorage.removeItem("userEmail");
-										router.push("/");
+										localStorage.clear(); // Clear all stored data
+										// Sign out from NextAuth
+										await signOut({ 
+											callbackUrl: "/",
+											redirect: true 
+										});
 									}}
 									className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-colors flex items-center gap-3">
 									<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

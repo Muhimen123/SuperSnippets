@@ -4,12 +4,13 @@ import {
   acceptInvitation,
   getUserNotifications,
 } from "../controllers/notification.controller.js";
+import { verifyToken } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-// Ideally, add authMiddleware here
-router.post("/invite", sendInvitation);
-router.post("/accept", acceptInvitation);
-router.get("/", getUserNotifications);
+// All notification routes require authentication
+router.post("/invite", verifyToken, sendInvitation);
+router.post("/accept", verifyToken, acceptInvitation);
+router.get("/", verifyToken, getUserNotifications);
 
 export default router;

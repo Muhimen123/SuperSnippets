@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import TileBackground from "../components/TileBackground";
 import Searchbar from "../dashboard/components/searchbar";
 import { LogoSection } from "../components/NavBar";
@@ -8,8 +10,24 @@ import AccountIcon from "../dashboard/components/accounticon";
 import Content from "../dashboard/components/content";
 
 export default function Dashboard() {
+	const { data: session, status } = useSession();
+	const router = useRouter();
 	const [searchQuery, setSearchQuery] = useState("");
 	const [selectedCodebookId, setSelectedCodebookId] = useState(null);
+
+	useEffect(() => {
+		if (status === "unauthenticated") {
+			router.push("/login");
+		}
+	}, [status, router]);
+
+	if (status === "loading") {
+		return (
+			<div className="min-h-screen flex items-center justify-center">
+				<div className="text-xl">Loading...</div>
+			</div>
+		);
+	}
 
 	const codebooks = [
 		{ id: "01", name: "Codebook 01", owner: "Alice Johnson", date: "Just now", variant: "dark" },

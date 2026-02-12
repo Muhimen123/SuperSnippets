@@ -1,6 +1,7 @@
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./providers";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -17,8 +18,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${jetbrainsMono.variable} font-mono antialiased`}> 
-        <Toaster position="bottom-right" />
-        {children}
+        <AuthProvider>
+          <Toaster position="bottom-right" />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

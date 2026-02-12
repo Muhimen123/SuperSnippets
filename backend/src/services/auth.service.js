@@ -1,6 +1,14 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
+const generateToken = (userId) => {
+  return jwt.sign(
+    { userId },
+    process.env.JWT_SECRET,
+    { expiresIn: "24h" } // Token expires in 24 hours
+  );
+};
 /**
  * Create a new user with email and password
  */
@@ -16,7 +24,7 @@ export const createUser = async ({ name, email, password }) => {
     const user = await User.create({
       name,
       email,
-      password: await bcrypt.hash(password, 10), // In production, hash this password using bcrypt
+      password: await bcrypt.hash(password, 10),
     });
 
     // Return user without password
@@ -25,6 +33,7 @@ export const createUser = async ({ name, email, password }) => {
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,
+      token: generateToken(user._id), // Generate JWT token
     };
   } catch (error) {
     throw error;
@@ -42,7 +51,6 @@ export const authenticateUser = async ({ email, password }) => {
       throw new Error("Invalid credentials");
     }
 
-    // In production, use bcrypt.compare(password, user.password)
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       throw new Error("Invalid credentials");
@@ -54,6 +62,7 @@ export const authenticateUser = async ({ email, password }) => {
       name: user.name,
       email: user.email,
       image: user.image,
+      token: generateToken(user._id), // Generate JWT token
     };
   } catch (error) {
     throw error;
@@ -92,6 +101,7 @@ export const handleGoogleAuth = async ({ email, name, image, googleId }) => {
       name: user.name,
       email: user.email,
       image: user.image,
+      token: generateToken(user._id), // Generate JWT token
     };
   } catch (error) {
     throw error;
