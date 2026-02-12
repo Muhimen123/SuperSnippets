@@ -21,7 +21,10 @@ export const addCollaboratorToCodebook = async (codebookId, collaboratorId) => {
   return updatedCodebook;
 };
 
-export const removeCollaboratorFromCodebook = async (codebookId, collaboratorId) => {
+export const removeCollaboratorFromCodebook = async (
+  codebookId,
+  collaboratorId,
+) => {
   const updatedCodebook = await Codebook.findByIdAndUpdate(
     codebookId,
     { $pull: { collaborators: collaboratorId } },
@@ -48,6 +51,22 @@ export const fetchAllCodebooksForUser = async (userId) => {
     .exec();
 
   return codebooks;
+};
+
+export const removeCodebook = async (codebookId) => {
+  try {
+    const deletedCodebook = await Codebook.findByIdAndDelete(codebookId);
+    if (!deletedCodebook) {
+      throw new Error("Codebook not found");
+    }
+    // Remove codebook reference from owner's document
+    await User.findByIdAndUpdate(deletedCodebook.owner, {
+      $pull: { codebooksID: codebookId },
+    });
+    return deletedCodebook;
+  } catch (error) {
+    throw new Error("Failed to delete codebook: " + error.message);
+  }
 };
 
 // TODO: Move the following functions in utility

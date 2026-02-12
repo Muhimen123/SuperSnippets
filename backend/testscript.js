@@ -1,6 +1,6 @@
 import "dotenv/config";
 import mongoose from "mongoose";
-import { fetchAllCodebooksForUser } from "./src/services/pdf.service.js";
+import { removeCodebook } from "./src/services/pdf.service.js";
 
 const MONGODB_URI = process.env.MONGO_URI; 
 
@@ -10,8 +10,8 @@ async function runTest() {
     console.log("Connected to MongoDB...");
 
     // Run test function
-    const result = await fetchAllCodebooksForUser("698cb24b1a1c86f156b1ec06");
-    console.log("Test result:", result);
+    const result = await removeCodebook("698e31dcaf49d7a1bec73eec");
+    console.log("Removed codebook:", result);
   } catch (err) {
     console.error("Test failed:", err);
   } finally {

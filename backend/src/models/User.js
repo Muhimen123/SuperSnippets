@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    codebooks: [
+    codebooksID: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Codebook",
