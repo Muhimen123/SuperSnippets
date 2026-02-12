@@ -24,6 +24,22 @@ export default function Initialize() {
   const router = useRouter();
   const configHandler = new ConfigHandler();
 
+  // All useState hooks must be called before any conditional returns
+  const [currentStep, setCurrentStep] = useState(1);
+  const [repos, setRepos] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [githubUrl, setGithubUrl] = useState("");
+  const [constraints, setConstraints] = useState(defaultConstraints);
+
+  const steps = [
+    { id: 1, name: `Github Link` },
+    { id: 2, name: `Custom Code Upload` },
+    { id: 3, name: `Constraints` },
+    { id: 4, name: `Generate` },
+  ];
+
+  const totalSteps = steps.length;
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
@@ -37,21 +53,6 @@ export default function Initialize() {
       </div>
     );
   }
-
-  const steps = [
-    { id: 1, name: `Github Link` },
-    { id: 2, name: `Custom Code Upload` },
-    { id: 3, name: `Constraints` },
-    { id: 4, name: `Generate` },
-  ];
-
-  const totalSteps = steps.length;
-
-  const [currentStep, setCurrentStep] = useState(1);
-  const [repos, setRepos] = useState([]);
-  const [files, setFiles] = useState([]);
-  const [githubUrl, setGithubUrl] = useState("");
-  const [constraints, setConstraints] = useState(defaultConstraints);
 
   const handleNext = () => {
     if (currentStep === 1) {

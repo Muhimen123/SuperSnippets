@@ -24,25 +24,13 @@ export default function Editor() {
 function EditorContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  
+  // All hooks must be called before any conditional returns
   const [currentTool, setCurrentTool] = useState(1);
   const [activeFileIndex, setActiveFileIndex] = useState(null);
   const fileHandler = useMemo(() => new FileHandler(), []);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [status, router]);
-
-  if (status === "loading") {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl">Loading...</div>
-      </div>
-    );
-  }
-
+  
   const [codeData, setCodeData] = useState({
     title: "Project Alpha Codebase",
   });
@@ -128,6 +116,22 @@ function EditorContent() {
       return null;
     }
   }, [searchParams]);
+
+  // Auth check - redirect if not authenticated
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
+  // Show loading state while checking authentication
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-xl">Loading...</div>
+      </div>
+    );
+  }
 
   const handleToolSelection = (toolKey) => {
     setCurrentTool(toolKey);
