@@ -19,8 +19,7 @@ const customJestConfig = {
     '!src/**/index.js',
   ],
   testMatch: [
-    '**/__tests__/**/*.{js,jsx}',
-    '**/?(*.)+(spec|test).{js,jsx}',
+    '<rootDir>/../tests/frontend/**/*.test.{js,jsx}',
   ],
 }
 

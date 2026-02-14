@@ -5,7 +5,7 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import NavBar from '../NavBar';
+import NavBar from '../../frontend/src/app/components/NavBar';
 
 describe('NavBar Component', () => {
   
