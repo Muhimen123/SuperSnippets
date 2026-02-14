@@ -4,8 +4,8 @@ import User from "../models/User.js";
 // Send an invitation to a user by email
 export const sendInvitation = async (req, res) => {
   try {
-    const { email, senderId, codebookId, codebookName } = req.body;
-    // const senderId = req.user._id; // Assumes middleware sets req.user
+    const { email, codebookId, codebookName } = req.body;
+    const senderId = req.user._id; // Assumes middleware sets req.user
 
     const recipient = await User.findOne({ email });
     if (!recipient) {
@@ -13,7 +13,7 @@ export const sendInvitation = async (req, res) => {
     }
 
     if (recipient._id.toString() === senderId.toString()) {
-      return res.status(400).json({ error: "Cannot invite yourself" });
+        return res.status(400).json({ error: "Cannot invite yourself" });
     }
 
     const notification = await Notification.create({
@@ -34,8 +34,8 @@ export const sendInvitation = async (req, res) => {
 // Accept an invitation
 export const acceptInvitation = async (req, res) => {
   try {
-    const { notificationId, userId } = req.body;
-    // const userId = req.user._id;
+    const { notificationId } = req.body;
+    const userId = req.user._id;
 
     const notification = await Notification.findOne({
       _id: notificationId,
@@ -65,7 +65,7 @@ export const acceptInvitation = async (req, res) => {
 // Get notifications for the current user
 export const getUserNotifications = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const userId = req.user._id;
     const notifications = await Notification.find({ recipient: userId })
       .populate("sender", "name email")
       .sort({ createdAt: -1 });
