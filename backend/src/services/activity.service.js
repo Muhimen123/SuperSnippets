@@ -27,8 +27,7 @@ export const logActivity = async ({
 export const getActivitiesForCodebook = async (codebookId) => {
   try {
     const activities = await Activity.find({ codebook_id: codebookId })
-      .populate("user_id", "name", "email")
-      .populate("codesegment_id", "content")
+    .populate("user_id","name email")
       .sort({ createdAt: -1 });
     return activities;
   } catch (error) {
