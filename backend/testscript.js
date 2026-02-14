@@ -1,6 +1,7 @@
 import "dotenv/config";
 import mongoose from "mongoose";
-import { removeCollaboratorFromCodebook } from "./src/services/pdf.service.js";
+import User from "./src/models/User.js";
+import { logActivity, getActivitiesForCodebook } from "./src/services/activity.service.js";
 
 const MONGODB_URI = process.env.MONGO_URI; 
 
@@ -10,12 +11,29 @@ async function runTest() {
     console.log("Connected to MongoDB...");
 
     // Run test function
-    const result = await removeCollaboratorFromCodebook(
-      "698cfca337fb8abaa77fdede", 
-      "64a1f8e5c9e77b001d2b3c5f"
-    );
 
-    console.log("Updated Codebook:", result);
+    // const prevCodesegment = {
+    //   title: "Old Code Segment",
+    //   code: "console.log('Hello, World!');",
+    // };
+
+    // const newCodesegment = {
+    //   title: "Updated Code Segment",
+    //   code: "console.log('Hello, something something!');",
+    // };
+
+    // await logActivity({
+    //   userId: "698cb24b1a1c86f156b1ec06",
+    //   codebookId: "698e2d343b5d0087a13e06c9",
+    //   codesegmentId: "64b8ca1fe1b2c3d4e5f67892",
+    //   previousCodesegment: prevCodesegment,
+    //   newCodesegment: newCodesegment,
+    //   actionType: "UPDATE",
+    // });
+
+    const activities = await getActivitiesForCodebook("698e2d343b5d0087a13e06c9");
+    console.log("Activities for Codebook:", activities);
+
   } catch (err) {
     console.error("Test failed:", err);
   } finally {
