@@ -6,5 +6,6 @@ export const API_ROUTES = {
   BASE: BASE,
   PDF: {
     GENERATE: `${BASE}/pdf/generate`,
+    CREATE: `${BASE}/pdf/create`,
   },
 };

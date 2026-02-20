@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import TileBackground from "../components/TileBackground";
 import ContentSection from "./components/ContentSection";
 import DirectionController from "./components/DirectionController";
@@ -8,6 +8,9 @@ import InitNavbar from "./components/InitNavbar";
 import StepperProgressBar from "./components/StepperProgressBar";
 import { useRouter } from "next/navigation";
 import { ConfigHandler } from "@/utility/configHandler";
+import { useSession } from "next-auth/react";
+import { createConfig } from "../api/pdf.api";
+import toast from "react-hot-toast";
 
 const defaultConstraints = {
   font: "Jetbrains Mono",
@@ -20,7 +23,9 @@ const defaultConstraints = {
 
 export default function Initialize() {
   const router = useRouter();
-  const configHandler = new ConfigHandler();
+  const configHandler = useMemo(() => new ConfigHandler(), []);
+  const sessionData = useSession();
+  const userId = sessionData?.data?.user?.id;
 
   const steps = [
     { id: 1, name: `Github Link` },
@@ -43,6 +48,18 @@ export default function Initialize() {
     }
 
     if (currentStep === 4) {
+      const configData = configHandler.createSchemaData(userId);
+      createConfig(configData)
+        .then(() => {
+          toast.success("Successfully Initialized Codebook!");
+        })
+        .catch((error) => {
+          toast.error("Failed to create PDF configuration.");
+          console.error("Error creating PDF configuration:", error);
+
+          router.push("/dashboard");
+        });
+
       router.push("/editor");
       return;
     }
