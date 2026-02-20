@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import RepoModal from "./RepoModal";
-import { MOCK_REPO_DATABASE } from "@/utility/mockRepoDatabase";
+import { ConfigHandler } from "@/utility/configHandler";
 
 export default function GithubRepos() {
+  const configHandler = new ConfigHandler();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [repos, setRepos] = useState(MOCK_REPO_DATABASE);
+  const [repos, setRepos] = useState(configHandler.getRepos());
 
   const handleRepoAdded = (newRepo) => {
     setRepos((prev) => [...prev, newRepo]);

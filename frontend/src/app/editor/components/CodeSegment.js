@@ -2,44 +2,38 @@
 import { useState } from "react";
 import AddCodeSegmentModal from "./AddCodeSegmentModal";
 
-export default function CodeSegment() {
-  const [segments, setSegments] = useState([
-    { id: 1, name: "BFS", active: true },
-    { id: 2, name: "DFS", active: true },
-    { id: 3, name: "Topological Sort", active: true },
-    { id: 4, name: "Kadane's Algorithm", active: false },
-  ]);
+export default function CodeSegment({ files, setFiles, activeFileIndex, setActiveFileIndex }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const toggleSegment = (id) => {
-    setSegments((prev) =>
-      prev.map((seg) =>
-        seg.id === id ? { ...seg, active: !seg.active } : seg
-      )
-    );
+  const handleFilesAdded = (newFiles) => {
+    const formattedFiles = newFiles.map(f => ({
+      name: f.name,
+      content: f.content || ""
+    }));
+    setFiles(prev => [...prev, ...formattedFiles]);
   };
 
   return (
     <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono">
       <div className="flex-1 overflow-y-auto">
-        {segments.map((segment) => (
+        {files && files.map((file, index) => (
           <div
-            key={segment.id}
-            className="flex items-center justify-between p-4 border-b-2 border-black hover:bg-gray-100"
+            key={index}
+            onClick={() => setActiveFileIndex(index)}
+            className={`
+              flex items-center justify-between p-4 border-b-2 border-black cursor-pointer transition-colors duration-200
+              ${activeFileIndex === index ? "bg-black text-white" : "hover:bg-gray-100"}
+            `}
           >
-            <span className="text-sm font-bold truncate">{segment.name}</span>
-            <button
-              onClick={() => toggleSegment(segment.id)}
-              className={`w-10 h-5 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 ${
-                segment.active ? "bg-black" : "bg-gray-300"
-              }`}
+            <span className="text-sm font-bold truncate">{file.name}</span>
+            <svg 
+              className={`w-5 h-5 ${activeFileIndex === index ? "text-white" : "text-black opacity-0 group-hover:opacity-50"}`}
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
             >
-              <div
-                className={`bg-white w-3 h-3 rounded-full shadow-md transform transition-transform duration-300 ${
-                  segment.active ? "translate-x-5" : "translate-x-0"
-                }`}
-              />
-            </button>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </div>
         ))}
       </div>
@@ -67,7 +61,11 @@ export default function CodeSegment() {
           </button>
       </div>
 
-      <AddCodeSegmentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AddCodeSegmentModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onFilesAdded={handleFilesAdded}
+      />
     </div>
   );
 }

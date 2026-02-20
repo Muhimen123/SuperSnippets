@@ -1,6 +1,7 @@
 import TextField from "../../components/TextField";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ConfigHandler } from "@/utility/configHandler";
 
 export default function CreateCodebookModal({ isOpen, onClose }) {
 	if (!isOpen) return null;
@@ -13,11 +14,16 @@ export default function CreateCodebookModal({ isOpen, onClose }) {
 			setError("Codebook name cannot be empty");
 			return;
 		}
+
+		const configHandler = new ConfigHandler();
+		configHandler.clearAll();
+		configHandler.initiate(codebookName);
+
 		router.push('/initialize');
 	};
 
 	return (
-		<div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+		<div className="fixed inset-0 z-60 flex items-center justify-center p-4">
 			<div
 				className="absolute inset-0 bg-black/50 backdrop-blur-sm"
 				onClick={onClose}
