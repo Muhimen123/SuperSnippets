@@ -6,6 +6,7 @@ import {
   fetchAllCodebooksForUser,
   removeCodebook,
   modifyCodebook,
+  fetchCodebookById,
 } from "../services/pdf.service.js";
 
 export const generatePDF = async (req, res) => {
@@ -51,6 +52,19 @@ export const createConfiguration = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: "Failed to create configuration",
+      details: error.message,
+    });
+  }
+};
+
+export const fetchCodebookDetails = async (req, res) => {
+  try {
+    const codebookId = req.params.codebookId;
+    const codebook = await fetchCodebookById(codebookId);
+    res.status(200).json(codebook);
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to fetch codebook details",
       details: error.message,
     });
   }

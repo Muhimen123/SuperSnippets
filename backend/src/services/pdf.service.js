@@ -3,6 +3,14 @@ import { Writable } from "stream";
 import Codebook from "../models/Codebook.js";
 import User from "../models/User.js";
 
+export const fetchCodebookById = async (codebookId) => {
+  const codebook = await Codebook.findById(codebookId).populate("owner", "name");
+  if (!codebook) {
+    throw new Error("Codebook not found");
+  }
+  return codebook;
+};
+
 export const createNewConfiguration = async (data) => {
   const codebook = new Codebook(data);
   const savedConfig = await codebook.save();
