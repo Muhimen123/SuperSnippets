@@ -64,10 +64,6 @@ export default function Dashboard() {
               selectedCodebookId={selectedCodebookId}
             />
           )}
-          {/* <Content
-            codebooks={codebooks}
-            selectedCodebookId={selectedCodebookId}
-          /> */}
         </div>
       </TileBackground>
     </div>

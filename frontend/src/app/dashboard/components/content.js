@@ -46,15 +46,18 @@ export default function Content({ codebooks, selectedCodebookId }) {
         </div>
 
         {/* List */}
-        <Link
-          href={"/editor"}
+        <div
+          // href={"/editor"}
           className="block space-y-3 overflow-y-auto max-h-[60vh] px-2 pb-2 custom-scrollbar"
         >
           {filteredCodebooks.map((book) => (
             <div
               key={book._id}
+              onClick={() => {
+                console.log(book._id);
+              }}
               className={`grid grid-cols-12 gap-4 px-6 py-5 rounded-xl items-center shadow-sm transition-all hover:scale-[1.01] cursor-pointer ${
-                serialNumber % 2 === 0 
+                serialNumber % 2 === 0
                   ? "bg-[#3C3C3C] text-white shadow-md"
                   : "bg-white text-gray-800 hover:bg-white"
               }`}
@@ -63,9 +66,9 @@ export default function Content({ codebooks, selectedCodebookId }) {
               <div className="col-span-5 font-medium text-sm md:text-lg">
                 {book.codebook_name}
               </div>
-              <div className="col-span-3 opacity-80 text-sm">{
-                book.owner._id === userId ? "You" : book.owner.name 
-              }</div>
+              <div className="col-span-3 opacity-80 text-sm">
+                {book.owner._id === userId ? "You" : book.owner.name}
+              </div>
               <div className="col-span-3 flex items-center gap-2 opacity-80 text-sm">
                 <svg
                   className="w-4 h-4"
@@ -80,11 +83,15 @@ export default function Content({ codebooks, selectedCodebookId }) {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                {book.updatedAt ? dateFormat.format(new Date(book.updatedAt)).replace(' at ', ', ') : "N/A"}
+                {book.updatedAt
+                  ? dateFormat
+                      .format(new Date(book.updatedAt))
+                      .replace(" at ", ", ")
+                  : "N/A"}
               </div>
             </div>
           ))}
-        </Link>
+        </div>
       </div>
 
       <CreateCodebookModal
