@@ -17,24 +17,23 @@ export default function Dashboard() {
   const [codebooks, setCodebooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const loadCodebooks = async () => {
-      if (sessionData?.user?.id) {
-        try {
-          const fetchedCodebooks = await fetchUserCodebooks(
-            sessionData.user.id,
-          );
-          console.log("Fetched codebooks:", fetchedCodebooks);
-          setCodebooks(fetchedCodebooks);
-					setIsLoading(false);
-        } catch (error) {
-          console.error("Error fetching codebooks:", error);
-        } finally {
-          setIsLoading(false);
-        }
+  const loadCodebooks = async () => {
+    if (sessionData?.user?.id) {
+      try {
+        const fetchedCodebooks = await fetchUserCodebooks(
+          sessionData.user.id,
+        );
+        console.log("Fetched codebooks:", fetchedCodebooks);
+        setCodebooks(fetchedCodebooks);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching codebooks:", error);
+        setIsLoading(false);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     loadCodebooks();
   }, [sessionData]);
 
@@ -62,11 +61,13 @@ export default function Dashboard() {
             <Content
               codebooks={codebooks}
               selectedCodebookId={selectedCodebookId}
+              refreshCodebooks={loadCodebooks}
             />
           )}
           {/* <Content
             codebooks={codebooks}
             selectedCodebookId={selectedCodebookId}
+            refreshCodebooks={loadCodebooks}
           /> */}
         </div>
       </TileBackground>
