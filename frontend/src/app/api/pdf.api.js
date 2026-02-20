@@ -94,7 +94,7 @@ export const fetchCodebook = async (codebookId) => {
   }
 };
 
-export const modifyCodebook = async (codebookId, updatedConfig) => {
+export const modifyCodebook = async (codebookId, updatedData) => {
   const endpoint = API_ROUTES.PDF.MODIFY;
   try {
     const response = await fetch(endpoint, {
@@ -102,9 +102,9 @@ export const modifyCodebook = async (codebookId, updatedConfig) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ codebookId, updatedConfig }),
+      body: JSON.stringify({ codebookId, updatedData }),
     });
-
+    console.log("Response from modifyCodebook:", response);
     if (!response.ok) {
       throw new Error("Failed to modify codebook");
     }

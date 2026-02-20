@@ -1,7 +1,10 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getPDF } from "@/utility/pdf/PDF_Engine";
 import { ConfigHandler } from "@/utility/configHandler";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
+import { modifyCodebook } from "@/app/api/pdf.api.js";
+import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
 export default function Toolbar({ currentTool, handleToolSelection }) {
@@ -67,6 +70,17 @@ function ToolbarElement({
 }) {
   const selected = toolKey === currentTool;
   const router = useRouter();
+
+  const [id, setId] = useState(null);
+  const session = useSession();
+  const userId = session?.data?.user?.id;
+
+  useEffect(() => {
+    const codeBookHandler = new CodeBookHandler();
+    const codebookId = codeBookHandler.getId();
+    setId(codebookId);
+  }, [configHandler]);
+
   return (
     <div
       className={`
@@ -82,9 +96,13 @@ function ToolbarElement({
         }
 
         if (toolKey === 8) {
-          const config = configHandler.createSchemaData("698cb24b1a1c86f156b1ec06");
-          toast.success("Configuration saved successfully!");
-          console.log("Config to save:", config);
+          const config = configHandler.createSchemaData(id);
+          config.owner = userId;
+          toast.promise(modifyCodebook(id, config), {
+            loading: "Saving configuration...",
+            success: "Configuration saved successfully!",
+            error: "Failed to save configuration. Please try again.",
+          });
           return;
         }
 
