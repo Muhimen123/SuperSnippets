@@ -42,25 +42,27 @@ export default function Initialize() {
   const [githubUrl, setGithubUrl] = useState("");
   const [constraints, setConstraints] = useState(defaultConstraints);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep === 1) {
       configHandler.addRepo(repos);
     }
 
     if (currentStep === 4) {
       const configData = configHandler.createSchemaData(userId);
-      createConfig(configData)
-        .then(() => {
-          toast.success("Successfully Initialized Codebook!");
-        })
-        .catch((error) => {
-          toast.error("Failed to create PDF configuration.");
-          console.error("Error creating PDF configuration:", error);
 
-          router.push("/dashboard");
-        });
+      try {
+        const result = await createConfig(configData);
 
-      router.push("/editor");
+        console.log("Config Data:", result);
+        toast.success("Successfully Initialized Codebook!");
+
+        router.push("/editor");
+      } catch (error) {
+        toast.error("Failed to create PDF configuration.");
+        console.error("Error creating PDF configuration:", error);
+
+        router.push("/dashboard");
+      }
       return;
     }
 
