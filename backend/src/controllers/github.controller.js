@@ -1,4 +1,4 @@
-import { fetchRepoFiles, getRawFileData } from "../services/github.service.js";
+import { fetchRepoFiles, getRawFileData, fetchAllRepoFiles } from "../services/github.service.js";
 
 export const getRepoFiles = async (req, res) => {
   try {
@@ -40,6 +40,26 @@ export const getFileContent = async (req, res) => {
     console.error("Controller error when trying to get file content: ", error);
     res.status(500).json({
       error: "Failed to fetch file content",
+      details: error.message,
+    });
+  }
+};
+
+export const getAllRepoFiles = async (req, res) => {
+  try {
+    const { url } = req.body;
+
+    if (!url) {
+      return res.status(400).json({ error: "GitHub URL is required" });
+    }
+
+    const files = await fetchAllRepoFiles(url);
+
+    res.status(200).json(files);
+  } catch (error) {
+    console.error("Controller Error:", error);
+    res.status(500).json({
+      error: "Failed to fetch repository files",
       details: error.message,
     });
   }

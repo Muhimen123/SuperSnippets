@@ -102,7 +102,6 @@ export const fetchAllRepoFiles = async (url) => {
     const batchPromises = batch.map(async (file) => {
       try {
         const linesArray = await getRawFileData(file);
-        const rawUrl = generateRawFileLink(file);
 
         return {
           title: file.file_name.split('/').pop(),
