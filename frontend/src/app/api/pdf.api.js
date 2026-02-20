@@ -1,0 +1,50 @@
+import { API_ROUTES } from "@/utility/constants";
+
+export const createConfig = async (codebookConfig) => {
+  const endpoint = API_ROUTES.PDF.CREATE;
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(codebookConfig),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create PDF configuration");
+    }
+
+    const data = await response.json();
+    console.log("PDF configuration created successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error creating PDF configuration:", error);
+    throw error;
+  }
+};
+
+export const fetchUserCodebooks = async (userId) => {
+  const endpoint = API_ROUTES.PDF.GET_ALL;
+  try {
+    console.log(userId);
+    console.log(endpoint);
+    const response = await fetch(`${endpoint}/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user codebooks");
+    }
+
+    const data = await response.json();
+    console.log("User codebooks fetched successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching user codebooks:", error);
+    throw error;
+  }
+};
