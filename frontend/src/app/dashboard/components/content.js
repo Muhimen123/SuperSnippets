@@ -2,15 +2,26 @@
 import { useState } from "react";
 import CreateCodebookModal from "./createCodebookModal";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function Content({ codebooks, selectedCodebookId }) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const { data: sessionData } = useSession();
+  const userId = sessionData?.user?.id;
 
   const filteredCodebooks = selectedCodebookId
     ? codebooks.filter((book) => book._id === selectedCodebookId)
     : codebooks;
 
   let serialNumber = 0;
+  const dateFormat = new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
   return (
     <div className="mt-48 w-full max-w-7xl px-6 mb-20 mx-auto">
       <div className="flex justify-between items-end mb-6 px-4">
@@ -28,8 +39,8 @@ export default function Content({ codebooks, selectedCodebookId }) {
       <div className="w-full font-mono">
         {/* Headers */}
         <div className="grid grid-cols-12 gap-4 px-6 pb-2 text-xs text-gray-500 uppercase tracking-wider font-semibold">
-          <div className="col-span-2">Serial No.</div>
-          <div className="col-span-4">Codebook Name</div>
+          <div className="col-span-1">Serial No.</div>
+          <div className="col-span-5">Codebook Name</div>
           <div className="col-span-3">Owner</div>
           <div className="col-span-3">Last Modified</div>
         </div>
@@ -48,11 +59,13 @@ export default function Content({ codebooks, selectedCodebookId }) {
                   : "bg-white text-gray-800 hover:bg-white"
               }`}
             >
-              <div className="col-span-2 opacity-80">{serialNumber++}</div>
-              <div className="col-span-4 font-medium text-sm md:text-lg">
+              <div className="col-span-1 opacity-80">{serialNumber++}</div>
+              <div className="col-span-5 font-medium text-sm md:text-lg">
                 {book.codebook_name}
               </div>
-              <div className="col-span-3 opacity-80 text-sm">{book.owner.name}</div>
+              <div className="col-span-3 opacity-80 text-sm">{
+                book.owner._id === userId ? "You" : book.owner.name 
+              }</div>
               <div className="col-span-3 flex items-center gap-2 opacity-80 text-sm">
                 <svg
                   className="w-4 h-4"
@@ -67,7 +80,7 @@ export default function Content({ codebooks, selectedCodebookId }) {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                {book.date}
+                {book.updatedAt ? dateFormat.format(new Date(book.updatedAt)).replace(' at ', ', ') : "N/A"}
               </div>
             </div>
           ))}

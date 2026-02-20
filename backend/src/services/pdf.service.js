@@ -47,7 +47,7 @@ export const fetchAllCodebooksForUser = async (userId) => {
     $or: [{ owner: userId }, { collaborators: userId }],
   })
     .populate("owner", "name")
-    .select("owner codebook_name")
+    .select("owner codebook_name updatedAt")
     .exec();
 
   return codebooks;
