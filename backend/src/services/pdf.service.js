@@ -69,6 +69,29 @@ export const removeCodebook = async (codebookId) => {
   }
 };
 
+export const modifyCodebook = async (codebookId, updatedData) => {
+  try {
+    const updatedCodebook = await Codebook.findByIdAndUpdate(
+      codebookId,
+      { $set: updatedData },
+      { 
+        new: true,
+        runValidators: true,
+        context: 'query'
+      }
+    );
+
+    if (!updatedCodebook) {
+      throw new Error("Codebook not found");
+    }
+
+    return updatedCodebook;
+  } catch (error) {
+    console.error(`Update Error (ID: ${codebookId}):`, error);
+    throw new Error("Failed to update codebook: " + error.message);
+  }
+};
+
 // TODO: Move the following functions in utility
 export const generateTarBuffer = async () => {
   return new Promise((resolve, reject) => {
