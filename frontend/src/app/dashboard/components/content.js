@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { deleteCodebook, fetchCodebook } from "../../api/pdf.api";
 import toast from "react-hot-toast";
 import { ConfigHandler } from "@/utility/configHandler";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
 
 export default function Content({ codebooks, selectedCodebookId, refreshCodebooks }) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -16,6 +17,8 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
   const { data: sessionData } = useSession();
   const userId = sessionData?.user?.id;
   const configHandler = new ConfigHandler();
+  const codeBookHandler = new CodeBookHandler();
+  
   const router = useRouter();
 
   const filteredCodebooks = selectedCodebookId
@@ -80,7 +83,6 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
 
         {/* List */}
         <div
-          // href={"/editor"}
           className="block space-y-3 overflow-y-auto max-h-[60vh] px-2 pb-2 custom-scrollbar"
         >
           {filteredCodebooks.map((book) => (
@@ -90,6 +92,10 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
                 try {
                   const codebookData = await fetchCodebook(book._id);
                   configHandler.loadConfigFromSchema(codebookData);
+
+                  codeBookHandler.initiate();
+                  codeBookHandler.setId(book._id);
+
                   toast.success("Codebook loaded successfully");
                   router.push("/editor");
                 } catch (error) { 

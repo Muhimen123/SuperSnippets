@@ -93,3 +93,22 @@ export const fetchCodebook = async (codebookId) => {
     throw error;
   }
 };
+
+export const modifyCodebook = async (codebookId, updatedConfig) => {
+  const endpoint = API_ROUTES.PDF.MODIFY;
+  try {
+    const response = await fetch(endpoint, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ codebookId, updatedConfig }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to modify codebook");
+    }
+  } catch (error) {
+    throw error;
+  }
+};
