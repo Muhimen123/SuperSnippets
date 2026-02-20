@@ -8,5 +8,6 @@ export const API_ROUTES = {
     GENERATE: `${BASE}/pdf/generate`,
     CREATE: `${BASE}/pdf/create`,
     GET_ALL: `${BASE}/pdf/user-codebooks`,
+    DELETE: `${BASE}/pdf/delete-codebook`,
   },
 };

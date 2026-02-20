@@ -48,3 +48,26 @@ export const fetchUserCodebooks = async (userId) => {
     throw error;
   }
 };
+
+export const deleteCodebook = async (codebookId) => {
+  const endpoint = `${API_ROUTES.PDF.DELETE}/${codebookId}`;
+  try {
+    const response = await fetch(endpoint, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete codebook");
+    }
+
+    const data = await response.json();
+    console.log("Codebook deleted successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error deleting codebook:", error);
+    throw error;
+  }
+};

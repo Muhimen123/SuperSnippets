@@ -1,11 +1,17 @@
 "use client";
 import { useState } from "react";
 import CreateCodebookModal from "./createCodebookModal";
+import DeleteVerificationModal from "./DeleteVerificationModal";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { deleteCodebook } from "../../api/pdf.api";
+import toast from "react-hot-toast";
 
-export default function Content({ codebooks, selectedCodebookId }) {
+export default function Content({ codebooks, selectedCodebookId, refreshCodebooks }) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [codebookToDelete, setCodebookToDelete] = useState(null);
+  
   const { data: sessionData } = useSession();
   const userId = sessionData?.user?.id;
 
@@ -13,7 +19,30 @@ export default function Content({ codebooks, selectedCodebookId }) {
     ? codebooks.filter((book) => book._id === selectedCodebookId)
     : codebooks;
 
-  let serialNumber = 0;
+  const handleDeleteClick = (e, codebookId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCodebookToDelete(codebookId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!codebookToDelete) return;
+
+    try {
+      await deleteCodebook(codebookToDelete);
+      if (refreshCodebooks) refreshCodebooks();
+      toast.success("Codebook deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete codebook:", error);
+      toast.error("Failed to delete codebook");
+    } finally {
+      setIsDeleteModalOpen(false);
+      setCodebookToDelete(null);
+    }
+  };
+
+  let serialNumber = 1;
   const dateFormat = new Intl.DateTimeFormat("en-US", {
     hour: "2-digit",
     minute: "2-digit",
@@ -40,9 +69,10 @@ export default function Content({ codebooks, selectedCodebookId }) {
         {/* Headers */}
         <div className="grid grid-cols-12 gap-4 px-6 pb-2 text-xs text-gray-500 uppercase tracking-wider font-semibold">
           <div className="col-span-1">Serial No.</div>
-          <div className="col-span-5">Codebook Name</div>
+          <div className="col-span-4">Codebook Name</div>
           <div className="col-span-3">Owner</div>
           <div className="col-span-3">Last Modified</div>
+          <div className="col-span-1 text-center">Actions</div>
         </div>
 
         {/* List */}
@@ -63,7 +93,7 @@ export default function Content({ codebooks, selectedCodebookId }) {
               }`}
             >
               <div className="col-span-1 opacity-80">{serialNumber++}</div>
-              <div className="col-span-5 font-medium text-sm md:text-lg">
+              <div className="col-span-4 font-medium text-sm md:text-lg">
                 {book.codebook_name}
               </div>
               <div className="col-span-3 opacity-80 text-sm">
@@ -89,6 +119,30 @@ export default function Content({ codebooks, selectedCodebookId }) {
                       .replace(" at ", ", ")
                   : "N/A"}
               </div>
+              <div className="col-span-1 flex justify-center">
+                <button
+                  onClick={(e) => handleDeleteClick(e, book._id)}
+                  className="p-2 text-red-500 hover:bg-red-100 rounded-full transition-colors"
+                  title="Delete Codebook"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                  </svg>
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -97,6 +151,12 @@ export default function Content({ codebooks, selectedCodebookId }) {
       <CreateCodebookModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
+      />
+      
+      <DeleteVerificationModal 
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );
