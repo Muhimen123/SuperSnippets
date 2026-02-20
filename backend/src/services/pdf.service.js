@@ -48,6 +48,7 @@ export const fetchAllCodebooksForUser = async (userId) => {
   })
     .populate("owner", "name")
     .select("owner codebook_name updatedAt")
+    .sort({ updatedAt: -1 })
     .exec();
 
   return codebooks;
