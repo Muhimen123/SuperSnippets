@@ -1,88 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TileBackground from "../components/TileBackground";
 import Searchbar from "../dashboard/components/searchbar";
 import { LogoSection } from "../components/NavBar";
 import AccountIcon from "../dashboard/components/accounticon";
 import Content from "../dashboard/components/content";
+import { fetchUserCodebooks } from "../api/pdf.api";
+import { useSession } from "next-auth/react";
 
 export default function Dashboard() {
+  const { data: sessionData } = useSession();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCodebookId, setSelectedCodebookId] = useState(null);
 
-  const codebooks = [
-    {
-      id: "01",
-      name: "Codebook 01",
-      owner: "Alice Johnson",
-      date: "Just now",
-      variant: "dark",
-    },
-    {
-      id: "02",
-      name: "MIST Team 06",
-      owner: "Bob Smith",
-      date: "A minute ago",
-      variant: "light",
-    },
-    {
-      id: "03",
-      name: "Ultimate Codebook",
-      owner: "Charlie Brown",
-      date: "1 hour ago",
-      variant: "dark",
-    },
-    {
-      id: "04",
-      name: "Codebook Draft",
-      owner: "David Wilson",
-      date: "Yesterday",
-      variant: "light",
-    },
-    {
-      id: "05",
-      name: "Algorithms Snippets",
-      owner: "Eve Davis",
-      date: "2 days ago",
-      variant: "dark",
-    },
-    {
-      id: "06",
-      name: "Data Structures",
-      owner: "Frank Miller",
-      date: "Last week",
-      variant: "light",
-    },
-    {
-      id: "07",
-      name: "Graph Theory",
-      owner: "Grace Lee",
-      date: "2 weeks ago",
-      variant: "dark",
-    },
-    {
-      id: "08",
-      name: "Dynamic Programming",
-      owner: "Hank Green",
-      date: "A month ago",
-      variant: "light",
-    },
-    {
-      id: "09",
-      name: "Math Snippets",
-      owner: "Ivy White",
-      date: "2 months ago",
-      variant: "dark",
-    },
-    {
-      id: "10",
-      name: "Geometry Codebook",
-      owner: "Jack Black",
-      date: "3 months ago",
-      variant: "light",
-    },
-  ];
+  const [codebooks, setCodebooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCodebooks = async () => {
+      if (sessionData?.user?.id) {
+        try {
+          const fetchedCodebooks = await fetchUserCodebooks(
+            sessionData.user.id,
+          );
+          console.log("Fetched codebooks:", fetchedCodebooks);
+          setCodebooks(fetchedCodebooks);
+					setIsLoading(false);
+        } catch (error) {
+          console.error("Error fetching codebooks:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadCodebooks();
+  }, [sessionData]);
 
   return (
     <div>
@@ -102,10 +56,18 @@ export default function Dashboard() {
           setSelectedCodebookId={setSelectedCodebookId}
         />
         <div>
-          <Content
+          {isLoading ? (
+            <LoadingState />
+          ) : (
+            <Content
+              codebooks={codebooks}
+              selectedCodebookId={selectedCodebookId}
+            />
+          )}
+          {/* <Content
             codebooks={codebooks}
             selectedCodebookId={selectedCodebookId}
-          />
+          /> */}
         </div>
       </TileBackground>
     </div>
@@ -169,3 +131,13 @@ function MobileNavbar({
     </nav>
   );
 }
+
+const LoadingState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] w-full gap-4">
+    {/* A simple CSS spinner or pulse effect */}
+    <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+    <p className="text-black/60 font-mono text-sm animate-pulse">
+      Fetching your codebooks...
+    </p>
+  </div>
+);

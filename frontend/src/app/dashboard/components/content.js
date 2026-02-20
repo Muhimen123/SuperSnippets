@@ -7,9 +7,10 @@ export default function Content({ codebooks, selectedCodebookId }) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const filteredCodebooks = selectedCodebookId
-    ? codebooks.filter((book) => book.id === selectedCodebookId)
+    ? codebooks.filter((book) => book._id === selectedCodebookId)
     : codebooks;
 
+  let serialNumber = 0;
   return (
     <div className="mt-48 w-full max-w-7xl px-6 mb-20 mx-auto">
       <div className="flex justify-between items-end mb-6 px-4">
@@ -40,18 +41,18 @@ export default function Content({ codebooks, selectedCodebookId }) {
         >
           {filteredCodebooks.map((book) => (
             <div
-              key={book.id}
+              key={book._id}
               className={`grid grid-cols-12 gap-4 px-6 py-5 rounded-xl items-center shadow-sm transition-all hover:scale-[1.01] cursor-pointer ${
-                book.variant === "dark"
+                serialNumber % 2 === 0 
                   ? "bg-[#3C3C3C] text-white shadow-md"
                   : "bg-white text-gray-800 hover:bg-white"
               }`}
             >
-              <div className="col-span-2 opacity-80">{book.id}</div>
+              <div className="col-span-2 opacity-80">{serialNumber++}</div>
               <div className="col-span-4 font-medium text-sm md:text-lg">
-                {book.name}
+                {book.codebook_name}
               </div>
-              <div className="col-span-3 opacity-80 text-sm">{book.owner}</div>
+              <div className="col-span-3 opacity-80 text-sm">{book.owner.name}</div>
               <div className="col-span-3 flex items-center gap-2 opacity-80 text-sm">
                 <svg
                   className="w-4 h-4"

@@ -8,21 +8,21 @@ export default function Searchbar({ searchQuery, setSearchQuery, codebooks, sele
 
 	const suggestions = codebooks
 		.filter((book) =>
-			book.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			book.owner.toLowerCase().includes(searchQuery.toLowerCase())
+			book.codebook_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			book.owner.name.toLowerCase().includes(searchQuery.toLowerCase())
 		)
 		.sort((a, b) => {
 			const query = searchQuery.toLowerCase();
-			const aName = a.name.toLowerCase();
-			const bName = b.name.toLowerCase();
+			const aName = a.codebook_name.toLowerCase();
+			const bName = b.codebook_name.toLowerCase();
 
 			// Prioritize name starts with query
 			if (aName.startsWith(query) && !bName.startsWith(query)) return -1;
 			if (!aName.startsWith(query) && bName.startsWith(query)) return 1;
 
 			// Then prioritize owner starts with query
-			const aOwner = a.owner.toLowerCase();
-			const bOwner = b.owner.toLowerCase();
+			const aOwner = a.owner.name.toLowerCase();
+			const bOwner = b.owner.name.toLowerCase();
 			if (aOwner.startsWith(query) && !bOwner.startsWith(query)) return -1;
 			if (!aOwner.startsWith(query) && bOwner.startsWith(query)) return 1;
 

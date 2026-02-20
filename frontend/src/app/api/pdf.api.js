@@ -23,3 +23,28 @@ export const createConfig = async (codebookConfig) => {
     throw error;
   }
 };
+
+export const fetchUserCodebooks = async (userId) => {
+  const endpoint = API_ROUTES.PDF.GET_ALL;
+  try {
+    console.log(userId);
+    console.log(endpoint);
+    const response = await fetch(`${endpoint}/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user codebooks");
+    }
+
+    const data = await response.json();
+    console.log("User codebooks fetched successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching user codebooks:", error);
+    throw error;
+  }
+};
