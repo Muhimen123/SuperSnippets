@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import CreateCodebookModal from "./createCodebookModal";
 import DeleteVerificationModal from "./DeleteVerificationModal";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { deleteCodebook } from "../../api/pdf.api";
+import { deleteCodebook, fetchCodebook } from "../../api/pdf.api";
 import toast from "react-hot-toast";
+import { ConfigHandler } from "@/utility/configHandler";
 
 export default function Content({ codebooks, selectedCodebookId, refreshCodebooks }) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -14,6 +15,8 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
   
   const { data: sessionData } = useSession();
   const userId = sessionData?.user?.id;
+  const configHandler = new ConfigHandler();
+  const router = useRouter();
 
   const filteredCodebooks = selectedCodebookId
     ? codebooks.filter((book) => book._id === selectedCodebookId)
@@ -70,8 +73,8 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
         <div className="grid grid-cols-12 gap-4 px-6 pb-2 text-xs text-gray-500 uppercase tracking-wider font-semibold">
           <div className="col-span-1">Serial No.</div>
           <div className="col-span-4">Codebook Name</div>
-          <div className="col-span-3">Owner</div>
-          <div className="col-span-3">Last Modified</div>
+          <div className="col-span-2">Owner</div>
+          <div className="col-span-4">Last Modified</div>
           <div className="col-span-1 text-center">Actions</div>
         </div>
 
@@ -83,8 +86,16 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
           {filteredCodebooks.map((book) => (
             <div
               key={book._id}
-              onClick={() => {
-                console.log(book._id);
+              onClick={async () => {
+                try {
+                  const codebookData = await fetchCodebook(book._id);
+                  configHandler.loadConfigFromSchema(codebookData);
+                  toast.success("Codebook loaded successfully");
+                  router.push("/editor");
+                } catch (error) { 
+                  console.error("Error fetching codebook data:", error);
+                  toast.error("Could not load codebook. Please try again.");
+                }
               }}
               className={`grid grid-cols-12 gap-4 px-6 py-5 rounded-xl items-center shadow-sm transition-all hover:scale-[1.01] cursor-pointer ${
                 serialNumber % 2 === 0
@@ -96,10 +107,10 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
               <div className="col-span-4 font-medium text-sm md:text-lg">
                 {book.codebook_name}
               </div>
-              <div className="col-span-3 opacity-80 text-sm">
+              <div className="col-span-2 opacity-80 text-sm">
                 {book.owner._id === userId ? "You" : book.owner.name}
               </div>
-              <div className="col-span-3 flex items-center gap-2 opacity-80 text-sm">
+              <div className="col-span-4 flex items-center gap-2 opacity-80 text-sm">
                 <svg
                   className="w-4 h-4"
                   fill="none"

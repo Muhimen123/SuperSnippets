@@ -167,4 +167,21 @@ export class ConfigHandler {
       categories: [],
     };
   };
+
+  loadConfigFromSchema = (schema) => {
+    this.initiate(schema.codebook_name);
+    const config = {
+      codebookName: schema.codebook_name,
+      headerText: schema.configuration.header_text,
+      repoArray: schema.repositories,
+      font: schema.configuration.font_family,
+      marginSize: schema.configuration.margin,
+      fontSize: schema.configuration.font_size,
+      columns: schema.configuration.column_number,
+      pageLimit: schema.configuration.page_number,
+      orientation: schema.configuration.orientation,
+    };
+
+    this.write(config);
+  };
 }

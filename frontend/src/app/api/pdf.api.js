@@ -71,3 +71,25 @@ export const deleteCodebook = async (codebookId) => {
     throw error;
   }
 };
+
+export const fetchCodebook = async (codebookId) => {
+  const endpoint = `${API_ROUTES.PDF.FETCH}/${codebookId}`;
+  try {
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch codebook");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching codebook:", error);
+    throw error;
+  }
+};
