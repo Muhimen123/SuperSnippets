@@ -12,4 +12,8 @@ export const API_ROUTES = {
     FETCH: `${BASE}/pdf/fetch`,
     MODIFY: `${BASE}/pdf/modify`,
   },
+
+  GITHUB: {
+    FETCH_ALL: `${BASE}/github/fetch-all`,
+  },
 };
