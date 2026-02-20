@@ -29,4 +29,8 @@ export class CodeBookHandler {
 		const codebookString = JSON.stringify(codebook);
     localStorage.setItem(this.#storageKey, codebookString);
   }
+
+	clearAll() {
+		localStorage.removeItem(this.#storageKey);
+	}
 };
