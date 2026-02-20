@@ -61,8 +61,8 @@ export default function Searchbar({ searchQuery, setSearchQuery, codebooks, sele
 	};
 
 	const handleSelect = (book) => {
-		setSearchQuery(book.name);
-		setSelectedCodebookId(book.id);
+		setSearchQuery(book.codebook_name);
+		setSelectedCodebookId(book._id);
 		setShowDropdown(false);
 		setSelectedIndex(-1);
 	};
@@ -148,13 +148,13 @@ export default function Searchbar({ searchQuery, setSearchQuery, codebooks, sele
 				>
 					{suggestions.map((book, index) => (
 						<div
-							key={book.id}
+							key={book._id}
 							onClick={() => handleSelect(book)}
 							className={`px-4 py-3 cursor-pointer border-b border-gray-100 last:border-none ${index === selectedIndex ? "bg-gray-100" : "hover:bg-gray-50"
 								}`}
 						>
-							<div className="font-medium text-sm text-gray-900">{book.name}</div>
-							<div className="text-xs text-gray-500">{book.owner}</div>
+							<div className="font-medium text-sm text-gray-900">{book.codebook_name}</div>
+							<div className="text-xs text-gray-500">{book.owner.name}</div>
 						</div>
 					))}
 				</div>
