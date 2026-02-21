@@ -7,6 +7,7 @@ import ContentSection from "../editor/components/ContentSection";
 import CodeEditorWindow from "./components/CodeEditorWindow";
 import { useSearchParams } from "next/navigation";
 import { FileHandler } from "@/utility/fileHandler";
+import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
 
 const PDFSection = dynamic(() => import("./components/PDFSection"), {
   ssr: false,
@@ -24,6 +25,7 @@ function EditorContent() {
   const [currentTool, setCurrentTool] = useState(1);
   const [activeFileIndex, setActiveFileIndex] = useState(null);
   const fileHandler = useMemo(() => new FileHandler(), []);
+  const codeSegmentsHandler = useMemo(() => new CodeSegmentsHandler(), []);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const [codeData, setCodeData] = useState({
@@ -54,6 +56,15 @@ function EditorContent() {
   ]);
 
   const [files, setFiles] = useState([]);
+
+  // load code segments from the codesegment handler 
+  // useEffect(() => {
+  //   const storedSegments = codeSegmentsHandler.getSegments();
+  //   if (storedSegments && storedSegments.length > 0) {
+  //     setFiles(storedSegments);
+  //   }
+  //   setIsLoaded(true);
+  // }, [codeSegmentsHandler]);
 
   // Load files from local storage on mount
   useEffect(() => {
@@ -98,19 +109,6 @@ function EditorContent() {
       fileHandler.saveFiles(files);
     }
   }, [files, isLoaded, fileHandler]);
-
-  const searchParams = useSearchParams();
-
-  const constraints = useMemo(() => {
-    const raw = searchParams.get("constraints");
-    if (!raw) return null;
-
-    try {
-      return JSON.parse(decodeURIComponent(raw));
-    } catch {
-      return null;
-    }
-  }, [searchParams]);
 
   const handleToolSelection = (toolKey) => {
     setCurrentTool(toolKey);
@@ -186,7 +184,6 @@ function EditorContent() {
           <ContentSection
             activeTool={currentTool}
             handleToolSelection={handleToolSelection}
-            constraints={constraints}
             files={files}
             setFiles={setFiles}
             activeFileIndex={activeFileIndex}

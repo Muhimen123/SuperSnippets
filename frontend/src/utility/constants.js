@@ -9,5 +9,11 @@ export const API_ROUTES = {
     CREATE: `${BASE}/pdf/create`,
     GET_ALL: `${BASE}/pdf/user-codebooks`,
     DELETE: `${BASE}/pdf/delete-codebook`,
+    FETCH: `${BASE}/pdf/fetch`,
+    MODIFY: `${BASE}/pdf/modify`,
+  },
+
+  GITHUB: {
+    FETCH_ALL: `${BASE}/github/fetch-all`,
   },
 };

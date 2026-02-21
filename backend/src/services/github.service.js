@@ -57,17 +57,6 @@ const isCodeFile = (path) => {
     ".hpp",
     ".java",
     ".py",
-    ".js",
-    ".jsx",
-    ".ts",
-    ".tsx",
-    ".go",
-    ".rs",
-    ".kt",
-    ".cs",
-    ".sh",
-    ".md",
-    ".txt",
   ];
   return validExtensions.some((ext) => path.toLowerCase().endsWith(ext));
 };
@@ -94,4 +83,42 @@ export const fetchRepoFiles = async (url) => {
     repository: repo,
     file_name: file.path,
   }));
+};
+
+/**
+ * Fetches all repository files and maps them to the CodeSegment schema.
+ * @param {string} url - The GitHub repository URL.
+ * @param {string} categoryId - The MongoDB ObjectId for the category.
+ */
+export const fetchAllRepoFiles = async (url) => {
+  const filesList = await fetchRepoFiles(url);
+  
+  const CONCURRENCY_LIMIT = 800; 
+  const processedSegments = [];
+
+  for (let i = 0; i < filesList.length; i += CONCURRENCY_LIMIT) {
+    const batch = filesList.slice(i, i + CONCURRENCY_LIMIT);
+    
+    const batchPromises = batch.map(async (file) => {
+      try {
+        const linesArray = await getRawFileData(file);
+
+        return {
+          title: file.file_name.split('/').pop(),
+          code: linesArray,
+          category_id: null,
+          type: "github",
+          file_url: url
+        };
+      } catch (error) {
+        console.error(`Skipping ${file.file_name} due to error:`, error.message);
+        return null; 
+      }
+    });
+
+    const results = await Promise.all(batchPromises);
+    processedSegments.push(...results.filter(s => s !== null));
+  }
+
+  return processedSegments;
 };

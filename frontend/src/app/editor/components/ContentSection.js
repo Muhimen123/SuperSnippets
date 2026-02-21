@@ -8,7 +8,6 @@ import Settings from "./Settings";
 export default function ContentSection({
   activeTool,
   handleToolSelection,
-  constraints,
   files,
   setFiles,
   activeFileIndex,
@@ -32,7 +31,7 @@ export default function ContentSection({
       case 3:
         return <GithubRepos />;
       case 4:
-        return <ConfigBar constraints={constraints} />;
+        return <ConfigBar />;
       case 5:
         return <div className="w-0"></div>;
       case 6:

@@ -71,3 +71,44 @@ export const deleteCodebook = async (codebookId) => {
     throw error;
   }
 };
+
+export const fetchCodebook = async (codebookId) => {
+  const endpoint = `${API_ROUTES.PDF.FETCH}/${codebookId}`;
+  try {
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch codebook");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching codebook:", error);
+    throw error;
+  }
+};
+
+export const modifyCodebook = async (codebookId, updatedData) => {
+  const endpoint = API_ROUTES.PDF.MODIFY;
+  try {
+    const response = await fetch(endpoint, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ codebookId, updatedData }),
+    });
+    console.log("Response from modifyCodebook:", response);
+    if (!response.ok) {
+      throw new Error("Failed to modify codebook");
+    }
+  } catch (error) {
+    throw error;
+  }
+};

@@ -8,8 +8,11 @@ import InitNavbar from "./components/InitNavbar";
 import StepperProgressBar from "./components/StepperProgressBar";
 import { useRouter } from "next/navigation";
 import { ConfigHandler } from "@/utility/configHandler";
+import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
 import { useSession } from "next-auth/react";
-import { createConfig } from "../api/pdf.api";
+import { createConfig, modifyCodebook } from "../api/pdf.api";
+import { fetchAllFilesFromRepo } from "../api/github.api";
 import toast from "react-hot-toast";
 
 const defaultConstraints = {
@@ -24,6 +27,8 @@ const defaultConstraints = {
 export default function Initialize() {
   const router = useRouter();
   const configHandler = useMemo(() => new ConfigHandler(), []);
+  const codeSegmentsHandler = new CodeSegmentsHandler();
+  const codeBookHandler = new CodeBookHandler();
   const sessionData = useSession();
   const userId = sessionData?.data?.user?.id;
 
@@ -49,25 +54,48 @@ export default function Initialize() {
 
     if (currentStep === 4) {
       const configData = configHandler.createSchemaData(userId);
+      codeSegmentsHandler.clearAll();
+      codeSegmentsHandler.initiate();
+
+      const toastId = toast.loading("Starting repository fetch...");
 
       try {
         const result = await createConfig(configData);
+        codeBookHandler.initiate();
+        codeBookHandler.setId(result.codebookId);
 
-        console.log("Config Data:", result);
-        toast.success("Successfully Initialized Codebook!");
+        const repoList = configHandler.getRepos();
+        const totalRepos = repoList.length;
 
+        for (let i = 0; i < totalRepos; i++) {
+          const repo = repoList[i];
+          
+          toast.loading(
+            `Fetching repo ${i + 1} of ${totalRepos}: ${repo}`, 
+            { id: toastId }
+          );
+
+          const fullUrl = `https://github.com/${repo}/`;
+          const data = await fetchAllFilesFromRepo(fullUrl);
+          
+          codeSegmentsHandler.addSegments(data);
+        }
+
+        const configUpdated = codeBookHandler.createSchemaData(userId);
+        await modifyCodebook(result.codebookId, configUpdated);
+
+        toast.success("Successfully Initialized Codebook!", { id: toastId });
         router.push("/editor");
       } catch (error) {
-        toast.error("Failed to create PDF configuration.");
-        console.error("Error creating PDF configuration:", error);
-
-        router.push("/dashboard");
+        toast.error("Failed to initialize. Please check your GitHub links.", { id: toastId });
+        console.error("Initialization Error:", error);
       }
       return;
     }
 
     setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
   };
+
   const handleBack = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
 
   return (

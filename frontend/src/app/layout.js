@@ -20,7 +20,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <AuthProvider>
         <body className={`${jetbrainsMono.variable} font-mono antialiased`}>
-          <Toaster position="bottom-right" />
+          <Toaster
+            toastOptions={{
+              style: { border: "1px solid black", padding: "16px" },
+            }}
+            position="bottom-right"
+          />
           {children}
         </body>
       </AuthProvider>

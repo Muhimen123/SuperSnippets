@@ -64,11 +64,6 @@ export default function Dashboard() {
               refreshCodebooks={loadCodebooks}
             />
           )}
-          {/* <Content
-            codebooks={codebooks}
-            selectedCodebookId={selectedCodebookId}
-            refreshCodebooks={loadCodebooks}
-          /> */}
         </div>
       </TileBackground>
     </div>

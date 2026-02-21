@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import CreateCodebookModal from "./createCodebookModal";
 import DeleteVerificationModal from "./DeleteVerificationModal";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { deleteCodebook } from "../../api/pdf.api";
+import { deleteCodebook, fetchCodebook } from "../../api/pdf.api";
 import toast from "react-hot-toast";
+import { ConfigHandler } from "@/utility/configHandler";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
 
 export default function Content({ codebooks, selectedCodebookId, refreshCodebooks }) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -14,6 +16,10 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
   
   const { data: sessionData } = useSession();
   const userId = sessionData?.user?.id;
+  const configHandler = new ConfigHandler();
+  const codeBookHandler = new CodeBookHandler();
+  
+  const router = useRouter();
 
   const filteredCodebooks = selectedCodebookId
     ? codebooks.filter((book) => book._id === selectedCodebookId)
@@ -70,21 +76,37 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
         <div className="grid grid-cols-12 gap-4 px-6 pb-2 text-xs text-gray-500 uppercase tracking-wider font-semibold">
           <div className="col-span-1">Serial No.</div>
           <div className="col-span-4">Codebook Name</div>
-          <div className="col-span-3">Owner</div>
-          <div className="col-span-3">Last Modified</div>
+          <div className="col-span-2">Owner</div>
+          <div className="col-span-4">Last Modified</div>
           <div className="col-span-1 text-center">Actions</div>
         </div>
 
         {/* List */}
-        <Link
-          href={"/editor"}
+        <div
           className="block space-y-3 overflow-y-auto max-h-[60vh] px-2 pb-2 custom-scrollbar"
         >
           {filteredCodebooks.map((book) => (
             <div
               key={book._id}
+              onClick={async () => {
+                codeBookHandler.ultimateCleanUp();
+                const toastId = toast.loading("Loading codebook...");
+                try {
+                  const codebookData = await fetchCodebook(book._id);
+
+                  codeBookHandler.initiate();
+                  codeBookHandler.setId(book._id);
+                  codeBookHandler.loadCodebook(codebookData);
+
+                  toast.success("Codebook loaded successfully", { id: toastId });
+                  router.push("/editor");
+                } catch (error) { 
+                  console.error("Error fetching codebook data:", error);
+                  toast.error("Could not load codebook. Please try again.", {id: toastId});
+                }
+              }}
               className={`grid grid-cols-12 gap-4 px-6 py-5 rounded-xl items-center shadow-sm transition-all hover:scale-[1.01] cursor-pointer ${
-                serialNumber % 2 === 0 
+                serialNumber % 2 === 0
                   ? "bg-[#3C3C3C] text-white shadow-md"
                   : "bg-white text-gray-800 hover:bg-white"
               }`}
@@ -93,10 +115,10 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
               <div className="col-span-4 font-medium text-sm md:text-lg">
                 {book.codebook_name}
               </div>
-              <div className="col-span-3 opacity-80 text-sm">{
-                book.owner._id === userId ? "You" : book.owner.name 
-              }</div>
-              <div className="col-span-3 flex items-center gap-2 opacity-80 text-sm">
+              <div className="col-span-2 opacity-80 text-sm">
+                {book.owner._id === userId ? "You" : book.owner.name}
+              </div>
+              <div className="col-span-4 flex items-center gap-2 opacity-80 text-sm">
                 <svg
                   className="w-4 h-4"
                   fill="none"
@@ -110,7 +132,11 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                {book.updatedAt ? dateFormat.format(new Date(book.updatedAt)).replace(' at ', ', ') : "N/A"}
+                {book.updatedAt
+                  ? dateFormat
+                      .format(new Date(book.updatedAt))
+                      .replace(" at ", ", ")
+                  : "N/A"}
               </div>
               <div className="col-span-1 flex justify-center">
                 <button
@@ -138,7 +164,7 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
               </div>
             </div>
           ))}
-        </Link>
+        </div>
       </div>
 
       <CreateCodebookModal
