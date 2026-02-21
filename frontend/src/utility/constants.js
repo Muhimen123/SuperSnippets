@@ -12,6 +12,7 @@ export const API_ROUTES = {
     FETCH: `${BASE}/pdf/fetch`,
     MODIFY: `${BASE}/pdf/modify`,
     FETCH_COLLABORATORS: `${BASE}/pdf/collaborators`,
+    REMOVE_COLLABORATOR: `${BASE}/pdf/remove-collaborator`,
   },
 
   GITHUB: {

@@ -47,3 +47,27 @@ export const acceptInvitation = async (notificationId, userId) => {
     throw error;
   }
 };
+
+export const removeCollaborator = async (codebookId, collaboratorId) => {
+  const endpoint = API_ROUTES.PDF.REMOVE_COLLABORATOR;
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ codebookId, collaboratorId }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to remove collaborator");
+    }
+
+    const data = await response.json();
+    console.log("Collaborator removed successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error removing collaborator:", error);
+    throw error;
+  }
+};

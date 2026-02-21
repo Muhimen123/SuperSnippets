@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { fetchCollaborators } from "@/app/api/pdf.api";
 import { CodeBookHandler } from "@/utility/codeBookHandler";
 import { ConfigHandler } from "@/utility/configHandler";
-import { sendInvitation } from "@/app/api/collaboration.api";
+import { sendInvitation, removeCollaborator } from "@/app/api/collaboration.api";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
@@ -42,7 +42,10 @@ export default function Contributors() {
     loadCollaborators();
   }, [codebookId]);
 
-  const handleRemove = (id) => {
+  const handleRemove = async (id) => {
+    console.log("Removing collaborator with ID: ", id, codebookId);
+    await removeCollaborator(codebookId, id);
+    toast.success("Collaborator removed successfully");
     setContributors((prev) => prev.filter((c) => (c._id || c.id) !== id));
   };
 
