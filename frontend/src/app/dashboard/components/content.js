@@ -89,6 +89,7 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
             <div
               key={book._id}
               onClick={async () => {
+                codeBookHandler.ultimateCleanUp();
                 const toastId = toast.loading("Loading codebook...");
                 try {
                   const codebookData = await fetchCodebook(book._id);

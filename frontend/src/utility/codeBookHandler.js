@@ -68,4 +68,10 @@ export class CodeBookHandler {
 	clearAll() {
 		localStorage.removeItem(this.#storageKey);
 	}
+
+	ultimateCleanUp() {
+		this.clearAll();
+		this.configHandler.clearAll();
+		this.codeSegmentsHandler.clearAll();
+	}
 };
