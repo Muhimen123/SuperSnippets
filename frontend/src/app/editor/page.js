@@ -139,12 +139,25 @@ function EditorContent() {
   };
 
   const activeFile = activeFileIndex !== null ? files[activeFileIndex] : null;
+  const [pdfUrl, setPdfUrl] = useState(null);
+
+  const handleDownload = () => {
+    if (!pdfUrl) return;
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    link.download = `codebook.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-gray-50">
       <Toolbar
         currentTool={currentTool}
         handleToolSelection={handleToolSelection}
+        onDownload={handleDownload}
+        canDownload={!!pdfUrl}
       />
 
       <div className="flex flex-1 overflow-hidden">
@@ -175,6 +188,8 @@ function EditorContent() {
             <div className="absolute inset-0 z-0">
               <PDFSection
                 codeData={{ title: codeData.title, snippets: files }}
+                pdfUrl={pdfUrl} 
+                setPdfUrl={setPdfUrl}
               />
             </div>
           )}

@@ -14,6 +14,7 @@ export class CodeSegmentsHandler {
     codeSegments["segments"] = [...codeSegments["segments"], segment];
     this.write(codeSegments);
   };
+
   addSegments = (segmentList) => {
     let codeSegments = this.convertToJSON();
     codeSegments["segments"] = [...codeSegments["segments"], ...segmentList];
