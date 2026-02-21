@@ -10,7 +10,9 @@ export class CodeBookHandler {
     const codebook = {
         _id: ""
     };
-    
+		this.clearAll();
+		this.configHandler.initiate("New Codebook");
+		this.codeSegmentsHandler.initiate();
     this.write(codebook);
   }
     
@@ -55,6 +57,13 @@ export class CodeBookHandler {
       codeSegments: codesegments || [],
       categories: [],
     };
+	}
+
+	loadCodebook = (codebookData) => {
+		this.initiate();
+		this.configHandler.loadConfigFromSchema(codebookData); 
+
+		this.codeSegmentsHandler.addSegments(codebookData.codeSegments);
 	}
 
 	clearAll() {

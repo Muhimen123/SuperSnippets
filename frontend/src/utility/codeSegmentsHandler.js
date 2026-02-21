@@ -2,6 +2,7 @@ export class CodeSegmentsHandler {
   #storageKey = "codeSegments";
 
   initiate = () => {
+    this.clearAll();
     const codeSegments = {
         segments: [],
     };
@@ -30,7 +31,7 @@ export class CodeSegmentsHandler {
 
   convertToJSON() {
     const jsonString = localStorage.getItem(this.#storageKey);
-    return jsonString ? JSON.parse(jsonString) : null;
+    return jsonString ? JSON.parse(jsonString) : {segments: []};
   }
 
   convertToJSONString(codeSegments) {

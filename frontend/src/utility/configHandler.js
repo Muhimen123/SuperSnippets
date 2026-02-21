@@ -2,6 +2,7 @@ export class ConfigHandler {
   #storageKey = "configuration";
 
   initiate(codebookName) {
+    this.clearAll();
     const config = {
       codebookName: codebookName,
       headerText: "CodeBook",

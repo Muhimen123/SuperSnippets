@@ -89,18 +89,19 @@ export default function Content({ codebooks, selectedCodebookId, refreshCodebook
             <div
               key={book._id}
               onClick={async () => {
+                const toastId = toast.loading("Loading codebook...");
                 try {
                   const codebookData = await fetchCodebook(book._id);
-                  configHandler.loadConfigFromSchema(codebookData);
 
                   codeBookHandler.initiate();
                   codeBookHandler.setId(book._id);
+                  codeBookHandler.loadCodebook(codebookData);
 
-                  toast.success("Codebook loaded successfully");
+                  toast.success("Codebook loaded successfully", { id: toastId });
                   router.push("/editor");
                 } catch (error) { 
                   console.error("Error fetching codebook data:", error);
-                  toast.error("Could not load codebook. Please try again.");
+                  toast.error("Could not load codebook. Please try again.", {id: toastId});
                 }
               }}
               className={`grid grid-cols-12 gap-4 px-6 py-5 rounded-xl items-center shadow-sm transition-all hover:scale-[1.01] cursor-pointer ${
