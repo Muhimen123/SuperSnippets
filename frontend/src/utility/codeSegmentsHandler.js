@@ -25,6 +25,11 @@ export class CodeSegmentsHandler {
     return codeSegments.segments;
   };
 
+  getSegmentByIndex = (index) => {
+    let codeSegments = this.convertToJSON();
+    return codeSegments.segments[index];
+  };
+
   write = (codeSegments) => {
     localStorage.setItem(this.#storageKey, this.convertToJSONString(codeSegments));
   }
