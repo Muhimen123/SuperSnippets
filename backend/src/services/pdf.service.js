@@ -2,6 +2,7 @@ import archiver from "archiver";
 import { Writable } from "stream";
 import Codebook from "../models/Codebook.js";
 import User from "../models/User.js";
+import { buildLatexText } from "../utils/pdf.util.js";
 
 export const fetchCodebookById = async (codebookId) => {
   const codebook = await Codebook.findById(codebookId).populate("owner", "name");
@@ -102,9 +103,9 @@ export const modifyCodebook = async (codebookId, updatedData) => {
 };
 
 // TODO: Move the following functions in utility
-export const generateTarBuffer = async () => {
+export const generateTarBuffer = async (snippets) => {
   return new Promise((resolve, reject) => {
-    const texCode = buildLatex();
+    const texCode = buildLatexText(snippets);
     const chunks = [];
     const archive = archiver("tar");
 
@@ -124,155 +125,4 @@ export const generateTarBuffer = async () => {
 
     archive.finalize();
   });
-};
-
-const buildLatex = () => {
-  var content = {
-    name: "CounterComponent.tsx",
-    content: `import React, { useState } from 'react';
-export const Counter = () => {
-  const [count, setCount] = useState(0);
-  return (
-    <button onClick={() => setCount(c => c + 1)}>
-      Count is {count}
-    </button>
-  );
-};`,
-  };
-
-  const testSnippets = [
-    content,
-    {
-      name: "CounterComponent.tsx",
-      content: `import React, { useState } from 'react';
-
-export const Counter = () => {
-  const [count, setCount] = useState(0);
-  return (
-    <button onClick={() => setCount(c => c + 1)}>
-      Count is {count}
-    </button>
-  );
-};`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-    {
-      name: "process_data.py",
-      content: `def calculate_metrics(data):
-    # This is a comment to test highlighting
-    total = sum(item.value for item in data)
-    average = total / len(data) if data else 0
-    return {"total": total, "average": average}`,
-    },
-  ];
-
-  const snippetsTex = testSnippets
-    .map(
-      (s) => `
-\\section {${s.name.replace(/_/g, "\\_")}}
-\\begin{lstlisting}
-${s.content}
-\\end{lstlisting}
-`,
-    )
-    .join("\n");
-
-  return `
-\\documentclass[landscape, a4paper]{article}
-\\usepackage[margin=1.5cm]{geometry}
-\\usepackage{multicol}
-\\usepackage{listings}
-\\usepackage{xcolor}
-
-% Configure the look of the code blocks
-\\lstset{
-  basicstyle=\\ttfamily,
-  breaklines=true, % Important: This wraps long lines
-  frame=single,
-  backgroundcolor=\\color{gray!5},
-  keywordstyle=\\color{blue},
-  commentstyle=\\color{green!50!black},
-  stringstyle=\\color{orange},
-  showstringspaces=false,
-  keepspaces=true
-}
-\\begin{document}
-\\begin{multicols*}{2} % Creates two columns for the snippets
-\\tableofcontents
-\\newpage
-  ${snippetsTex}
-\\end{multicols*}
-\\end{document}
-`.trim();
 };

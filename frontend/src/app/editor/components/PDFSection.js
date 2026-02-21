@@ -3,22 +3,25 @@
 import { PDFViewer } from "@embedpdf/react-pdf-viewer";
 import { useEffect, useState } from "react";
 import { API_ROUTES } from "@/utility/constants";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
 
 export default function PDFSection({ codeData }) {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorLoading, setErrorLoading] = useState(false);
 
+  const codeBookHandler = new CodeBookHandler();
   const apiURL = API_ROUTES.PDF.GENERATE;
   useEffect(() => {
     const fetchPDF = async () => {
+      const codebookData = codeBookHandler.createLatexData();
       setLoading(true);
       try {
         const response = await fetch(apiURL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            snippets: codeData.snippets,
+            snippets: codebookData,
             columnCount: 2,
             title: codeData.title,
           }),
