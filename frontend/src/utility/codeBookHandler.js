@@ -10,7 +10,9 @@ export class CodeBookHandler {
     this.clearAll();
     const codebook = {
       _id: "",
+      ownerId: "",
       categories: [],
+      collaborators: [],
     };
     this.write(codebook);
   };
@@ -26,6 +28,17 @@ export class CodeBookHandler {
     this.write(codebook);
   };
 
+  getOwnerId = () => {
+    let codebook = this.convertToJSON();
+    return codebook.ownerId;
+  };
+
+  setOwnerId = (ownerId) => {
+    let codebook = this.convertToJSON();
+    codebook.ownerId = ownerId;
+    this.write(codebook);
+  };
+
   setCategory = (category) => {
     let codebook = this.convertToJSON();
     codebook.categories.push(category);
@@ -36,6 +49,17 @@ export class CodeBookHandler {
     let codebook = this.convertToJSON();
     codebook.categories = categories;
     this.write(codebook);
+  };
+
+  setCollaborators = (collaborators) => {
+    let codebook = this.convertToJSON();
+    codebook.collaborators = collaborators;
+    this.write(codebook);
+  };
+
+  getCollaborators = () => {
+    let codebook = this.convertToJSON();
+    return codebook ? codebook.collaborators : [];
   };
 
   getCategories = () => {
@@ -59,14 +83,18 @@ export class CodeBookHandler {
     localStorage.setItem(this.#storageKey, codebookString);
   };
 
-  createSchemaData = (ownerId) => {
+  createSchemaData = (ownerId, modify = false) => {
     const config = this.configHandler.getConfig();
     const codesegments = this.codeSegmentsHandler.getSegments();
     const categories = this.getCategories();
+    const collaborators = this.getCollaborators();
+    if (modify) {
+      ownerId = this.getOwnerId();
+    }
     return {
       codebook_name: config.codebookName,
       owner: ownerId,
-      collaborators: [],
+      collaborators: collaborators || [],
       repositories: config.repoArray || [],
       configuration: {
         margin: config.marginSize,
@@ -106,7 +134,7 @@ export class CodeBookHandler {
   importCodebookConfig = (configString) => {
     this.clearAll();
     // localStorage.setItem(this.#storageKey, configString);
-    const codebookData = JSON.parse(configString); 
+    const codebookData = JSON.parse(configString);
     this.initiate();
     this.configHandler.loadConfigFromSchema(codebookData);
     this.codeSegmentsHandler.addSegments(codebookData.codeSegments);
@@ -118,14 +146,15 @@ export class CodeBookHandler {
     this.initiate();
     this.configHandler.loadConfigFromSchema(codebookData);
     this.codeSegmentsHandler.addSegments(codebookData.codeSegments);
+    this.setOwnerId(codebookData.owner._id);
     this.setCategories(codebookData.categories);
+    this.setCollaborators(codebookData.collaborators);
     this.setId(tmpId);
   };
 
   clearAll() {
     localStorage.removeItem(this.#storageKey);
   }
-
 
   ultimateCleanUp() {
     this.clearAll();
@@ -135,30 +164,30 @@ export class CodeBookHandler {
 
   createLatexData = () => {
     const categories = this.getCategories();
-		console.log("Looping over categories to create LaTeX data:");
-		let returnData = [];
+    console.log("Looping over categories to create LaTeX data:");
+    let returnData = [];
     for (const category of categories) {
-			let categoryField = {
-				category: category.name,
-				codesegments: [],
-			};
-			console.log("Processing category items");
-			for(const item of category.items) {
-				if(!item.included) {
-					continue;
-				}
+      let categoryField = {
+        category: category.name,
+        codesegments: [],
+      };
+      console.log("Processing category items");
+      for (const item of category.items) {
+        if (!item.included) {
+          continue;
+        }
 
-				const segment = this.codeSegmentsHandler.getSegmentByIndex(item.id);
-				const content = segment ? segment.code.join("\n") : "";
-				categoryField.codesegments.push({
-					name: item.name,
-					content: content,
-				});
-			}
+        const segment = this.codeSegmentsHandler.getSegmentByIndex(item.id);
+        const content = segment ? segment.code.join("\n") : "";
+        categoryField.codesegments.push({
+          name: item.name,
+          content: content,
+        });
+      }
 
-			returnData.push(categoryField);
+      returnData.push(categoryField);
     }
 
-		return returnData;
+    return returnData;
   };
 }

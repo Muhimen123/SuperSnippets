@@ -34,7 +34,11 @@ export default function CodeSegment({
   return (
     <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono">
       <div className="flex-1 overflow-y-auto">
-        {files &&
+        {(!files || files.length === 0) ? (
+          <div className="p-4 text-center text-gray-500 text-sm italic">
+            No code segments added
+          </div>
+        ) : (
           files.map((file, index) => (
             <div
               key={index}
@@ -61,7 +65,8 @@ export default function CodeSegment({
                 />
               </svg>
             </div>
-          ))}
+          ))
+        )}
       </div>
 
       <div className="p-4">

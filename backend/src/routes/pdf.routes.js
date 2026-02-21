@@ -7,7 +7,8 @@ import {
   removeCollaborator,
   getAllCodebooksForUser,
   deleteCodebook,
-  fetchCodebookDetails
+  fetchCodebookDetails,
+  getAllCollaborators
 } from "../controllers/pdf.controller.js";
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.post("/generate", generatePDF); // Generate PDF from configuration
 router.patch("/modify", modifyConfiguration); // Update the configuration
 router.post("/create", createConfiguration); // Create a new configuration
 router.get("/fetch/:codebookId", fetchCodebookDetails); // Fetch codebook details by ID 
+router.get("/collaborators/:codebookId", getAllCollaborators); // Get all collaborators for a codebook  
 router.post("/add-collaborator", addCollaborator); // Add a collaborator to a codebook
 router.post("/remove-collaborator", removeCollaborator); // Remove a collaborator from a codebook
 

@@ -33,15 +33,21 @@ export default function GithubRepos() {
     <>
       <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono">
         <div className="flex-1 overflow-y-auto">
-          {repos.map((repo, index) => (
-            <div
-              key={index}
-              title={repo}
-              className={`p-4 border-b-2 border-black hover:bg-gray-100 cursor-pointer font-bold text-sm truncate`}
-            >
-              {repo}
+          {(!repos || repos.length === 0) ? (
+            <div className="p-4 text-center text-gray-500 text-sm italic">
+              No GitHub repositories added
             </div>
-          ))}
+          ) : (
+            repos.map((repo, index) => (
+              <div
+                key={index}
+                title={repo}
+                className={`p-4 border-b-2 border-black hover:bg-gray-100 cursor-pointer font-bold text-sm truncate`}
+              >
+                {repo}
+              </div>
+            ))
+          )}
         </div>
         <div className="p-4">
           <button

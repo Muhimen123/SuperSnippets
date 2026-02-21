@@ -1,5 +1,6 @@
 import Notification from "../models/Notification.js";
 import User from "../models/User.js";
+import { addCollaboratorToCodebook } from "../services/pdf.service.js";
 
 // Send an invitation to a user by email
 export const sendInvitation = async (req, res) => {
@@ -52,6 +53,8 @@ export const acceptInvitation = async (req, res) => {
 
     notification.status = "ACCEPTED";
     await notification.save();
+    console.log(notification.metadata.codebookId, userId);
+    await addCollaboratorToCodebook(notification.metadata.codebookId, userId);
 
     // TODO: Add logic here to actually add user to the codebook's authorized users list
 

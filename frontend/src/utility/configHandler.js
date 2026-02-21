@@ -27,6 +27,11 @@ export class ConfigHandler {
     return config;
   };
 
+  getCodebookName = () => {
+    let config = this.convertToJSON();
+    return config.codebookName;
+  };
+
   addRepo = (repoList) => {
     let config = this.convertToJSON();
     config["repoArray"] = [...config["repoArray"], ...repoList];

@@ -7,6 +7,7 @@ import {
   removeCodebook,
   modifyCodebook,
   fetchCodebookById,
+  getAllCollaboratorsForCodebook
 } from "../services/pdf.service.js";
 
 export const generatePDF = async (req, res) => {
@@ -81,6 +82,19 @@ export const modifyConfiguration = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: "Failed to update configuration",
+      details: error.message,
+    });
+  }
+};
+
+export const getAllCollaborators = async (req, res) => {
+  try {
+    const codebookId = req.params.codebookId;
+    const collaborators = await getAllCollaboratorsForCodebook(codebookId);
+    res.status(200).json(collaborators);
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to fetch collaborators",
       details: error.message,
     });
   }

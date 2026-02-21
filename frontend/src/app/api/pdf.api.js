@@ -112,3 +112,25 @@ export const modifyCodebook = async (codebookId, updatedData) => {
     throw error;
   }
 };
+
+export const fetchCollaborators = async (codebookId) => {
+  const endpoint = `${API_ROUTES.PDF.FETCH_COLLABORATORS}/${codebookId}`;
+  try {
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch collaborators");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching collaborators:", error);
+    throw error;
+  }
+}; 

@@ -59,15 +59,6 @@ export default function Initialize() {
       }
     }
     
-    if (currentStep === 3) {
-      configHandler.setMargin(constraints.marginSize);
-      configHandler.setPageLimit(constraints.pageLimit);
-      configHandler.setPageSize(constraints.fontSize);
-      configHandler.setPageColumns(constraints.columns);
-      configHandler.setPageHeader(constraints.headerText);
-      configHandler.setPageFont(constraints.font);
-    }
-
     if (currentStep === 4) {
       const configData = configHandler.createSchemaData(userId);
       codeSegmentsHandler.clearAll();

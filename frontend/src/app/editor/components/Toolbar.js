@@ -105,7 +105,7 @@ function ToolbarElement({
         }
 
         if (toolKey === 8) {
-          const config = codeBookHandler.createSchemaData(id);
+          const config = codeBookHandler.createSchemaData(id, true);
           config.owner = userId;
           console.log("Config to be saved: ", config);
           toast.promise(modifyCodebook(id, config), {
