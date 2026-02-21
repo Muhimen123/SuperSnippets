@@ -3,17 +3,20 @@ import { useState } from "react";
 import { Reorder } from "framer-motion";
 import AddCategoryModal from "./AddCategoryModal";
 import CategoryItem from "./CategoryItem";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
 
 export default function Categories({ categories, setCategories }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const codebookHandler = new CodeBookHandler();
 
   const handleAddCategory = (name) => {
     const newCategory = {
-      id: Date.now(), // Simple ID generation
+      id: codebookHandler.getCategories().length,
       name: name,
       items: [],
       isOpen: true,
     };
+    codebookHandler.setCategory(newCategory);
     setCategories((prev) => [...prev, newCategory]);
   };
 
