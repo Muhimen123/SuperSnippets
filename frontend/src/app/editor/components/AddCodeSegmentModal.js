@@ -75,7 +75,7 @@ export default function AddCodeSegmentModal({ isOpen, onClose, onFilesAdded }) {
                 key={index} 
                 className="w-full rounded-lg px-4 py-3 text-sm text-black bg-white border border-gray-200 shadow-sm flex items-center"
               >
-                <span className="truncate">{file.name}</span>
+                <span className="truncate">{file.title}</span>
               </div>
             ))}
           </div>
