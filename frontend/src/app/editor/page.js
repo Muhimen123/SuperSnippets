@@ -127,7 +127,7 @@ function EditorContent() {
 
     setCategories((prev) =>
       prev.map((cat) => {
-        if (cat.id === id) {
+        if (cat.id === parseInt(categoryId)) {
           if (!cat.items.some((item) => item.name === fileName)) {
             return {
               ...cat,
@@ -151,7 +151,6 @@ function EditorContent() {
     if (isLoaded) {
       codeBookHandler.clearCategories();
       codeBookHandler.setCategories(categories);
-      console.log("Categories synced to storage:", categories);
     }
   }, [categories, isLoaded, codeBookHandler]);
 
