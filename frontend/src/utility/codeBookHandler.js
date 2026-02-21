@@ -84,7 +84,9 @@ export class CodeBookHandler {
 
   downloadCodebookConfig = () => {
     const data = this.createSchemaData(this.getId());
+    data["_id"] = this.getId();
     const configString = JSON.stringify(data) + "\n";
+    console.log(configString);
 
     const blob = new Blob([configString], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -101,6 +103,16 @@ export class CodeBookHandler {
     URL.revokeObjectURL(url);
   };
 
+  importCodebookConfig = (configString) => {
+    this.clearAll();
+    // localStorage.setItem(this.#storageKey, configString);
+    const codebookData = JSON.parse(configString); 
+    this.initiate();
+    this.configHandler.loadConfigFromSchema(codebookData);
+    this.codeSegmentsHandler.addSegments(codebookData.codeSegments);
+    this.setCategories(codebookData.categories);
+  };
+
   loadCodebook = (codebookData) => {
     const tmpId = this.getId();
     this.initiate();
@@ -113,6 +125,7 @@ export class CodeBookHandler {
   clearAll() {
     localStorage.removeItem(this.#storageKey);
   }
+
 
   ultimateCleanUp() {
     this.clearAll();

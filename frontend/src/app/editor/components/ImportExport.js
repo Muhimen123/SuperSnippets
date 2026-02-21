@@ -53,7 +53,7 @@ export default function ImportExport({ onClose }) {
 
         reader.onload = (e) => {
           const result = e.target.result;
-          configHandler.importConfig(result);
+          codeBookHandler.importCodebookConfig(result);
         };
 
         reader.readAsText(fileContent);
