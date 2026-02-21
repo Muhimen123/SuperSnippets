@@ -103,9 +103,9 @@ export const modifyCodebook = async (codebookId, updatedData) => {
 };
 
 // TODO: Move the following functions in utility
-export const generateTarBuffer = async (snippets) => {
+export const generateTarBuffer = async (snippets, config) => {
   return new Promise((resolve, reject) => {
-    const texCode = buildLatexText(snippets);
+    const texCode = buildLatexText(snippets, config);
     const chunks = [];
     const archive = archiver("tar");
 
