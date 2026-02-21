@@ -45,6 +45,17 @@ export const removeCollaboratorFromCodebook = async (
   return updatedCodebook;
 };
 
+export const getAllCollaboratorsForCodebook = async (codebookId) => {
+  const codebook = await Codebook.findById(codebookId).populate(
+    "collaborators",
+    "name email",
+  );
+  if (!codebook) {
+    throw new Error("Codebook not found");
+  }
+  return codebook.collaborators;
+};
+
 /**
  *
  * @param {*} userId
