@@ -28,6 +28,7 @@ function EditorContent() {
   const codeSegmentsHandler = useMemo(() => new CodeSegmentsHandler(), []);
   const [isLoaded, setIsLoaded] = useState(false);
   const codeBookHandler = useMemo(() => new CodeBookHandler(), []);
+  const [categoriesLoaded, setCategoriesLoaded] = useState(false);
 
   const [codeData, setCodeData] = useState({
     title: "Project Alpha Codebase",
@@ -148,11 +149,19 @@ function EditorContent() {
   };
 
   useEffect(() => {
-    if (isLoaded) {
+    const stored = codeBookHandler.getCategories();
+    if (stored && stored.length > 0) {
+      setCategories(stored);
+    }
+    setCategoriesLoaded(true); // Signal that loading is finished
+  }, [codeBookHandler]);
+
+  useEffect(() => {
+    if (categoriesLoaded) {
       codeBookHandler.clearCategories();
       codeBookHandler.setCategories(categories);
     }
-  }, [categories, isLoaded, codeBookHandler]);
+  }, [categories, categoriesLoaded, codeBookHandler]);
 
   const handleFileSelection = (index) => {
     if (activeFileIndex === index) {
