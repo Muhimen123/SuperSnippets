@@ -62,6 +62,7 @@ export class CodeBookHandler {
 	createSchemaData = (ownerId) => {
 		const config = this.configHandler.getConfig();
 		const codesegments = this.codeSegmentsHandler.getSegments();
+		const categories = this.getCategories();
 		return {
       codebook_name: config.codebookName,
       owner: ownerId,
@@ -77,7 +78,7 @@ export class CodeBookHandler {
         orientation: config.orientation,
       },
       codeSegments: codesegments || [],
-      categories: [],
+      categories: categories || [],
     };
 	}
 
@@ -86,6 +87,7 @@ export class CodeBookHandler {
 		this.initiate();
 		this.configHandler.loadConfigFromSchema(codebookData); 
 		this.codeSegmentsHandler.addSegments(codebookData.codeSegments);
+		this.setCategories(codebookData.categories);
 		this.setId(tmpId);
 	}
 
