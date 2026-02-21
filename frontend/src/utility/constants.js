@@ -16,4 +16,8 @@ export const API_ROUTES = {
   GITHUB: {
     FETCH_ALL: `${BASE}/github/fetch-all`,
   },
+
+  NOTIFICATION: {
+    FETCH_ALL: `${BASE}/notifications`,
+  }
 };

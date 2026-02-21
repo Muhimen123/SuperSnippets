@@ -10,6 +10,6 @@ const router = express.Router();
 // Ideally, add authMiddleware here
 router.post("/invite", sendInvitation);
 router.post("/accept", acceptInvitation);
-router.get("/", getUserNotifications);
+router.post("/", getUserNotifications);
 
 export default router;
