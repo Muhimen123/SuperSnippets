@@ -9,6 +9,7 @@ import StepperProgressBar from "./components/StepperProgressBar";
 import { useRouter } from "next/navigation";
 import { ConfigHandler } from "@/utility/configHandler";
 import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
 import { useSession } from "next-auth/react";
 import { createConfig } from "../api/pdf.api";
 import { fetchAllFilesFromRepo } from "../api/github.api";
@@ -27,6 +28,7 @@ export default function Initialize() {
   const router = useRouter();
   const configHandler = useMemo(() => new ConfigHandler(), []);
   const codeSegmentsHandler = new CodeSegmentsHandler();
+  const codeBookHandler = new CodeBookHandler();
   const sessionData = useSession();
   const userId = sessionData?.data?.user?.id;
 
@@ -58,7 +60,10 @@ export default function Initialize() {
       const toastId = toast.loading("Starting repository fetch...");
 
       try {
-        await createConfig(configData);
+        const result = await createConfig(configData);
+        codeBookHandler.initiate();
+        codeBookHandler.setId(result.codebookId);
+
         const repoList = configHandler.getRepos();
         const totalRepos = repoList.length;
 
@@ -78,7 +83,6 @@ export default function Initialize() {
 
         toast.success("Successfully Initialized Codebook!", { id: toastId });
         router.push("/editor");
-        
       } catch (error) {
         toast.error("Failed to initialize. Please check your GitHub links.", { id: toastId });
         console.error("Initialization Error:", error);

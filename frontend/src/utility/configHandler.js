@@ -21,6 +21,11 @@ export class ConfigHandler {
     localStorage.setItem(this.#storageKey, this.convertToJSONString(config));
   }
 
+  getConfig = () => {
+    let config = this.convertToJSON();
+    return config;
+  };
+
   addRepo = (repoList) => {
     let config = this.convertToJSON();
     config["repoArray"] = [...config["repoArray"], ...repoList];

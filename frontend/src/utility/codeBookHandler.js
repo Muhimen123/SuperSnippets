@@ -1,5 +1,10 @@
+import { ConfigHandler } from "./configHandler";
+import { CodeSegmentsHandler } from "./codeSegmentsHandler";
+
 export class CodeBookHandler {
   #storageKey = "codebook";
+	configHandler = new ConfigHandler();
+	codeSegmentsHandler = new CodeSegmentsHandler();
 
   initiate = () => {
     const codebook = {
@@ -29,6 +34,28 @@ export class CodeBookHandler {
 		const codebookString = JSON.stringify(codebook);
     localStorage.setItem(this.#storageKey, codebookString);
   }
+
+	createSchemaData = (ownerId) => {
+		const config = this.configHandler.getConfig();
+		const codesegments = this.codeSegmentsHandler.getSegments();
+		return {
+      codebook_name: config.codebookName,
+      owner: ownerId,
+      collaborators: [],
+      repositories: config.repoArray || [],
+      configuration: {
+        margin: config.marginSize,
+        header_text: config.headerText,
+        column_number: config.columns,
+        page_number: config.pageLimit,
+        font_size: config.fontSize,
+        font_family: config.font,
+        orientation: config.orientation,
+      },
+      codeSegments: codesegments || [],
+      categories: [],
+    };
+	}
 
 	clearAll() {
 		localStorage.removeItem(this.#storageKey);

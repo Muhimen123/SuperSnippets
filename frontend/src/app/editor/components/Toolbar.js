@@ -74,9 +74,9 @@ function ToolbarElement({
   const [id, setId] = useState(null);
   const session = useSession();
   const userId = session?.data?.user?.id;
+  const codeBookHandler = new CodeBookHandler();
 
   useEffect(() => {
-    const codeBookHandler = new CodeBookHandler();
     const codebookId = codeBookHandler.getId();
     setId(codebookId);
   }, [configHandler]);
@@ -98,11 +98,15 @@ function ToolbarElement({
         if (toolKey === 8) {
           const config = configHandler.createSchemaData(id);
           config.owner = userId;
+          console.log("Config to be saved: ", config);
           toast.promise(modifyCodebook(id, config), {
             loading: "Saving configuration...",
             success: "Configuration saved successfully!",
             error: "Failed to save configuration. Please try again.",
           });
+
+          // const temp = codeBookHandler.createSchemaData(id);
+          // console.log("Codebook to be saved: ", temp);
           return;
         }
 
