@@ -35,6 +35,14 @@ const userSchema = new mongoose.Schema(
         ref: "Codebook",
       },
     ],
+    passwordResetCode: {
+      type: String,
+      default: null,
+    },
+    passwordResetExpires: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields

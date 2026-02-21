@@ -1,7 +1,7 @@
 "use server";
 import { signIn } from "@/auth";
 
-const API_BASE = process.env.BACKEND_URL || "http://localhost:5000";
+const API_BASE = process.env.BACKEND_URL || "http://localhost:8000";
 
 export async function doSocialLogin(formData) {
     const action = formData.get('action');

@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google"; // 1. Import Google Provider
 
-const API_BASE = process.env.BACKEND_URL || "http://localhost:5000";
+const API_BASE = process.env.BACKEND_URL || "http://localhost:8000";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [

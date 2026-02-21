@@ -7,14 +7,42 @@ export default function VerificationForm({ onContinueClick }) {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     setError("");
     if (!code) {
       setError("Verification code is required");
       return;
     }
-    // In a real app, we would verify the code here
-    onContinueClick();
+
+    const email = localStorage.getItem("resetPasswordEmail");
+    if (!email) {
+      setError("Session expired. Please start over.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/auth/verify-reset-code", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, code: code.trim() }),
+      });
+
+      const payload = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        setError(payload?.error || "Invalid verification code");
+        return;
+      }
+
+      console.log("Verification code verified successfully");
+      // Store code for password reset
+      localStorage.setItem("resetCode", code.trim());
+      onContinueClick();
+    } catch {
+      setError("Unable to verify code right now");
+    }
   };
 
   return (

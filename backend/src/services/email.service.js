@@ -10,14 +10,15 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export const sendWelcomeEmail = async (to, name) => {
-  const customizedMail = welcomeTemplate.replace(`{{name}}`, name);
-
+/**
+ * Generic function to send any email
+ */
+export const sendEmail = async ({ to, subject, html }) => {
   const mailOptions = {
     from: `"Super Snippets" <${process.env.EMAIL_APP_USER}>`,
-    to: to,
-    subject: 'Welcome to Super Snippets! 📋',
-		html: customizedMail
+    to,
+    subject,
+    html,
   };
 
   try {
@@ -26,4 +27,17 @@ export const sendWelcomeEmail = async (to, name) => {
   } catch (error) {
     throw new Error(`Email Service Error: ${error.message}`);
   }
+};
+
+/**
+ * Send welcome email to new user
+ */
+export const sendWelcomeEmail = async (to, name) => {
+  const customizedMail = welcomeTemplate.replace(`{{name}}`, name);
+
+  return sendEmail({
+    to,
+    subject: 'Welcome to Super Snippets! 📋',
+    html: customizedMail,
+  });
 };
