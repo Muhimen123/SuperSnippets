@@ -110,19 +110,6 @@ function EditorContent() {
     }
   }, [files, isLoaded, fileHandler]);
 
-  const searchParams = useSearchParams();
-
-  const constraints = useMemo(() => {
-    const raw = searchParams.get("constraints");
-    if (!raw) return null;
-
-    try {
-      return JSON.parse(decodeURIComponent(raw));
-    } catch {
-      return null;
-    }
-  }, [searchParams]);
-
   const handleToolSelection = (toolKey) => {
     setCurrentTool(toolKey);
   };
@@ -197,7 +184,6 @@ function EditorContent() {
           <ContentSection
             activeTool={currentTool}
             handleToolSelection={handleToolSelection}
-            constraints={constraints}
             files={files}
             setFiles={setFiles}
             activeFileIndex={activeFileIndex}
