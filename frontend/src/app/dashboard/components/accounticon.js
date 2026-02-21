@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import PasswordModal from "./passwordModal";
 import { useSession, signOut } from "next-auth/react";
 import { fetchAllNotifications } from "@/app/api/notification.api";
+import { acceptInvitation } from "@/app/api/collaboration.api";
 
 export default function AccountIcon() {
   const router = useRouter();
@@ -46,14 +47,19 @@ export default function AccountIcon() {
   }, [session]);
 
   const handleAcceptInvite = async (id) => {
-    // Mock API call
-    // await fetch('/api/notifications/accept', { method: 'POST', body: JSON.stringify({ notificationId: id }) });
-
-    setNotifications((prev) =>
-      prev.map((n) =>
-        n._id === id || n.id === id ? { ...n, status: "ACCEPTED" } : n,
-      ),
-    );
+    if (!session?.user?.id) return;
+    
+    try {
+      await acceptInvitation(id, session.user.id);
+      setNotifications((prev) =>
+        prev.map((n) =>
+          n._id === id || n.id === id ? { ...n, status: "ACCEPTED" } : n,
+        ),
+      );
+    } catch (error) {
+      console.error("Failed to accept invitation:", error);
+      // Optionally add a toast notification here for error handling
+    }
   };
 
   const handleLogout = async () => {

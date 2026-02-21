@@ -20,5 +20,7 @@ export const API_ROUTES = {
 
   NOTIFICATION: {
     FETCH_ALL: `${BASE}/notifications`,
+    INVITE: `${BASE}/notifications/invite`,
+    ACCEPT: `${BASE}/notifications/accept`,
   }
 };
