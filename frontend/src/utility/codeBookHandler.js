@@ -82,6 +82,25 @@ export class CodeBookHandler {
     };
   };
 
+  downloadCodebookConfig = () => {
+    const data = this.createSchemaData(this.getId());
+    const configString = JSON.stringify(data) + "\n";
+
+    const blob = new Blob([configString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    const fileName = `codebook_config.json`;
+
+    link.href = url;
+    link.download = fileName;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   loadCodebook = (codebookData) => {
     const tmpId = this.getId();
     this.initiate();

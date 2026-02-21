@@ -1,9 +1,11 @@
 "use client";
 import { ConfigHandler } from "@/utility/configHandler";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
 import { useState, useRef } from "react";
 
 export default function ImportExport({ onClose }) {
   const configHandler = new ConfigHandler();
+  const codeBookHandler = new CodeBookHandler();
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState(null);
   const [fileContent, setFileContent] = useState(null);
@@ -41,7 +43,7 @@ export default function ImportExport({ onClose }) {
   };
 
   const handleExportClick = () => {
-    configHandler.downloadConfig();
+    codeBookHandler.downloadCodebookConfig();
   };
 
   const handleConfirm = () => {
