@@ -9,7 +9,8 @@ export class CodeBookHandler {
   initiate = () => {
 		this.clearAll();
     const codebook = {
-        _id: ""
+        _id: "",
+				categories: [],
     };
     this.write(codebook);
   }
@@ -22,6 +23,29 @@ export class CodeBookHandler {
 	setId = (id) => {
 		let codebook = this.convertToJSON();
 		codebook["_id"] = id;
+		this.write(codebook);
+	}
+
+	setCategory = (category) => {
+		let codebook = this.convertToJSON();
+		codebook.categories.push(category);
+		this.write(codebook);
+	}
+
+	setCategories = (categories) => {
+		let codebook = this.convertToJSON();
+		codebook.categories = categories;
+		this.write(codebook);
+	}
+
+	getCategories = () => {
+		let codebook = this.convertToJSON();
+		return codebook ? codebook.categories : [];
+	}
+
+	clearCategories = () => {
+		let codebook = this.convertToJSON();
+		codebook.categories = [];
 		this.write(codebook);
 	}
 

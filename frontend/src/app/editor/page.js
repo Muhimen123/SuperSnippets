@@ -31,41 +31,50 @@ function EditorContent() {
     title: "Project Alpha Codebase",
   });
 
-  const [categories, setCategories] = useState([
-    {
-      id: 1,
-      name: "Tree Traversal",
-      items: [
-        { name: "BFS", included: true, id: "c1-i1" },
-        { name: "DFS", included: true, id: "c1-i2" },
-        { name: "Segment Tree", included: true, id: "c1-i3" }
-      ],
-      isOpen: true,
-    },
-    {
-      id: 2,
-      name: "Sort",
-      items: [
-        { name: "Merge Sort", included: true, id: "c2-i1" },
-        { name: "Bubble Sort", included: true, id: "c2-i2" },
-        { name: "Quick Sort", included: true, id: "c2-i3" }
-      ],
-      isOpen: true,
-    },
-  ]);
+  /*
+  {
+    items: [
+      {
+        codesegment: {},
+        id: , 
+      }
+    ],
+  } 
+  */
+
+  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([
+  //   {
+  //     id: 1,
+  //     name: "Tree Traversal",
+  //     items: [
+  //       { name: "BFS", included: true, id: "c1-i1" },
+  //       { name: "DFS", included: true, id: "c1-i2" },
+  //       { name: "Segment Tree", included: true, id: "c1-i3" }
+  //     ],
+  //     isOpen: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Sort",
+  //     items: [
+  //       { name: "Merge Sort", included: true, id: "c2-i1" },
+  //       { name: "Bubble Sort", included: true, id: "c2-i2" },
+  //       { name: "Quick Sort", included: true, id: "c2-i3" }
+  //     ],
+  //     isOpen: true,
+  //   },
+  // ]);
 
   const [files, setFiles] = useState([]);
 
-  // load code segments from the codesegment handler 
   useEffect(() => {
     const storedSegments = codeSegmentsHandler.getSegments();
     if (storedSegments && storedSegments.length > 0) {
-      // MAP the data structure here
-      const mappedFiles = storedSegments.map(segment => ({
+      const mappedFiles = storedSegments.map((segment, index) => ({
         name: segment.title || segment.file_name,
-        // Join the array of strings back into a single string for the editor
         content: Array.isArray(segment.code) ? segment.code.join("\n") : segment.code,
-        id: segment._id || Math.random().toString(36).substr(2, 9),
+        id: index,
         file_url: segment.file_url || "",
       }));
       
@@ -119,15 +128,15 @@ function EditorContent() {
           // Check if item exists by name
           if (!cat.items.some(item => item.name === fileName)) {
             return { 
-                ...cat, 
-                items: [
-                    ...cat.items, 
-                    { 
-                        name: fileName, 
-                        included: true, 
-                        id: `${cat.id}-item-${Date.now()}` // Generate unique ID
-                    }
-                ] 
+              ...cat, 
+              items: [
+                  ...cat.items, 
+                  { 
+                    name: fileName, 
+                    included: true, 
+                    id: `${cat.id}-item-${Date.now()}` // Generate unique ID
+                  }
+              ] 
             };
           }
         }
