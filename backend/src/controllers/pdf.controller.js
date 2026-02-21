@@ -12,7 +12,7 @@ import {
 export const generatePDF = async (req, res) => {
   try {
     const { snippets, title } = req.body;
-    const tarBuffer = await generateTarBuffer();
+    const tarBuffer = await generateTarBuffer(snippets);
 
     const url = `https://latexonline.cc/data?target=main.tex`;
     const formData = new FormData();
