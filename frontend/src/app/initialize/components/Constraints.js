@@ -7,17 +7,10 @@ export default function Constraints({ constraints, setConstraints }) {
 
   const PREDEFINED_FONTS = [
     "Jetbrains Mono",
-    "Roboto",
-    "Open Sans",
-    "Lato",
-    "Montserrat",
-    "Cascadia Code",
-    "Arial",
-    "Helvetica",
-    "Times New Roman",
-    "Georgia",
-    "Courier New",
-    "Verdana",
+    "Inconsolata",
+    "Courier",
+    "Source Code Pro",
+    "Bera Mono",
   ];
 
   const handleChange = (field, value) => {

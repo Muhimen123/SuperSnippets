@@ -27,17 +27,16 @@ const latexTemplate = (content, config) => {
 
   const fontSize = config.fontSize || 11;
   const margin = config.marginSize || 2;
-  const limit = config.pageLimit || 20;
   const header = config.headerText || "Codebook";
   const orientation = config.orientation || "landscape";
 
   const fontMapping = {
-    "Jetbrains Mono": "\\usepackage{zi4}", // Best fallback for pdflatex
-    Inconsolata: "\\usepackage{zi4}",
-    Courier: "\\usepackage{courier}",
+    "Jetbrains Mono": "\\usepackage{zi4}",
+    "Inconsolata": "\\usepackage{zi4}",
+    "Courier": "\\usepackage{courier}",
     "Source Code Pro": "\\usepackage[defaultmono]{sourcecodepro}",
     "Bera Mono": "\\usepackage[scaled]{beramono}",
-    Default: "",
+    "Default": "",
   };
 
   const fontPackage = fontMapping[config.font] || fontMapping["Default"];

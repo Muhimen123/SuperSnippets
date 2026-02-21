@@ -39,17 +39,10 @@ const Select = ({ children, ...props }) => (
 
 const PREDEFINED_FONTS = [
   "Jetbrains Mono",
-  "Roboto",
-  "Open Sans",
-  "Lato",
-  "Montserrat",
-  "Cascadia Code",
-  "Arial",
-  "Helvetica",
-  "Times New Roman",
-  "Georgia",
-  "Courier New",
-  "Verdana",
+  "Inconsolata",
+  "Courier",
+  "Source Code Pro",
+  "Bera Mono",
 ];
 
 export default function ConfigBar() {
