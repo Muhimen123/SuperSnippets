@@ -8,21 +8,21 @@ export default function Searchbar({ searchQuery, setSearchQuery, codebooks, sele
 
 	const suggestions = codebooks
 		.filter((book) =>
-			book.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			book.owner.toLowerCase().includes(searchQuery.toLowerCase())
+			book.codebook_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			book.owner.name.toLowerCase().includes(searchQuery.toLowerCase())
 		)
 		.sort((a, b) => {
 			const query = searchQuery.toLowerCase();
-			const aName = a.name.toLowerCase();
-			const bName = b.name.toLowerCase();
+			const aName = a.codebook_name.toLowerCase();
+			const bName = b.codebook_name.toLowerCase();
 
 			// Prioritize name starts with query
 			if (aName.startsWith(query) && !bName.startsWith(query)) return -1;
 			if (!aName.startsWith(query) && bName.startsWith(query)) return 1;
 
 			// Then prioritize owner starts with query
-			const aOwner = a.owner.toLowerCase();
-			const bOwner = b.owner.toLowerCase();
+			const aOwner = a.owner.name.toLowerCase();
+			const bOwner = b.owner.name.toLowerCase();
 			if (aOwner.startsWith(query) && !bOwner.startsWith(query)) return -1;
 			if (!aOwner.startsWith(query) && bOwner.startsWith(query)) return 1;
 
@@ -61,8 +61,8 @@ export default function Searchbar({ searchQuery, setSearchQuery, codebooks, sele
 	};
 
 	const handleSelect = (book) => {
-		setSearchQuery(book.name);
-		setSelectedCodebookId(book.id);
+		setSearchQuery(book.codebook_name);
+		setSelectedCodebookId(book._id);
 		setShowDropdown(false);
 		setSelectedIndex(-1);
 	};
@@ -148,13 +148,13 @@ export default function Searchbar({ searchQuery, setSearchQuery, codebooks, sele
 				>
 					{suggestions.map((book, index) => (
 						<div
-							key={book.id}
+							key={book._id}
 							onClick={() => handleSelect(book)}
 							className={`px-4 py-3 cursor-pointer border-b border-gray-100 last:border-none ${index === selectedIndex ? "bg-gray-100" : "hover:bg-gray-50"
 								}`}
 						>
-							<div className="font-medium text-sm text-gray-900">{book.name}</div>
-							<div className="text-xs text-gray-500">{book.owner}</div>
+							<div className="font-medium text-sm text-gray-900">{book.codebook_name}</div>
+							<div className="text-xs text-gray-500">{book.owner.name}</div>
 						</div>
 					))}
 				</div>

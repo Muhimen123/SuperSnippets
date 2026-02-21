@@ -39,25 +39,18 @@ const Select = ({ children, ...props }) => (
 
 const PREDEFINED_FONTS = [
   "Jetbrains Mono",
-  "Roboto",
-  "Open Sans",
-  "Lato",
-  "Montserrat",
-  "Cascadia Code",
-  "Arial",
-  "Helvetica",
-  "Times New Roman",
-  "Georgia",
-  "Courier New",
-  "Verdana",
+  "Inconsolata",
+  "Courier",
+  "Source Code Pro",
+  "Bera Mono",
 ];
 
-export default function ConfigBar({ constraints }) {
+export default function ConfigBar() {
   const configHandler = new ConfigHandler();
   const [fonts, setFonts] = useState(PREDEFINED_FONTS);
 
   // Default values if constraints is null/undefined
-  let safeConstraints = constraints || {
+  let safeConstraints = {
     font: "Jetbrains Mono",
     fontSize: "11",
     headerText: "My Codebook",
@@ -150,7 +143,7 @@ export default function ConfigBar({ constraints }) {
 
       {/* Margin Size */}
       <div className="flex flex-col gap-2">
-        <label className="font-bold text-sm">Margin Size (Inch)</label>
+        <label className="font-bold text-sm">Margin Size (cm)</label>
         <Input
           type="number"
           placeholder={safeConstraints.marginSize}

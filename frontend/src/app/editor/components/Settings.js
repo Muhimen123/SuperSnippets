@@ -7,7 +7,8 @@ import ActivityLog from "./ActivityLog";
 export default function Settings({ onClose }) {
   const [activeTab, setActiveTab] = useState("Import/Export");
 
-  const tabs = ["Import/Export", "Contributors", "Activity Log"];
+  // const tabs = ["Import/Export", "Contributors", "Activity Log"];
+  const tabs = ["Import/Export", "Contributors"];
 
   return (
     <div 

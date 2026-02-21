@@ -97,3 +97,79 @@ export const handleGoogleAuth = async ({ email, name, image, googleId }) => {
     throw error;
   }
 };
+
+/**
+ * Check if a user exists by email
+ */
+export const checkUserEmailExists = async ({ email }) => {
+  try {
+    const user = await User.findOne({ email }).select("_id");
+    return Boolean(user);
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Verify password reset code
+ */
+export const verifyResetCode = async ({ email, code }) => {
+  try {
+    const user = await User.findOne({ email });
+    
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (!user.passwordResetCode) {
+      throw new Error("No reset code found");
+    }
+
+    if (user.passwordResetCode !== code) {
+      throw new Error("Invalid code");
+    }
+
+    if (user.passwordResetExpires < Date.now()) {
+      throw new Error("Code expired");
+    }
+
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Reset user password
+ */
+export const resetPassword = async ({ email, code, newPassword }) => {
+  try {
+    const user = await User.findOne({ email });
+    
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (!user.passwordResetCode || user.passwordResetCode !== code) {
+      throw new Error("Invalid code");
+    }
+
+    if (user.passwordResetExpires < Date.now()) {
+      throw new Error("Code expired");
+    }
+
+    // Update password and clear reset code
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.passwordResetCode = null;
+    user.passwordResetExpires = null;
+    await user.save();
+
+    return {
+      id: user._id,
+      email: user.email,
+      name: user.name,
+    };
+  } catch (error) {
+    throw error;
+  }
+};

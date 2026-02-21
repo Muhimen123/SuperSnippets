@@ -1,30 +1,53 @@
 import React, { useState } from "react";
 import RepoModal from "./RepoModal";
 import { ConfigHandler } from "@/utility/configHandler";
+import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
+import { fetchAllFilesFromRepo } from "@/app/api/github.api";
+import toast from "react-hot-toast";
 
 export default function GithubRepos() {
   const configHandler = new ConfigHandler();
+  const codesegmentsHandler = new CodeSegmentsHandler();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [repos, setRepos] = useState(configHandler.getRepos());
 
-  const handleRepoAdded = (newRepo) => {
+  const handleRepoAdded = async (newRepo) => {
+    const backup = repos;
     setRepos((prev) => [...prev, newRepo]);
+
+    const toastId = toast.loading("Fetching files from new repository...");
+    try {
+      const repoUrl = `https://github.com/${newRepo}/`;
+      const data = await fetchAllFilesFromRepo(repoUrl);
+      codesegmentsHandler.addSegments(data);
+      toast.success(`Successfully fetched ${data.length} files from new repository!`, { id: toastId });
+    } catch (error) {
+      console.error("Error fetching files for new repo: ", error);
+      setRepos(backup);
+      toast.error("Failed to fetch files from new repository. Please check the URL and try again.", { id: toastId });
+    }
   };
 
   return (
     <>
       <div className="flex flex-col h-full w-80 border-r-2 border-black bg-white text-black font-mono">
         <div className="flex-1 overflow-y-auto">
-          {repos.map((repo, index) => (
-            <div
-              key={index}
-              title={repo}
-              className={`p-4 border-b-2 border-black hover:bg-gray-100 cursor-pointer font-bold text-sm truncate`}
-            >
-              {repo}
+          {(!repos || repos.length === 0) ? (
+            <div className="p-4 text-center text-gray-500 text-sm italic">
+              No GitHub repositories added
             </div>
-          ))}
+          ) : (
+            repos.map((repo, index) => (
+              <div
+                key={index}
+                title={repo}
+                className={`p-4 border-b-2 border-black hover:bg-gray-100 cursor-pointer font-bold text-sm truncate`}
+              >
+                {repo}
+              </div>
+            ))
+          )}
         </div>
         <div className="p-4">
           <button

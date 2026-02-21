@@ -5,8 +5,9 @@ import { useState, useMemo, Suspense, useEffect } from "react";
 import Toolbar from "./components/Toolbar";
 import ContentSection from "../editor/components/ContentSection";
 import CodeEditorWindow from "./components/CodeEditorWindow";
-import { useSearchParams } from "next/navigation";
 import { FileHandler } from "@/utility/fileHandler";
+import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
 
 const PDFSection = dynamic(() => import("./components/PDFSection"), {
   ssr: false,
@@ -24,73 +25,35 @@ function EditorContent() {
   const [currentTool, setCurrentTool] = useState(1);
   const [activeFileIndex, setActiveFileIndex] = useState(null);
   const fileHandler = useMemo(() => new FileHandler(), []);
+  const codeSegmentsHandler = useMemo(() => new CodeSegmentsHandler(), []);
   const [isLoaded, setIsLoaded] = useState(false);
+  const codeBookHandler = useMemo(() => new CodeBookHandler(), []);
+  const [categoriesLoaded, setCategoriesLoaded] = useState(false);
 
   const [codeData, setCodeData] = useState({
     title: "Project Alpha Codebase",
   });
 
-  const [categories, setCategories] = useState([
-    {
-      id: 1,
-      name: "Tree Traversal",
-      items: [
-        { name: "BFS", included: true, id: "c1-i1" },
-        { name: "DFS", included: true, id: "c1-i2" },
-        { name: "Segment Tree", included: true, id: "c1-i3" }
-      ],
-      isOpen: true,
-    },
-    {
-      id: 2,
-      name: "Sort",
-      items: [
-        { name: "Merge Sort", included: true, id: "c2-i1" },
-        { name: "Bubble Sort", included: true, id: "c2-i2" },
-        { name: "Quick Sort", included: true, id: "c2-i3" }
-      ],
-      isOpen: true,
-    },
-  ]);
+  const [categories, setCategories] = useState([]);
 
   const [files, setFiles] = useState([]);
 
-  // Load files from local storage on mount
   useEffect(() => {
-    const storedFiles = fileHandler.getFiles();
-    if (storedFiles && storedFiles.length > 0) {
-      setFiles(storedFiles);
-    } else {
-      setFiles([
-        {
-          name: "Button.tsx",
-          content: "const Button = () => <button>Click</button>",
-        },
-        { name: "theme.js", content: "export const colors = { blue: '#0070f3' }" },
-        {
-          name: "Dijkstra.ts",
-          content: `function dijkstra(graph, start) {
-        const distances = {};
-        const visited = new Set();
-        const nodes = Object.keys(graph);
+    const storedSegments = codeSegmentsHandler.getSegments();
+    if (storedSegments && storedSegments.length > 0) {
+      const mappedFiles = storedSegments.map((segment, index) => ({
+        name: segment.title || segment.file_name,
+        content: Array.isArray(segment.code)
+          ? segment.code.join("\n")
+          : segment.code,
+        id: index,
+        file_url: segment.file_url || "",
+      }));
 
-        for (let node of nodes) {
-          distances[node] = Infinity;
-        }
-        distances[start] = 0;
-
-        while (nodes.length) {
-          nodes.sort((a, b) => distances[a] - distances[b]);
-          const closestNode = nodes.shift();
-
-          return distances;
-        }
-      }`,
-        },
-      ]);
+      setFiles(mappedFiles);
     }
     setIsLoaded(true);
-  }, [fileHandler]);
+  }, [codeSegmentsHandler]);
 
   // Auto-save to local storage whenever files change
   useEffect(() => {
@@ -98,19 +61,6 @@ function EditorContent() {
       fileHandler.saveFiles(files);
     }
   }, [files, isLoaded, fileHandler]);
-
-  const searchParams = useSearchParams();
-
-  const constraints = useMemo(() => {
-    const raw = searchParams.get("constraints");
-    if (!raw) return null;
-
-    try {
-      return JSON.parse(decodeURIComponent(raw));
-    } catch {
-      return null;
-    }
-  }, [searchParams]);
 
   const handleToolSelection = (toolKey) => {
     setCurrentTool(toolKey);
@@ -120,9 +70,11 @@ function EditorContent() {
     if (activeFileIndex !== null) {
       setFiles((prev) =>
         prev.map((file, index) =>
-          index === activeFileIndex ? { ...file, content: newCode } : file
-        )
+          index === activeFileIndex ? { ...file, content: newCode } : file,
+        ),
       );
+
+      codeSegmentsHandler.updateSegmentContent(activeFileIndex, newCode);
     }
   };
 
@@ -130,8 +82,8 @@ function EditorContent() {
     if (activeFileIndex !== null) {
       setFiles((prev) =>
         prev.map((file, index) =>
-          index === activeFileIndex ? { ...file, name: newName } : file
-        )
+          index === activeFileIndex ? { ...file, name: newName } : file,
+        ),
       );
     }
   };
@@ -139,30 +91,44 @@ function EditorContent() {
   const handleAddToCategory = (categoryId) => {
     if (activeFileIndex === null) return;
     const fileName = files[activeFileIndex].name;
-    const id = parseInt(categoryId);
+    const id = files[activeFileIndex].id;
 
     setCategories((prev) =>
       prev.map((cat) => {
-        if (cat.id === id) {
-          // Check if item exists by name
-          if (!cat.items.some(item => item.name === fileName)) {
-            return { 
-                ...cat, 
-                items: [
-                    ...cat.items, 
-                    { 
-                        name: fileName, 
-                        included: true, 
-                        id: `${cat.id}-item-${Date.now()}` // Generate unique ID
-                    }
-                ] 
+        if (cat.id === parseInt(categoryId)) {
+          if (!cat.items.some((item) => item.name === fileName)) {
+            return {
+              ...cat,
+              items: [
+                ...cat.items,
+                {
+                  name: fileName,
+                  included: true,
+                  id: id,
+                },
+              ],
             };
           }
         }
         return cat;
-      })
+      }),
     );
   };
+
+  useEffect(() => {
+    const stored = codeBookHandler.getCategories();
+    if (stored && stored.length > 0) {
+      setCategories(stored);
+    }
+    setCategoriesLoaded(true); // Signal that loading is finished
+  }, [codeBookHandler]);
+
+  useEffect(() => {
+    if (categoriesLoaded) {
+      codeBookHandler.clearCategories();
+      codeBookHandler.setCategories(categories);
+    }
+  }, [categories, categoriesLoaded, codeBookHandler]);
 
   const handleFileSelection = (index) => {
     if (activeFileIndex === index) {
@@ -173,12 +139,25 @@ function EditorContent() {
   };
 
   const activeFile = activeFileIndex !== null ? files[activeFileIndex] : null;
+  const [pdfUrl, setPdfUrl] = useState(null);
+
+  const handleDownload = () => {
+    if (!pdfUrl) return;
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    link.download = `codebook.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-gray-50">
       <Toolbar
         currentTool={currentTool}
         handleToolSelection={handleToolSelection}
+        onDownload={handleDownload}
+        canDownload={!!pdfUrl}
       />
 
       <div className="flex flex-1 overflow-hidden">
@@ -186,7 +165,6 @@ function EditorContent() {
           <ContentSection
             activeTool={currentTool}
             handleToolSelection={handleToolSelection}
-            constraints={constraints}
             files={files}
             setFiles={setFiles}
             activeFileIndex={activeFileIndex}
@@ -210,6 +188,8 @@ function EditorContent() {
             <div className="absolute inset-0 z-0">
               <PDFSection
                 codeData={{ title: codeData.title, snippets: files }}
+                pdfUrl={pdfUrl} 
+                setPdfUrl={setPdfUrl}
               />
             </div>
           )}

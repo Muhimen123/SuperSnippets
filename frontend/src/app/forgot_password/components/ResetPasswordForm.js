@@ -2,28 +2,44 @@ import Logo from "../../components/Logo";
 import TextField from "../../components/TextField";
 import Link from "next/link";
 import { useState } from "react";
-import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
 
 export default function ResetPasswordForm({ onSendCodeClick }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
-  const handleSendCode = () => {
+  const handleSendCode = async () => {
     setError("");
-    if (!email) {
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail) {
       setError("Email is required");
       return;
     }
 
-    const user = MOCK_AUTH_DATABASE.find((u) => u.email === email);
-    if (!user) {
-      setError("Email not found");
-      return;
-    }
+    try {
+      const response = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: normalizedEmail }),
+      });
 
-    // Store email in localStorage to use in next steps
-    localStorage.setItem("resetPasswordEmail", email);
-    onSendCodeClick();
+      const payload = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        setError(payload?.error || "Email not found");
+        return;
+      }
+
+      console.log("Reset password email found:", normalizedEmail); //debug log
+
+      // Store email in localStorage to use in next steps
+      localStorage.setItem("resetPasswordEmail", normalizedEmail);
+      onSendCodeClick();
+    } catch (error) {
+      setError("Unable to verify email right now");
+    }
   };
 
   return (

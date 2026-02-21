@@ -1,10 +1,18 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getPDF } from "@/utility/pdf/PDF_Engine";
 import { ConfigHandler } from "@/utility/configHandler";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
+import { modifyCodebook } from "@/app/api/pdf.api.js";
+import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
-export default function Toolbar({ currentTool, handleToolSelection }) {
+export default function Toolbar({
+  currentTool,
+  handleToolSelection,
+  onDownload,
+  canDownload,
+}) {
   const configHandler = useMemo(() => new ConfigHandler(), []);
 
   const primaryTools = [
@@ -34,6 +42,8 @@ export default function Toolbar({ currentTool, handleToolSelection }) {
           currentTool={currentTool}
           handleToolSelection={handleToolSelection}
           configHandler={configHandler}
+          onDownload={onDownload}
+          canDownload={canDownload}
         />
       ))}
 
@@ -64,9 +74,22 @@ function ToolbarElement({
   currentTool,
   handleToolSelection,
   configHandler,
+  onDownload,
+  canDownload,
 }) {
   const selected = toolKey === currentTool;
   const router = useRouter();
+
+  const [id, setId] = useState(null);
+  const session = useSession();
+  const userId = session?.data?.user?.id;
+  const codeBookHandler = new CodeBookHandler();
+
+  useEffect(() => {
+    const codebookId = codeBookHandler.getId();
+    setId(codebookId);
+  }, [configHandler]);
+
   return (
     <div
       className={`
@@ -82,22 +105,24 @@ function ToolbarElement({
         }
 
         if (toolKey === 8) {
-          const config = configHandler.createSchemaData("698cb24b1a1c86f156b1ec06");
-          toast.success("Configuration saved successfully!", {
-            style: {
-              border: "1px solid black",
-              padding: "16px",
-            },
+          const config = codeBookHandler.createSchemaData(id, true);
+          config.owner = userId;
+          console.log("Config to be saved: ", config);
+          toast.promise(modifyCodebook(id, config), {
+            loading: "Saving configuration...",
+            success: "Configuration saved successfully!",
+            error: "Failed to save configuration. Please try again.",
           });
-          console.log("Config to save:", config);
+
           return;
         }
 
         if (toolKey === 5) {
           try {
-            getPDF();
+            onDownload();
           } catch (error) {
-            console.log("Error occured when downloading file");
+            console.log("Error occured when downloading file", error);
+            toast.error("Failed to download PDF. Please try again.");
           }
           return;
         }
