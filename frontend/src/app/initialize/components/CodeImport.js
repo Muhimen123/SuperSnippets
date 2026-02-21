@@ -57,7 +57,8 @@ export default function CodeImport({ files, setFiles }) {
                 key={index} 
                 className="w-full rounded-lg px-4 py-3 text-sm text-black bg-white border border-gray-200 shadow-sm flex items-center"
               >
-                <span className="truncate">{file.name}</span>
+                {/* Updated to access .title because processFiles now returns that format */}
+                <span className="truncate">{file.title}</span>
               </div>
             ))}
           </div>
