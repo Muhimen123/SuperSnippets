@@ -4,6 +4,7 @@ import { PDFViewer } from "@embedpdf/react-pdf-viewer";
 import { useEffect, useState } from "react";
 import { API_ROUTES } from "@/utility/constants";
 import { CodeBookHandler } from "@/utility/codeBookHandler";
+import { ConfigHandler } from "@/utility/configHandler";
 
 export default function PDFSection({ codeData }) {
   const [pdfUrl, setPdfUrl] = useState(null);
@@ -15,6 +16,8 @@ export default function PDFSection({ codeData }) {
   useEffect(() => {
     const fetchPDF = async () => {
       const codebookData = codeBookHandler.createLatexData();
+      const configHandler = new ConfigHandler();
+      const latexConfig = configHandler.getConfig();
       setLoading(true);
       try {
         const response = await fetch(apiURL, {
@@ -22,7 +25,7 @@ export default function PDFSection({ codeData }) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             snippets: codebookData,
-            columnCount: 2,
+            config: latexConfig,
             title: codeData.title,
           }),
         });

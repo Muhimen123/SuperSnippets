@@ -150,7 +150,7 @@ export default function ConfigBar() {
 
       {/* Margin Size */}
       <div className="flex flex-col gap-2">
-        <label className="font-bold text-sm">Margin Size (Inch)</label>
+        <label className="font-bold text-sm">Margin Size (cm)</label>
         <Input
           type="number"
           placeholder={safeConstraints.marginSize}
