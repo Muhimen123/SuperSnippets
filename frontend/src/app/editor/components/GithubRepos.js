@@ -1,15 +1,32 @@
 import React, { useState } from "react";
 import RepoModal from "./RepoModal";
 import { ConfigHandler } from "@/utility/configHandler";
+import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
+import { fetchAllFilesFromRepo } from "@/app/api/github.api";
+import toast from "react-hot-toast";
 
 export default function GithubRepos() {
   const configHandler = new ConfigHandler();
+  const codesegmentsHandler = new CodeSegmentsHandler();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [repos, setRepos] = useState(configHandler.getRepos());
 
-  const handleRepoAdded = (newRepo) => {
+  const handleRepoAdded = async (newRepo) => {
+    const backup = repos;
     setRepos((prev) => [...prev, newRepo]);
+
+    const toastId = toast.loading("Fetching files from new repository...");
+    try {
+      const repoUrl = `https://github.com/${newRepo}/`;
+      const data = await fetchAllFilesFromRepo(repoUrl);
+      codesegmentsHandler.addSegments(data);
+      toast.success(`Successfully fetched ${data.length} files from new repository!`, { id: toastId });
+    } catch (error) {
+      console.error("Error fetching files for new repo: ", error);
+      setRepos(backup);
+      toast.error("Failed to fetch files from new repository. Please check the URL and try again.", { id: toastId });
+    }
   };
 
   return (
