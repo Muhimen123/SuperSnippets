@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { getPDF } from "@/utility/pdf/PDF_Engine";
 import { ConfigHandler } from "@/utility/configHandler";
@@ -36,7 +36,6 @@ export default function Toolbar({ currentTool, handleToolSelection }) {
           title={tool.title}
           currentTool={currentTool}
           handleToolSelection={handleToolSelection}
-          configHandler={configHandler}
         />
       ))}
 
@@ -53,7 +52,6 @@ export default function Toolbar({ currentTool, handleToolSelection }) {
           title={tool.title}
           currentTool={currentTool}
           handleToolSelection={handleToolSelection}
-          configHandler={configHandler}
         />
       ))}
     </div>
@@ -66,20 +64,14 @@ function ToolbarElement({
   title,
   currentTool,
   handleToolSelection,
-  configHandler,
 }) {
   const selected = toolKey === currentTool;
   const router = useRouter();
 
-  const [id, setId] = useState(null);
   const session = useSession();
   const userId = session?.data?.user?.id;
-  const codeBookHandler = new CodeBookHandler();
-
-  useEffect(() => {
-    const codebookId = codeBookHandler.getId();
-    setId(codebookId);
-  }, [configHandler]);
+  const codeBookHandler = useMemo(() => new CodeBookHandler(), []);
+  const id = codeBookHandler.getId();
 
   return (
     <div

@@ -1,39 +1,34 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { signOut } from "next-auth/react";
 import PasswordModal from "./passwordModal";
 import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
 
 export default function AccountIcon() {
-	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 	const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
-	const [name, setName] = useState("John Doe");
-	const [email, setEmail] = useState("john.doe@example.com");
+	const [name, setName] = useState(() => {
+		if (typeof window === "undefined") return "John Doe";
+		const userEmail = localStorage.getItem("userEmail");
+		if (!userEmail) return "John Doe";
+		const user = MOCK_AUTH_DATABASE.find((u) => u.email === userEmail);
+		return user?.name ?? "John Doe";
+	});
+	const [email, setEmail] = useState(() => {
+		if (typeof window === "undefined") return "john.doe@example.com";
+		const userEmail = localStorage.getItem("userEmail");
+		if (!userEmail) return "john.doe@example.com";
+		const user = MOCK_AUTH_DATABASE.find((u) => u.email === userEmail);
+		return user?.email ?? "john.doe@example.com";
+	});
 	const [isEditingName, setIsEditingName] = useState(false);
 
 	// New state for notifications
-	const [notifications, setNotifications] = useState([]);
+	const [notifications, setNotifications] = useState([
+		{ id: 101, type: "INVITATION", message: "UserX invited you to 'Project Beta'", sender: "UserX", status: "PENDING" },
+		{ id: 102, type: "INVITATION", message: "UserY invited you to 'Algo Lib'", sender: "UserY", status: "ACCEPTED" }
+	]);
 	const [showNotifications, setShowNotifications] = useState(false);
-
-	useEffect(() => {
-		const userEmail = localStorage.getItem("userEmail");
-		if (userEmail) {
-			const user = MOCK_AUTH_DATABASE.find((u) => u.email === userEmail);
-			if (user) {
-				setName(user.name);
-				setEmail(user.email);
-			}
-		}
-
-		// Mock fetching notifications
-		// In real implementation: fetch('/api/notifications')...
-		setNotifications([
-			{ id: 101, type: "INVITATION", message: "UserX invited you to 'Project Beta'", sender: "UserX", status: "PENDING" },
-			{ id: 102, type: "INVITATION", message: "UserY invited you to 'Algo Lib'", sender: "UserY", status: "ACCEPTED" }
-		]);
-	}, []);
 
 	const handleAcceptInvite = async (id) => {
 		// Mock API call

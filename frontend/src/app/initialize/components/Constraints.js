@@ -2,6 +2,71 @@
 
 import { ConfigHandler } from "@/utility/configHandler";
 
+function CounterInput({ label, value, field, onCounterChange }) {
+  return (
+    <div>
+      <label className="block text-md font-medium text-black mb-1 font-mono">
+        {label}
+      </label>
+      <div
+        className="relative flex items-center rounded-lg"
+        style={{ backgroundColor: "#aeadadff" }}
+      >
+        <input
+          type="text"
+          value={value === 0 ? "0" : value}
+          readOnly
+          className="w-full bg-transparent text-gray-600 text-left px-4 py-2 text-sm border-none outline-none font-mono"
+        />
+        <div className="absolute right-2 flex flex-col gap-0.5">
+          <button
+            onClick={() => onCounterChange(field, 1)}
+            className="text-black hover:text-gray-700 transition-colors leading-none"
+            aria-label={`Increase ${label}`}
+          >
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.25 7.25L6 4.5L8.75 7.25"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={() => onCounterChange(field, -1)}
+            className="text-black hover:text-gray-700 transition-colors leading-none"
+            aria-label={`Decrease ${label}`}
+          >
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.25 4.75L6 7.5L8.75 4.75"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Constraints({ constraints, setConstraints }) {
   const configHandler = new ConfigHandler();
 
@@ -47,69 +112,6 @@ export default function Constraints({ constraints, setConstraints }) {
       };
     });
   };
-
-  const CounterInput = ({ label, value, field }) => (
-    <div>
-      <label className="block text-md font-medium text-black mb-1 font-mono">
-        {label}
-      </label>
-      <div
-        className="relative flex items-center rounded-lg"
-        style={{ backgroundColor: "#aeadadff" }}
-      >
-        <input
-          type="text"
-          value={value === 0 ? "0" : value}
-          readOnly
-          className="w-full bg-transparent text-gray-600 text-left px-4 py-2 text-sm border-none outline-none font-mono"
-        />
-        <div className="absolute right-2 flex flex-col gap-0.5">
-          <button
-            onClick={() => handleCounterChange(field, 1)}
-            className="text-black hover:text-gray-700 transition-colors leading-none"
-            aria-label={`Increase ${label}`}
-          >
-            <svg
-              width="10"
-              height="10"
-              viewBox="0 0 12 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.25 7.25L6 4.5L8.75 7.25"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={() => handleCounterChange(field, -1)}
-            className="text-black hover:text-gray-700 transition-colors leading-none"
-            aria-label={`Decrease ${label}`}
-          >
-            <svg
-              width="10"
-              height="10"
-              viewBox="0 0 12 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.25 4.75L6 7.5L8.75 4.75"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <div className="w-full max-w-[1200px]">
@@ -164,6 +166,7 @@ export default function Constraints({ constraints, setConstraints }) {
             label="Margin Size"
             value={constraints.marginSize}
             field="marginSize"
+            onCounterChange={handleCounterChange}
           />
 
           {/* Font Size */}
@@ -171,6 +174,7 @@ export default function Constraints({ constraints, setConstraints }) {
             label="Font Size"
             value={constraints.fontSize}
             field="fontSize"
+            onCounterChange={handleCounterChange}
           />
 
           {/* Columns */}
@@ -178,6 +182,7 @@ export default function Constraints({ constraints, setConstraints }) {
             label="Columns"
             value={constraints.columns}
             field="columns"
+            onCounterChange={handleCounterChange}
           />
 
           {/* Header Text */}
@@ -209,6 +214,7 @@ export default function Constraints({ constraints, setConstraints }) {
               label="Page Limit"
               value={constraints.pageLimit}
               field="pageLimit"
+              onCounterChange={handleCounterChange}
             />
           </div>
         </div>

@@ -6,10 +6,11 @@ import { CodeBookHandler } from "@/utility/codeBookHandler";
 import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
 
 export default function CreateCodebookModal({ isOpen, onClose }) {
-	if (!isOpen) return null;
 	const router = useRouter();
 	const [codebookName, setCodebookName] = useState("");
 	const [error, setError] = useState("");
+
+	if (!isOpen) return null;
 
 	const handleCreate = () => {
 		if (!codebookName.trim()) {

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState, useMemo, Suspense, useEffect } from "react";
+import { useState, useMemo, Suspense, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Toolbar from "./components/Toolbar";
@@ -31,7 +31,7 @@ function EditorContent() {
   const [activeFileIndex, setActiveFileIndex] = useState(null);
   const fileHandler = useMemo(() => new FileHandler(), []);
   const codeSegmentsHandler = useMemo(() => new CodeSegmentsHandler(), []);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const hasMountedRef = useRef(false);
   
   const [codeData, setCodeData] = useState({
     title: "Project Alpha Codebase",
@@ -60,32 +60,16 @@ function EditorContent() {
     },
   ]);
 
-  const [files, setFiles] = useState([]);
-
-  // load code segments from the codesegment handler 
-  // useEffect(() => {
-  //   const storedSegments = codeSegmentsHandler.getSegments();
-  //   if (storedSegments && storedSegments.length > 0) {
-  //     setFiles(storedSegments);
-  //   }
-  //   setIsLoaded(true);
-  // }, [codeSegmentsHandler]);
-
-  // Load files from local storage on mount
-  useEffect(() => {
-    const storedFiles = fileHandler.getFiles();
-    if (storedFiles && storedFiles.length > 0) {
-      setFiles(storedFiles);
-    } else {
-      setFiles([
-        {
-          name: "Button.tsx",
-          content: "const Button = () => <button>Click</button>",
-        },
-        { name: "theme.js", content: "export const colors = { blue: '#0070f3' }" },
-        {
-          name: "Dijkstra.ts",
-          content: `function dijkstra(graph, start) {
+  const [files, setFiles] = useState(() => {
+    const defaultFiles = [
+      {
+        name: "Button.tsx",
+        content: "const Button = () => <button>Click</button>",
+      },
+      { name: "theme.js", content: "export const colors = { blue: '#0070f3' }" },
+      {
+        name: "Dijkstra.ts",
+        content: `function dijkstra(graph, start) {
         const distances = {};
         const visited = new Set();
         const nodes = Object.keys(graph);
@@ -102,18 +86,34 @@ function EditorContent() {
           return distances;
         }
       }`,
-        },
-      ]);
+      },
+    ];
+
+    if (typeof window === "undefined") {
+      return defaultFiles;
     }
-    setIsLoaded(true);
-  }, [fileHandler]);
+
+    const storedFiles = fileHandler.getFiles();
+    return storedFiles && storedFiles.length > 0 ? storedFiles : defaultFiles;
+  });
+
+  // load code segments from the codesegment handler 
+  // useEffect(() => {
+  //   const storedSegments = codeSegmentsHandler.getSegments();
+  //   if (storedSegments && storedSegments.length > 0) {
+  //     setFiles(storedSegments);
+  //   }
+  //   setIsLoaded(true);
+  // }, [codeSegmentsHandler]);
 
   // Auto-save to local storage whenever files change
   useEffect(() => {
-    if (isLoaded) {
-      fileHandler.saveFiles(files);
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
     }
-  }, [files, isLoaded, fileHandler]);
+    fileHandler.saveFiles(files);
+  }, [files, fileHandler]);
 
   const searchParams = useSearchParams();
 

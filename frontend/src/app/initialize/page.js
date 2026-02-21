@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { useState, useEffect } from "react";
+import { useState, useMemo , useEffect} from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import TileBackground from "../components/TileBackground";
@@ -12,7 +11,6 @@ import StepperProgressBar from "./components/StepperProgressBar";
 import { ConfigHandler } from "@/utility/configHandler";
 import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
 import { CodeBookHandler } from "@/utility/codeBookHandler";
-import { useSession } from "next-auth/react";
 import { createConfig, modifyCodebook } from "../api/pdf.api";
 import { fetchAllFilesFromRepo } from "../api/github.api";
 import toast from "react-hot-toast";

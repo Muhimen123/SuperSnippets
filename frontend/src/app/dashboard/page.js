@@ -16,26 +16,43 @@ export default function Dashboard() {
 
   const [codebooks, setCodebooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const userId = sessionData?.user?.id;
 
   const loadCodebooks = async () => {
-    if (sessionData?.user?.id) {
-      try {
-        const fetchedCodebooks = await fetchUserCodebooks(
-          sessionData.user.id,
-        );
-        console.log("Fetched codebooks:", fetchedCodebooks);
-        setCodebooks(fetchedCodebooks);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching codebooks:", error);
-        setIsLoading(false);
-      }
+    if (!userId) {
+      return [];
+    }
+
+    try {
+      const fetchedCodebooks = await fetchUserCodebooks(userId);
+      console.log("Fetched codebooks:", fetchedCodebooks);
+      return fetchedCodebooks;
+    } catch (error) {
+      console.error("Error fetching codebooks:", error);
+      return [];
     }
   };
 
+  const refreshCodebooks = async () => {
+    setIsLoading(true);
+    const fetchedCodebooks = await loadCodebooks();
+    setCodebooks(fetchedCodebooks);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    loadCodebooks();
-  }, [sessionData]);
+    let isMounted = true;
+
+    loadCodebooks().then((fetchedCodebooks) => {
+      if (!isMounted) return;
+      setCodebooks(fetchedCodebooks);
+      setIsLoading(false);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [userId]);
 
   return (
     <div>
@@ -61,7 +78,7 @@ export default function Dashboard() {
             <Content
               codebooks={codebooks}
               selectedCodebookId={selectedCodebookId}
-              refreshCodebooks={loadCodebooks}
+              refreshCodebooks={refreshCodebooks}
             />
           )}
         </div>
