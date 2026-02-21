@@ -7,6 +7,7 @@ import ContentSection from "../editor/components/ContentSection";
 import CodeEditorWindow from "./components/CodeEditorWindow";
 import { FileHandler } from "@/utility/fileHandler";
 import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
 
 const PDFSection = dynamic(() => import("./components/PDFSection"), {
   ssr: false,
@@ -26,6 +27,7 @@ function EditorContent() {
   const fileHandler = useMemo(() => new FileHandler(), []);
   const codeSegmentsHandler = useMemo(() => new CodeSegmentsHandler(), []);
   const [isLoaded, setIsLoaded] = useState(false);
+  const codeBookHandler = useMemo(() => new CodeBookHandler(), []);
 
   const [codeData, setCodeData] = useState({
     title: "Project Alpha Codebase",
@@ -73,16 +75,17 @@ function EditorContent() {
     if (storedSegments && storedSegments.length > 0) {
       const mappedFiles = storedSegments.map((segment, index) => ({
         name: segment.title || segment.file_name,
-        content: Array.isArray(segment.code) ? segment.code.join("\n") : segment.code,
+        content: Array.isArray(segment.code)
+          ? segment.code.join("\n")
+          : segment.code,
         id: index,
         file_url: segment.file_url || "",
       }));
-      
+
       setFiles(mappedFiles);
     }
     setIsLoaded(true);
-  }, [codeSegmentsHandler]); 
-
+  }, [codeSegmentsHandler]);
 
   // Auto-save to local storage whenever files change
   useEffect(() => {
@@ -99,8 +102,8 @@ function EditorContent() {
     if (activeFileIndex !== null) {
       setFiles((prev) =>
         prev.map((file, index) =>
-          index === activeFileIndex ? { ...file, content: newCode } : file
-        )
+          index === activeFileIndex ? { ...file, content: newCode } : file,
+        ),
       );
 
       codeSegmentsHandler.updateSegmentContent(activeFileIndex, newCode);
@@ -111,8 +114,8 @@ function EditorContent() {
     if (activeFileIndex !== null) {
       setFiles((prev) =>
         prev.map((file, index) =>
-          index === activeFileIndex ? { ...file, name: newName } : file
-        )
+          index === activeFileIndex ? { ...file, name: newName } : file,
+        ),
       );
     }
   };
@@ -120,30 +123,37 @@ function EditorContent() {
   const handleAddToCategory = (categoryId) => {
     if (activeFileIndex === null) return;
     const fileName = files[activeFileIndex].name;
-    const id = parseInt(categoryId);
+    const id = files[activeFileIndex].id;
 
     setCategories((prev) =>
       prev.map((cat) => {
         if (cat.id === id) {
-          // Check if item exists by name
-          if (!cat.items.some(item => item.name === fileName)) {
-            return { 
-              ...cat, 
+          if (!cat.items.some((item) => item.name === fileName)) {
+            return {
+              ...cat,
               items: [
-                  ...cat.items, 
-                  { 
-                    name: fileName, 
-                    included: true, 
-                    id: `${cat.id}-item-${Date.now()}` // Generate unique ID
-                  }
-              ] 
+                ...cat.items,
+                {
+                  name: fileName,
+                  included: true,
+                  id: id,
+                },
+              ],
             };
           }
         }
         return cat;
-      })
+      }),
     );
   };
+
+  useEffect(() => {
+    if (isLoaded) {
+      codeBookHandler.clearCategories();
+      codeBookHandler.setCategories(categories);
+      console.log("Categories synced to storage:", categories);
+    }
+  }, [categories, isLoaded, codeBookHandler]);
 
   const handleFileSelection = (index) => {
     if (activeFileIndex === index) {
