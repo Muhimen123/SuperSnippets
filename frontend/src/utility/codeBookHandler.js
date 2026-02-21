@@ -7,12 +7,10 @@ export class CodeBookHandler {
 	codeSegmentsHandler = new CodeSegmentsHandler();
 
   initiate = () => {
+		this.clearAll();
     const codebook = {
         _id: ""
     };
-		this.clearAll();
-		this.configHandler.initiate("New Codebook");
-		this.codeSegmentsHandler.initiate();
     this.write(codebook);
   }
     
@@ -60,10 +58,11 @@ export class CodeBookHandler {
 	}
 
 	loadCodebook = (codebookData) => {
+		const tmpId = this.getId();
 		this.initiate();
 		this.configHandler.loadConfigFromSchema(codebookData); 
-
 		this.codeSegmentsHandler.addSegments(codebookData.codeSegments);
+		this.setId(tmpId);
 	}
 
 	clearAll() {
