@@ -2,13 +2,12 @@ import Link from "next/link";
 import Logo from "../../components/Logo";
 import PasswordField from "../../components/PasswordField";
 import { useState } from "react";
-import { MOCK_AUTH_DATABASE } from "../../../utility/mockAuthDatabase";
 
 export default function NewPasswordForm({ onConfirmClick }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setError("");
     if (!password) {
       setError("Password is required");
@@ -16,18 +15,36 @@ export default function NewPasswordForm({ onConfirmClick }) {
     }
 
     const email = localStorage.getItem("resetPasswordEmail");
-    if (!email) {
-      setError("Something went wrong. Please start over.");
+    const code = localStorage.getItem("resetCode");
+
+    if (!email || !code) {
+      setError("Session expired. Please start over.");
       return;
     }
 
-    const userIndex = MOCK_AUTH_DATABASE.findIndex((u) => u.email === email);
-    if (userIndex !== -1) {
-      MOCK_AUTH_DATABASE[userIndex].password = password;
+    try {
+      const response = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, code, password }),
+      });
+
+      const payload = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        setError(payload?.error || "Failed to reset password");
+        return;
+      }
+
+      console.log("Password reset successfully");
+      // Clean up localStorage
       localStorage.removeItem("resetPasswordEmail");
+      localStorage.removeItem("resetCode");
       onConfirmClick();
-    } else {
-      setError("User not found");
+    } catch {
+      setError("Unable to reset password right now");
     }
   };
 
