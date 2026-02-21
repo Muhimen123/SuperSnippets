@@ -4,7 +4,9 @@ import {
   addCollaboratorToCodebook,
   removeCollaboratorFromCodebook,
   fetchAllCodebooksForUser,
-  removeCodebook
+  removeCodebook,
+  modifyCodebook,
+  fetchCodebookById,
 } from "../services/pdf.service.js";
 
 export const generatePDF = async (req, res) => {
@@ -55,7 +57,34 @@ export const createConfiguration = async (req, res) => {
   }
 };
 
-export const modifyConfiguration = async (req, res) => {};
+export const fetchCodebookDetails = async (req, res) => {
+  try {
+    const codebookId = req.params.codebookId;
+    const codebook = await fetchCodebookById(codebookId);
+    res.status(200).json(codebook);
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to fetch codebook details",
+      details: error.message,
+    });
+  }
+};
+
+export const modifyConfiguration = async (req, res) => {
+  try {
+    const { codebookId, updatedData } = req.body;
+    const updatedCodebook = await modifyCodebook(codebookId, updatedData);
+    res.status(200).json({
+      message: "Configuration updated successfully",
+      codebook: updatedCodebook,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to update configuration",
+      details: error.message,
+    });
+  }
+};
 
 export const addCollaborator = async (req, res) => {
   try {
@@ -99,7 +128,7 @@ export const getAllCodebooksForUser = async (req, res) => {
 
 export const deleteCodebook = async (req, res) => {
   try {
-    const codebookId  = req.params.codebookId;
+    const codebookId = req.params.codebookId;
     await removeCodebook(codebookId);
     res.status(200).json({
       message: "Codebook deleted successfully",

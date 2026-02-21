@@ -2,6 +2,7 @@ export class ConfigHandler {
   #storageKey = "configuration";
 
   initiate(codebookName) {
+    this.clearAll();
     const config = {
       codebookName: codebookName,
       headerText: "CodeBook",
@@ -20,6 +21,11 @@ export class ConfigHandler {
   write(config) {
     localStorage.setItem(this.#storageKey, this.convertToJSONString(config));
   }
+
+  getConfig = () => {
+    let config = this.convertToJSON();
+    return config;
+  };
 
   addRepo = (repoList) => {
     let config = this.convertToJSON();
@@ -166,5 +172,22 @@ export class ConfigHandler {
       codeSegments: [],
       categories: [],
     };
+  };
+
+  loadConfigFromSchema = (schema) => {
+    this.initiate(schema.codebook_name);
+    const config = {
+      codebookName: schema.codebook_name,
+      headerText: schema.configuration.header_text,
+      repoArray: schema.repositories,
+      font: schema.configuration.font_family,
+      marginSize: schema.configuration.margin,
+      fontSize: schema.configuration.font_size,
+      columns: schema.configuration.column_number,
+      pageLimit: schema.configuration.page_number,
+      orientation: schema.configuration.orientation,
+    };
+
+    this.write(config);
   };
 }

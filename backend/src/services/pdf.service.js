@@ -3,6 +3,14 @@ import { Writable } from "stream";
 import Codebook from "../models/Codebook.js";
 import User from "../models/User.js";
 
+export const fetchCodebookById = async (codebookId) => {
+  const codebook = await Codebook.findById(codebookId).populate("owner", "name");
+  if (!codebook) {
+    throw new Error("Codebook not found");
+  }
+  return codebook;
+};
+
 export const createNewConfiguration = async (data) => {
   const codebook = new Codebook(data);
   const savedConfig = await codebook.save();
@@ -47,7 +55,8 @@ export const fetchAllCodebooksForUser = async (userId) => {
     $or: [{ owner: userId }, { collaborators: userId }],
   })
     .populate("owner", "name")
-    .select("owner codebook_name")
+    .select("owner codebook_name updatedAt")
+    .sort({ updatedAt: -1 })
     .exec();
 
   return codebooks;
@@ -66,6 +75,29 @@ export const removeCodebook = async (codebookId) => {
     return deletedCodebook;
   } catch (error) {
     throw new Error("Failed to delete codebook: " + error.message);
+  }
+};
+
+export const modifyCodebook = async (codebookId, updatedData) => {
+  try {
+    const updatedCodebook = await Codebook.findByIdAndUpdate(
+      codebookId,
+      { $set: updatedData },
+      { 
+        new: true,
+        runValidators: true,
+        context: 'query'
+      }
+    );
+
+    if (!updatedCodebook) {
+      throw new Error("Codebook not found");
+    }
+
+    return updatedCodebook;
+  } catch (error) {
+    console.error(`Update Error (ID: ${codebookId}):`, error);
+    throw new Error("Failed to update codebook: " + error.message);
   }
 };
 

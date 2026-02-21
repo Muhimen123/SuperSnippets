@@ -6,7 +6,8 @@ import {
   addCollaborator,
   removeCollaborator,
   getAllCodebooksForUser,
-  deleteCodebook
+  deleteCodebook,
+  fetchCodebookDetails
 } from "../controllers/pdf.controller.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
 const router = express.Router();

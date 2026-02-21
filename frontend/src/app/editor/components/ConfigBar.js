@@ -52,12 +52,12 @@ const PREDEFINED_FONTS = [
   "Verdana",
 ];
 
-export default function ConfigBar({ constraints }) {
+export default function ConfigBar() {
   const configHandler = new ConfigHandler();
   const [fonts, setFonts] = useState(PREDEFINED_FONTS);
 
   // Default values if constraints is null/undefined
-  let safeConstraints = constraints || {
+  let safeConstraints = {
     font: "Jetbrains Mono",
     fontSize: "11",
     headerText: "My Codebook",

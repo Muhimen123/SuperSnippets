@@ -2,6 +2,8 @@ import TextField from "../../components/TextField";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ConfigHandler } from "@/utility/configHandler";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
+import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
 
 export default function CreateCodebookModal({ isOpen, onClose }) {
 	if (!isOpen) return null;
@@ -16,8 +18,16 @@ export default function CreateCodebookModal({ isOpen, onClose }) {
 		}
 
 		const configHandler = new ConfigHandler();
+		const codeBookHandler = new CodeBookHandler();
+		const codeSegmentsHandler = new CodeSegmentsHandler();
+
 		configHandler.clearAll();
+		codeBookHandler.clearAll();
+		codeSegmentsHandler.clearAll();
+
 		configHandler.initiate(codebookName);
+		codeBookHandler.initiate();
+		codeSegmentsHandler.initiate();
 
 		router.push('/initialize');
 	};
