@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import AddCodeSegmentModal from "./AddCodeSegmentModal";
+import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
 
 export default function CodeSegment({
   files,
@@ -9,13 +10,25 @@ export default function CodeSegment({
   setActiveFileIndex,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const codeSegmentsHandler = new CodeSegmentsHandler();
 
   const handleFilesAdded = (newFiles) => {
-    const formattedFiles = newFiles.map((f) => ({
-      name: f.name,
-      content: f.content || "",
+    // 1. Add to the persistent handler with full schema
+    codeSegmentsHandler.addSegments(newFiles);
+
+    // 2. Add to local state 'files' for the editor UI to render immediately
+    // The editor expects: { name: string, content: string, ... }
+    // The newFiles from processFiles are: { title: string, code: string[], ... }
+    const formattedFilesForEditor = newFiles.map((f) => ({
+      name: f.title, 
+      content: Array.isArray(f.code) ? f.code.join("\n") : f.code,
+      type: f.type,
+      file_url: f.file_url,
+      // We might not have an ID yet if it hasn't gone to DB, 
+      // but usually the index acts as ID in this view until refresh.
     }));
-    setFiles((prev) => [...prev, ...formattedFiles]);
+    
+    setFiles((prev) => [...prev, ...formattedFilesForEditor]);
   };
 
   return (

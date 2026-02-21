@@ -52,6 +52,22 @@ export default function Initialize() {
       configHandler.addRepo(repos);
     }
 
+    if (currentStep === 2) {
+      // Add local files to handler
+      if (files.length > 0) {
+        codeSegmentsHandler.addSegments(files);
+      }
+    }
+    
+    if (currentStep === 3) {
+      configHandler.setMargin(constraints.marginSize);
+      configHandler.setPageLimit(constraints.pageLimit);
+      configHandler.setPageSize(constraints.fontSize);
+      configHandler.setPageColumns(constraints.columns);
+      configHandler.setPageHeader(constraints.headerText);
+      configHandler.setPageFont(constraints.font);
+    }
+
     if (currentStep === 4) {
       const configData = configHandler.createSchemaData(userId);
       codeSegmentsHandler.clearAll();

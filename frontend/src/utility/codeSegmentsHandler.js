@@ -4,19 +4,29 @@ export class CodeSegmentsHandler {
   initiate = () => {
     this.clearAll();
     const codeSegments = {
-        segments: [],
+      segments: [],
     };
     this.write(codeSegments);
   };
 
   addSegment = (segment) => {
     let codeSegments = this.convertToJSON();
-    codeSegments["segments"] = [...codeSegments["segments"], segment];
+    if (!codeSegments.segments) {
+      codeSegments.segments = [];
+    }
+    codeSegments.segments.push(segment);
     this.write(codeSegments);
   };
+
   addSegments = (segmentList) => {
     let codeSegments = this.convertToJSON();
-    codeSegments["segments"] = [...codeSegments["segments"], ...segmentList];
+    if (!codeSegments.segments) {
+      codeSegments.segments = [];
+    }
+    // Check if segmentList is valid array before spreading
+    if (Array.isArray(segmentList)) {
+      codeSegments.segments.push(...segmentList);
+    }
     this.write(codeSegments);
   };
 
@@ -25,13 +35,19 @@ export class CodeSegmentsHandler {
     return codeSegments.segments;
   };
 
+  getSegmentByIndex = (index) => {
+    let codeSegments = this.convertToJSON();
+    return codeSegments.segments[index];
+  };
+
   write = (codeSegments) => {
     localStorage.setItem(this.#storageKey, this.convertToJSONString(codeSegments));
   }
 
+  // Helper to ensure we get a valid object even if storage is empty/corrupt
   convertToJSON() {
     const jsonString = localStorage.getItem(this.#storageKey);
-    return jsonString ? JSON.parse(jsonString) : {segments: []};
+    return jsonString ? JSON.parse(jsonString) : { segments: [] };
   }
 
   convertToJSONString(codeSegments) {

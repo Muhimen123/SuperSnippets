@@ -7,7 +7,12 @@ import { modifyCodebook } from "@/app/api/pdf.api.js";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
-export default function Toolbar({ currentTool, handleToolSelection }) {
+export default function Toolbar({
+  currentTool,
+  handleToolSelection,
+  onDownload,
+  canDownload,
+}) {
   const configHandler = useMemo(() => new ConfigHandler(), []);
 
   const primaryTools = [
@@ -37,6 +42,8 @@ export default function Toolbar({ currentTool, handleToolSelection }) {
           currentTool={currentTool}
           handleToolSelection={handleToolSelection}
           configHandler={configHandler}
+          onDownload={onDownload}
+          canDownload={canDownload}
         />
       ))}
 
@@ -67,6 +74,8 @@ function ToolbarElement({
   currentTool,
   handleToolSelection,
   configHandler,
+  onDownload,
+  canDownload,
 }) {
   const selected = toolKey === currentTool;
   const router = useRouter();
@@ -110,9 +119,10 @@ function ToolbarElement({
 
         if (toolKey === 5) {
           try {
-            getPDF();
+            onDownload();
           } catch (error) {
-            console.log("Error occured when downloading file");
+            console.log("Error occured when downloading file", error);
+            toast.error("Failed to download PDF. Please try again.");
           }
           return;
         }

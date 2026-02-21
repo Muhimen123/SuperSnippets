@@ -34,40 +34,7 @@ function EditorContent() {
     title: "Project Alpha Codebase",
   });
 
-  /*
-  {
-    items: [
-      {
-        codesegment: {},
-        id: , 
-      }
-    ],
-  } 
-  */
-
   const [categories, setCategories] = useState([]);
-  // const [categories, setCategories] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Tree Traversal",
-  //     items: [
-  //       { name: "BFS", included: true, id: "c1-i1" },
-  //       { name: "DFS", included: true, id: "c1-i2" },
-  //       { name: "Segment Tree", included: true, id: "c1-i3" }
-  //     ],
-  //     isOpen: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Sort",
-  //     items: [
-  //       { name: "Merge Sort", included: true, id: "c2-i1" },
-  //       { name: "Bubble Sort", included: true, id: "c2-i2" },
-  //       { name: "Quick Sort", included: true, id: "c2-i3" }
-  //     ],
-  //     isOpen: true,
-  //   },
-  // ]);
 
   const [files, setFiles] = useState([]);
 
@@ -172,12 +139,25 @@ function EditorContent() {
   };
 
   const activeFile = activeFileIndex !== null ? files[activeFileIndex] : null;
+  const [pdfUrl, setPdfUrl] = useState(null);
+
+  const handleDownload = () => {
+    if (!pdfUrl) return;
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    link.download = `codebook.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-gray-50">
       <Toolbar
         currentTool={currentTool}
         handleToolSelection={handleToolSelection}
+        onDownload={handleDownload}
+        canDownload={!!pdfUrl}
       />
 
       <div className="flex flex-1 overflow-hidden">
@@ -208,6 +188,8 @@ function EditorContent() {
             <div className="absolute inset-0 z-0">
               <PDFSection
                 codeData={{ title: codeData.title, snippets: files }}
+                pdfUrl={pdfUrl} 
+                setPdfUrl={setPdfUrl}
               />
             </div>
           )}
