@@ -93,6 +93,8 @@ function EditorContent() {
           index === activeFileIndex ? { ...file, content: newCode } : file
         )
       );
+
+      codeSegmentsHandler.updateSegmentContent(activeFileIndex, newCode);
     }
   };
 

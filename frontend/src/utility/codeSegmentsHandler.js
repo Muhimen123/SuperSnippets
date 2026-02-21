@@ -38,6 +38,20 @@ export class CodeSegmentsHandler {
     return JSON.stringify(codeSegments);
   }
 
+  updateSegmentContent = (segmentIndex, newCodeString) => {
+    let codeSegments = this.convertToJSON();
+
+    if (codeSegments.segments[segmentIndex]) {
+      const contentArray = newCodeString.split("\n");
+
+      codeSegments.segments[segmentIndex].code = contentArray;
+
+      this.write(codeSegments);
+    } else {
+      console.error(`Segment at index ${segmentIndex} not found.`);
+    }
+  };
+
   clearAll() {
     localStorage.removeItem(this.#storageKey);
   }
