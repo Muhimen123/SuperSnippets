@@ -6,17 +6,16 @@ import { API_ROUTES } from "@/utility/constants";
 import { CodeBookHandler } from "@/utility/codeBookHandler";
 import { ConfigHandler } from "@/utility/configHandler";
 
-export default function PDFSection({ codeData }) {
-  const [pdfUrl, setPdfUrl] = useState(null);
+export default function PDFSection({ codeData, pdfUrl, setPdfUrl }) {
   const [loading, setLoading] = useState(false);
   const [errorLoading, setErrorLoading] = useState(false);
 
   const codeBookHandler = new CodeBookHandler();
+  const configHandler = new ConfigHandler();
   const apiURL = API_ROUTES.PDF.GENERATE;
   useEffect(() => {
     const fetchPDF = async () => {
       const codebookData = codeBookHandler.createLatexData();
-      const configHandler = new ConfigHandler();
       const latexConfig = configHandler.getConfig();
       setLoading(true);
       try {
@@ -51,7 +50,7 @@ export default function PDFSection({ codeData }) {
     // Debounce: Wait 800ms after typing stops before calling the backend
     const timeoutId = setTimeout(fetchPDF, 800);
     return () => clearTimeout(timeoutId);
-  }, [codeData]);
+  }, []);
 
   return (
     <div className="relative w-full h-full">
