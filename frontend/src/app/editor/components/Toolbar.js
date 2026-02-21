@@ -96,7 +96,7 @@ function ToolbarElement({
         }
 
         if (toolKey === 8) {
-          const config = configHandler.createSchemaData(id);
+          const config = codeBookHandler.createSchemaData(id);
           config.owner = userId;
           console.log("Config to be saved: ", config);
           toast.promise(modifyCodebook(id, config), {
@@ -105,8 +105,6 @@ function ToolbarElement({
             error: "Failed to save configuration. Please try again.",
           });
 
-          // const temp = codeBookHandler.createSchemaData(id);
-          // console.log("Codebook to be saved: ", temp);
           return;
         }
 

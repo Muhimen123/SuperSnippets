@@ -11,7 +11,7 @@ import { ConfigHandler } from "@/utility/configHandler";
 import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
 import { CodeBookHandler } from "@/utility/codeBookHandler";
 import { useSession } from "next-auth/react";
-import { createConfig } from "../api/pdf.api";
+import { createConfig, modifyCodebook } from "../api/pdf.api";
 import { fetchAllFilesFromRepo } from "../api/github.api";
 import toast from "react-hot-toast";
 
@@ -80,6 +80,9 @@ export default function Initialize() {
           
           codeSegmentsHandler.addSegments(data);
         }
+
+        const configUpdated = codeBookHandler.createSchemaData(userId);
+        await modifyCodebook(result.codebookId, configUpdated);
 
         toast.success("Successfully Initialized Codebook!", { id: toastId });
         router.push("/editor");
