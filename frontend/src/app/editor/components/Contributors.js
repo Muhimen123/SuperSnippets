@@ -1,31 +1,41 @@
 "use client";
-import { useState } from "react";
-
-const MOCK_DATABASE = [
-  { name: "Al Muhimen", email: "kibene2010@gmail.com" },
-  { name: "Asif Rahman", email: "asifrifat143@gmail.com" },
-  { name: "Sameen Abrar", email: "sameenpcc2020@gmail.com" },
-  { name: "Rashed Islam", email: "rashedhippo@gmail.com" },
-  { name: "Tanvir Ahmed", email: "tanvirahmed@gmail.com" },
-  { name: "Nusrat Jahan", email: "nusratjahan@gmail.com" },
-  { name: "Fahim Uddin", email: "fahimuddin@gmail.com" },
-  { name: "Sadia Akter", email: "sadiaakter@gmail.com" },
-  { name: "Mahmudul Hasan", email: "mahmudulhasan@gmail.com" },
-];
+import { useState, useEffect } from "react";
+import { fetchCollaborators } from "@/app/api/pdf.api";
+import { CodeBookHandler } from "@/utility/codeBookHandler";
 
 export default function Contributors() {
-  const [contributors, setContributors] = useState([
-    { name: "Al Muhimen", id: 1 },
-    { name: "Asif Rahman", id: 2 },
-    { name: "Sameen Abrar", id: 3 },
-    { name: "Rashed Islam", id: 4 },
-  ]);
+  const codeBookHandler = new CodeBookHandler();
+  const codebookId = codeBookHandler.getId();
+
+  const [contributors, setContributors] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newEmail, setNewEmail] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCollaborators = async () => {
+      if (!codebookId) {
+        setIsLoading(false);
+        return;
+      }
+      try {
+        setIsLoading(true);
+        const data = await fetchCollaborators(codebookId);
+        setContributors(data);
+      } catch (err) {
+        console.error("Failed to fetch collaborators:", err);
+        setError("Failed to load collaborators");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadCollaborators();
+  }, [codebookId]);
 
   const handleRemove = (id) => {
-    setContributors((prev) => prev.filter((c) => c.id !== id));
+    setContributors((prev) => prev.filter((c) => (c._id || c.id) !== id));
   };
 
   const handleAdd = () => {
@@ -65,47 +75,53 @@ export default function Contributors() {
 
   return (
     <div className="p-10 w-full h-full overflow-y-auto relative">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {contributors.map((contributor) => (
-          <div
-            key={contributor.id}
-            className="bg-[#F5F5F5] rounded-2xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
-                 <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                 </svg>
-              </div>
-              <span className="font-mono text-sm font-bold">{contributor.name}</span>
-            </div>
-            <button 
-              onClick={() => handleRemove(contributor.id)}
-              className="text-red-500 hover:text-red-700 hover:bg-red-50 transition-all rounded-full border border-red-500 p-1"
+      {isLoading ? (
+        <div className="flex justify-center items-center h-full">
+          <p className="text-gray-500 font-mono">Loading collaborators...</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {contributors.map((contributor) => (
+            <div
+              key={contributor._id || contributor.id}
+              className="bg-[#F5F5F5] rounded-2xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow"
             >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        ))}
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
+                   <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                   </svg>
+                </div>
+                <span className="font-mono text-sm font-bold">{contributor.name}</span>
+              </div>
+              <button 
+                onClick={() => handleRemove(contributor._id || contributor.id)}
+                className="text-red-500 hover:text-red-700 hover:bg-red-50 transition-all rounded-full border border-red-500 p-1"
+              >
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          ))}
 
-        <button 
-          onClick={() => {
-            setIsModalOpen(true);
-            setNewEmail("");
-            setError("");
-          }}
-          className="bg-[#F5F5F5] rounded-2xl p-4 flex items-center gap-3 hover:bg-gray-200 transition-colors text-left shadow-sm h-[72px]"
-        >
-          <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-             <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-             </svg>
-          </div>
-          <span className="font-mono text-sm font-bold">Add New</span>
-        </button>
-      </div>
+          <button 
+            onClick={() => {
+              setIsModalOpen(true);
+              setNewEmail("");
+              setError("");
+            }}
+            className="bg-[#F5F5F5] rounded-2xl p-4 flex items-center gap-3 hover:bg-gray-200 transition-colors text-left shadow-sm h-[72px]"
+          >
+            <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+               <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+               </svg>
+            </div>
+            <span className="font-mono text-sm font-bold">Add New</span>
+          </button>
+        </div>
+      )}
 
       {/* Add New Contributor Modal */}
       {isModalOpen && (

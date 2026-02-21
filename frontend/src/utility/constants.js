@@ -11,6 +11,7 @@ export const API_ROUTES = {
     DELETE: `${BASE}/pdf/delete-codebook`,
     FETCH: `${BASE}/pdf/fetch`,
     MODIFY: `${BASE}/pdf/modify`,
+    FETCH_COLLABORATORS: `${BASE}/pdf/collaborators`,
   },
 
   GITHUB: {
