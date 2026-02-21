@@ -5,7 +5,6 @@ import { useState, useMemo, Suspense, useEffect } from "react";
 import Toolbar from "./components/Toolbar";
 import ContentSection from "../editor/components/ContentSection";
 import CodeEditorWindow from "./components/CodeEditorWindow";
-import { useSearchParams } from "next/navigation";
 import { FileHandler } from "@/utility/fileHandler";
 import { CodeSegmentsHandler } from "@/utility/codeSegmentsHandler";
 
@@ -58,50 +57,23 @@ function EditorContent() {
   const [files, setFiles] = useState([]);
 
   // load code segments from the codesegment handler 
-  // useEffect(() => {
-  //   const storedSegments = codeSegmentsHandler.getSegments();
-  //   if (storedSegments && storedSegments.length > 0) {
-  //     setFiles(storedSegments);
-  //   }
-  //   setIsLoaded(true);
-  // }, [codeSegmentsHandler]);
-
-  // Load files from local storage on mount
   useEffect(() => {
-    const storedFiles = fileHandler.getFiles();
-    if (storedFiles && storedFiles.length > 0) {
-      setFiles(storedFiles);
-    } else {
-      setFiles([
-        {
-          name: "Button.tsx",
-          content: "const Button = () => <button>Click</button>",
-        },
-        { name: "theme.js", content: "export const colors = { blue: '#0070f3' }" },
-        {
-          name: "Dijkstra.ts",
-          content: `function dijkstra(graph, start) {
-        const distances = {};
-        const visited = new Set();
-        const nodes = Object.keys(graph);
-
-        for (let node of nodes) {
-          distances[node] = Infinity;
-        }
-        distances[start] = 0;
-
-        while (nodes.length) {
-          nodes.sort((a, b) => distances[a] - distances[b]);
-          const closestNode = nodes.shift();
-
-          return distances;
-        }
-      }`,
-        },
-      ]);
+    const storedSegments = codeSegmentsHandler.getSegments();
+    if (storedSegments && storedSegments.length > 0) {
+      // MAP the data structure here
+      const mappedFiles = storedSegments.map(segment => ({
+        name: segment.title || segment.file_name,
+        // Join the array of strings back into a single string for the editor
+        content: Array.isArray(segment.code) ? segment.code.join("\n") : segment.code,
+        id: segment._id || Math.random().toString(36).substr(2, 9),
+        file_url: segment.file_url || "",
+      }));
+      
+      setFiles(mappedFiles);
     }
     setIsLoaded(true);
-  }, [fileHandler]);
+  }, [codeSegmentsHandler]); 
+
 
   // Auto-save to local storage whenever files change
   useEffect(() => {
