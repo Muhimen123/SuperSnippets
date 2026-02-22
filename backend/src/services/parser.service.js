@@ -5,23 +5,20 @@ const parser = new Parser();
 parser.setLanguage(CPP);
 
 export const checkMatches = (snippetscode) => {
-	console.log("Successfully connected");
+  console.log("Successfully connected");
   let codesegments = [];
 
   for (const category of snippetscode) {
     for (const codesegment of category.codesegments) {
-      const tree = parser.parse(codesegment.content);
-      const rootnode = tree.rootNode;
       codesegments.push({
         name: codesegment.name,
         content: codesegment.content,
-        ast: rootnode.toString(),
       });
     }
   }
 
   const length = codesegments.length;
-
+  const similarities = [];
   for (let i = 0; i < length; i++) {
     for (let j = i + 1; j < length; j++) {
       const similarity = calculateJaccard(
@@ -29,14 +26,18 @@ export const checkMatches = (snippetscode) => {
         codesegments[j].content,
       );
 
-      if (similarity > 0.75) {
-        console.log(
-          `Similarity between ${codesegments[i].name} and ${codesegments[j].name}:`,
-          similarity,
-        );
+      if (similarity > 0.8) {
+        const sim = {
+          fila_one: codesegments[i].name,
+          file_two: codesegments[j].name,
+          similarity: similarity,
+        };
+        similarities.push(sim);
       }
     }
   }
+
+	return similarities;
 };
 
 function getAllNodeTypes(node, types = []) {

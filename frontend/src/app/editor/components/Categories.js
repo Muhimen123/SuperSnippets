@@ -3,16 +3,22 @@ import { useState } from "react";
 import { Reorder } from "framer-motion";
 import AddCategoryModal from "./AddCategoryModal";
 import CategoryItem from "./CategoryItem";
+import SemanticMatchModal from "./SemanticMatchModal";
 import { CodeBookHandler } from "@/utility/codeBookHandler";
 import { parseCode } from "@/app/api/parser.api";
 
 export default function Categories({ categories, setCategories }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSemanticModalOpen, setIsSemanticModalOpen] = useState(false);
+  const [semanticResults, setSemanticResults] = useState([]);
   const codebookHandler = new CodeBookHandler();
 
   const handleSemanticAnalyze = async () => {
     const codebookData = codebookHandler.createLatexData();
-    await parseCode(codebookData);
+    const parsedResult = await parseCode(codebookData);
+    console.log("Parsed Result: ", parsedResult);
+    setSemanticResults(parsedResult);
+    setIsSemanticModalOpen(true);
   };
 
   const handleAddCategory = (name) => {
@@ -82,6 +88,12 @@ export default function Categories({ categories, setCategories }) {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAdd={handleAddCategory}
+      />
+
+      <SemanticMatchModal
+        isOpen={isSemanticModalOpen}
+        onClose={() => setIsSemanticModalOpen(false)}
+        results={semanticResults}
       />
     </div>
   );
