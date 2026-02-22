@@ -5,6 +5,7 @@ import authRoutes from "./auth.routes.js";
 import emailRoutes from "./email.routes.js";
 import notificationRoutes from "./notification.routes.js";
 import activityRoutes from "./activity.routes.js";
+import parserRoutes from "./parser.routes.js";
 
 const router = express.Router();
 router.use("/auth", authRoutes);
@@ -13,5 +14,6 @@ router.use("/github", githubRoutes);
 router.use("/email", emailRoutes);
 router.use("/notifications", notificationRoutes);
 router.use("/activities", activityRoutes);
+router.use("/parser", parserRoutes);
 
 export default router;
