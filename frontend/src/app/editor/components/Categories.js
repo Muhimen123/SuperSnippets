@@ -3,11 +3,23 @@ import { useState } from "react";
 import { Reorder } from "framer-motion";
 import AddCategoryModal from "./AddCategoryModal";
 import CategoryItem from "./CategoryItem";
+import SemanticMatchModal from "./SemanticMatchModal";
 import { CodeBookHandler } from "@/utility/codeBookHandler";
+import { parseCode } from "@/app/api/parser.api";
 
 export default function Categories({ categories, setCategories }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSemanticModalOpen, setIsSemanticModalOpen] = useState(false);
+  const [semanticResults, setSemanticResults] = useState([]);
   const codebookHandler = new CodeBookHandler();
+
+  const handleSemanticAnalyze = async () => {
+    const codebookData = codebookHandler.createLatexData();
+    const parsedResult = await parseCode(codebookData);
+    console.log("Parsed Result: ", parsedResult);
+    setSemanticResults(parsedResult);
+    setIsSemanticModalOpen(true);
+  };
 
   const handleAddCategory = (name) => {
     const newCategory = {
@@ -26,23 +38,30 @@ export default function Categories({ categories, setCategories }) {
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
         <Reorder.Group axis="y" values={categories} onReorder={setCategories}>
           {categories.map((category) => (
-            <CategoryItem 
-                key={category.id} 
-                category={category} 
-                setCategories={setCategories}
+            <CategoryItem
+              key={category.id}
+              category={category}
+              setCategories={setCategories}
             />
           ))}
         </Reorder.Group>
 
         {categories.length === 0 && (
-            <div className="p-8 text-center text-gray-500 text-sm">
-                No categories found. Create one below.
-            </div>
+          <div className="p-8 text-center text-gray-500 text-sm">
+            No categories found. Create one below.
+          </div>
         )}
       </div>
 
       {/* Add New Category Button */}
       <div className="p-4 bg-white z-10">
+        <button
+          onClick={() => handleSemanticAnalyze()}
+          className="w-full bg-black text-white mb-1 py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors font-mono"
+        >
+          <span>Semantic Analyze</span>
+        </button>
+
         <button
           onClick={() => setIsModalOpen(true)}
           className="w-full bg-black text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors font-mono"
@@ -65,10 +84,16 @@ export default function Categories({ categories, setCategories }) {
         </button>
       </div>
 
-      <AddCategoryModal 
-        isOpen={isModalOpen} 
+      <AddCategoryModal
+        isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAdd={handleAddCategory}
+      />
+
+      <SemanticMatchModal
+        isOpen={isSemanticModalOpen}
+        onClose={() => setIsSemanticModalOpen(false)}
+        results={semanticResults}
       />
     </div>
   );
