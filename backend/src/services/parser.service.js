@@ -5,6 +5,7 @@ const parser = new Parser();
 parser.setLanguage(CPP);
 
 export const checkMatches = (snippetscode) => {
+	console.log("Successfully connected");
   let codesegments = [];
 
   for (const category of snippetscode) {
@@ -21,8 +22,8 @@ export const checkMatches = (snippetscode) => {
 
   const length = codesegments.length;
 
-  for (i = 0; i < length; i++) {
-    for (j = i + 1; j < length; j++) {
+  for (let i = 0; i < length; i++) {
+    for (let j = i + 1; j < length; j++) {
       const similarity = calculateJaccard(
         codesegments[i].content,
         codesegments[j].content,

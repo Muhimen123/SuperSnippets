@@ -1,4 +1,4 @@
-import { checkMatches } from "../services/parser.service";
+import { checkMatches } from "../services/parser.service.js";
 
 export const parseCode = (req, res) => {
   const { snippetscode } = req.body;

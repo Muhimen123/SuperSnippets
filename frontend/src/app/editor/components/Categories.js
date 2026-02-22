@@ -4,10 +4,16 @@ import { Reorder } from "framer-motion";
 import AddCategoryModal from "./AddCategoryModal";
 import CategoryItem from "./CategoryItem";
 import { CodeBookHandler } from "@/utility/codeBookHandler";
+import { parseCode } from "@/app/api/parser.api";
 
 export default function Categories({ categories, setCategories }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const codebookHandler = new CodeBookHandler();
+
+  const handleSemanticAnalyze = async () => {
+    const codebookData = codebookHandler.createLatexData();
+    await parseCode(codebookData);
+  };
 
   const handleAddCategory = (name) => {
     const newCategory = {
@@ -44,11 +50,12 @@ export default function Categories({ categories, setCategories }) {
       {/* Add New Category Button */}
       <div className="p-4 bg-white z-10">
         <button
-          onClick={() => console.log("Add Category Clicked")}
+          onClick={() => handleSemanticAnalyze()}
           className="w-full bg-black text-white mb-1 py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors font-mono"
         >
           <span>Semantic Analyze</span>
         </button>
+
         <button
           onClick={() => setIsModalOpen(true)}
           className="w-full bg-black text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors font-mono"
