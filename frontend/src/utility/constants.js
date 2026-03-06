@@ -1,5 +1,6 @@
 const PORT = 8000;
-const BASE = `http://localhost:${PORT}/api`;
+// const BASE = `http://localhost:${PORT}/api`;
+const BASE = `https://supersnippets.onrender.com/api`;
 
 export const API_ROUTES = {
   PORT: PORT,
